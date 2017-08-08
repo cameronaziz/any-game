@@ -18,10 +18,82 @@ function sortGamesByDayAndDispatch(snapshot, dispatch, slug){
 }
 
 function cleanUpGame(game) {
+  game.shortTitle = game.short_title;
+  delete game.short_title;
+
+  game.datetimeLocal = game.datetime_local;
+  delete game.datetime_local;
+
+  game.datetimeUTC = game.datetime_utc;
+  delete game.datetime_utc;
+
+  game.performers.map((team) => {
+    if(team.home_team) {
+      team.homeTeam = true;
+      delete team.home_team;
+    } else {
+      team.homeTeam = false;
+      delete team.away_team;
+    }
+
+    team.imageAttribution = team.image_attribution;
+    delete team.image_attribution;
+
+    team.imageLicense = team.image_license;
+    delete team.image_license;
+
+    team.shortName = team.short_name;
+    delete team.short_name;
+
+    team.divisions.map((division) => {
+      division.displayName = division.display_name;
+      delete division.display_name;
+
+      division.displayType = division.display_type;
+      delete division.display_type;
+
+      division.divisionLevel = division.division_level;
+      delete division.division_level;
+
+      division.taxonomyId = division.taxonomy_id;
+      delete division.taxonomy_id;
+    });
+  });
+
+  game.stats.averagePrice = game.stats.average_price;
+  delete game.stats.average_price;
+
+  game.stats.highestPrice = game.stats.highest_price;
+  delete game.stats.highest_price;
+
+  game.stats.listingCount = game.stats.listing_count;
+  delete game.stats.listing_count;
+
+  game.stats.lowestPrice = game.stats.lowest_price;
+  delete game.stats.lowest_price;
+
+  game.stats.lowestPriceGoodDeals = game.stats.lowest_price_good_deals;
+  delete game.stats.lowest_price_good_deals;
+
+  game.venue.displayLocation = game.venue.display_location;
+  delete game.venue.display_location;
+
+  game.venue.extendedAddress = game.venue.extended_address;
+  delete game.venue.extended_address;
+
+  game.venue.postalCode = game.venue.postal_code;
+  delete game.venue.postal_code;
+
+
+
+  return game;
+}
+
+function removeTrash(game) {
   delete game.announce_date;
   delete game.created_at;
   delete game.date_tbd;
-  delete game.datetime_rbd;
+  delete game.datetime_tbd;
   delete game.is_open;
   delete game.time_tbd;
   delete game.url;
@@ -32,12 +104,15 @@ function cleanUpGame(game) {
   gameVenue.name = gameVenue.name_v2;
   delete gameVenue.name_v2;
   delete gameVenue.has_upcoming_events;
+  delete gameVenue.num_upcoming_events;
 
   game.performers.map((team) => {
     delete team.url;
     delete team.stats;
     delete team.primary;
     delete team.num_upcoming_events;
+    delete team.has_upcoming_events;
+    delete team.home_venue_id;
   });
 
   return game;
@@ -117,6 +192,7 @@ export function loadGamesForTeamAfterDate(settings, prevResponseData){
 export function saveGame(game){
   let postKey;
   cleanUpGame(game);
+  removeTrash(game);
   return function(dispatch) {
     ref.orderByChild('id').equalTo(game.id).once('value', function(snapshot) {
       let exists = (snapshot.val() !== null);

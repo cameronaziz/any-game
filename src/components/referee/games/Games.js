@@ -27,11 +27,26 @@ class Games extends Component {
     };
     this.props.teamActions.loadTeams();
     this.filterGames = this.filterGames.bind(this);
+    this.setGame = this.setGame.bind(this);
     this.createGame = this.createGame.bind(this);
     this.updateFormState = this.updateFormState.bind(this);
     this.removeGame = this.removeGame.bind(this);
     this.reloadGames = this.reloadGames.bind(this);
     this.props.gameActions.loadGames(false);
+  }
+
+  updateFormState(event) {
+    const field = event.target.name;
+    let game = this.state.game;
+    game[field] = event.target.value;
+    this.setState({game: game});
+  }
+
+  setGame(game) {
+    let gameSet = Object.assign({}, gameObj, game);
+    this.setState({
+      game: gameSet
+    });
   }
 
   filterGames(event){
@@ -57,7 +72,7 @@ class Games extends Component {
       return <RefereeLoading heightOffset="20" />;
     } else if(this.props.games.length != 0 && this.props.games.gamesArray.length > 0) {
       return (<GamesList list={this.props.games.gamesArray}
-                         setItem={this.createGame}
+                         setItem={this.setGame}
                          moreGames={this.moreGames}
                          isLocal />
       );
@@ -78,10 +93,6 @@ class Games extends Component {
 
   createGame(game){
     this.props.gameActions.saveGame(game);
-  }
-
-  updateFormState(){
-
   }
 
   removeGame() {

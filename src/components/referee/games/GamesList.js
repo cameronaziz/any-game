@@ -18,7 +18,8 @@ class GameList extends Component {
       <GameCard key={index}
                 game={item}
                 handleClick={handleClick}
-                buttonText={this.props.buttonText} />
+                buttonText={this.props.buttonText}
+                isLocal={this.props.isLocal}/>
     );
   }
 
