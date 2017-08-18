@@ -27,7 +27,7 @@ class LoadGames extends Component {
       this.setState({
         error: false
       });
-      this.props.gameActions.loadGamesFromServer(this.props.settings.settings.seatGeek, event.target.value);
+      this.props.gameActions.loadGamesFromServer(this.props.settings.settingsArray.seatGeek, event.target.value);
     } else {
       this.setState({
         error: true,

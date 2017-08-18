@@ -7,7 +7,7 @@ export default function venues(state = [], action) {
       return {isFetching: true};
 
     case actionTypes.SETTINGS:
-      return {isFetching: false, settings: action.settings};
+      return {isFetching: false, settingsArray: action.settings};
 
     default:
       return state;

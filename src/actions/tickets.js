@@ -8,7 +8,7 @@ const ref = firebase.db.ref('tickets');
 //Actions
 export function loadTickets(team){
   return function(dispatch) {
-    dispatch(requestTickets);
+    //dispatch(requestTickets);
     ref.orderByChild('home_team').equalTo(team).on('value', function(snapshot) {
       dispatch(loadTicketsSuccess(Object.values(snapshot.val())));
     });
