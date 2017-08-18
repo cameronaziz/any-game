@@ -135,7 +135,21 @@ export function loadGamesFromServer(settings, slug){
     dispatch(loadingActions.isLoading('games'));
     axios.get(requestData.url, requestData.settings).then((response) => {
       let data = response.data.events;
-      dispatch(loadGamesSuccess(data));
+      ref.on('value', function(snapshot) {
+        let storedGames = Object.values(snapshot.val());
+        data.map((game) => {
+          game = cleanUpGame(game);
+          game = removeTrash(game);
+          for(let i = 0; i < storedGames.length; i++) {
+            if(game.id == storedGames[i].id) {
+              game.stored = true;
+            } else {
+              game.stored = false;
+            }
+          }
+        });
+      });
+      dispatch(loadGamesSuccess(data, 'remote'));
       dispatch(loadingActions.notLoading('games'));
     });
   };
@@ -147,12 +161,12 @@ export function loadGames(onlyFuture){
     if(onlyFuture) {
       let now = new Date();
       let startAt = now.toISOString();
-      ref.orderByChild('datetime_local').startAt(startAt).on('value', function(snapshot) {
+      ref.orderByChild('datetimeLocal').startAt(startAt).on('value', function(snapshot) {
         sortGamesByDayAndDispatch(snapshot, dispatch);
         dispatch(loadingActions.notLoading('games'));
       });
     } else {
-      ref.orderByChild('datetime_local').on('value', function(snapshot) {
+      ref.orderByChild('datetimeLocal').on('value', function(snapshot) {
         sortGamesByDayAndDispatch(snapshot, dispatch);
         dispatch(loadingActions.notLoading('games'));
       });
@@ -191,8 +205,6 @@ export function loadGamesForTeamAfterDate(settings, prevResponseData){
 
 export function saveGame(game){
   let postKey;
-  cleanUpGame(game);
-  removeTrash(game);
   return function(dispatch) {
     ref.orderByChild('id').equalTo(game.id).once('value', function(snapshot) {
       let exists = (snapshot.val() !== null);
@@ -214,10 +226,11 @@ export function saveGame(game){
 }
 
 //To Reducers
-export function loadGamesSuccess(games) {
+export function loadGamesSuccess(games, source) {
   return {
     type: actionTypes.LOAD_GAMES_SUCCESS,
-    games
+    games,
+    source
   };
 }
 

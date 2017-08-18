@@ -5,12 +5,7 @@ import { Link } from 'react-router-dom';
 import { formatDate } from '../../../lib/utilities';
 import GameCardButton from './GameCardButton';
 
-function GameCard(props) {
-  const buttonProps = {
-    click: props.handleClick,
-    text: props.buttonText,
-    storedState: props.game.stored
-  };
+function LoadingGameCard(props) {
   return (
     <div className="card" style={{width: '20rem', margin: '10px'}}>
       <div className="card-block">
@@ -25,4 +20,4 @@ function GameCard(props) {
   );
 }
 
-export default GameCard;
+export default LoadingGameCard;
