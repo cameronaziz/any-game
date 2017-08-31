@@ -21,7 +21,10 @@ const teamObj = {
   city: '',
   sport: '',
   slug: '',
-  venue: ''
+  venue: '',
+  fileName: '',
+  seatingChart: {},
+  seatingChartUrl: 'https://firebasestorage.googleapis.com/v0/b/anygame-f7326.appspot.com/o/seatingCharts%2Fmissing.png?alt=media&token=a35c4150-6c32-4600-b6ed-b63ba15ebd8a'
 };
 
 class Teams extends Component {
@@ -37,6 +40,7 @@ class Teams extends Component {
     this.createTeam = this.createTeam.bind(this);
     this.removeTeam = this.removeTeam.bind(this);
     this.clearTeam = this.clearTeam.bind(this);
+    this.uploadFile = this.uploadFile.bind(this);
   }
 
   componentWillMount() {
@@ -52,6 +56,14 @@ class Teams extends Component {
     this.setState({team: team});
   }
 
+  uploadFile(event) {
+    event.preventDefault();
+    let team = this.state.team;
+    team['seatingChart'] = event.target.files[0];
+    team['fileName'] = shortenFileName(team.seatingChart.name);
+    this.setState({team: team});
+   }
+
   filterBySport(event) {
     let selection = event.target.value;
     if (selection == "all"){
@@ -64,6 +76,9 @@ class Teams extends Component {
   setTeam(team) {
     let title = 'Edit ' + team.name;
     let teamSet = Object.assign({}, teamObj, team);
+    if(team.venue != team.fileName) {
+      team.fileName = 'No Seating Chart';
+    }
     this.setState({
       team: teamSet,
       modalTitle: title
@@ -116,6 +131,7 @@ class Teams extends Component {
                  saveButton={this.createTeam}
                  modalForm={TeamModalForm}
 
+                 uploadFile={this.uploadFile}
                  sports={this.props.sports}
                  venues={this.props.venues}
                  />

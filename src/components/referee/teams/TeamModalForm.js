@@ -67,6 +67,18 @@ function TeamModalForm(props) {
               </select>
             </div>
           </div>
+          <br />
+          <div className="row">
+            <div className="col-md-12">
+              <label className="btn btn-outline-primary">Seating Chart
+                <input type="file"
+                       onChange={props.uploadFile}
+                       hidden />
+              </label>
+              &nbsp;&nbsp;
+              <label>{props.item.fileName}</label>
+            </div>
+          </div>
         </div>
       </form>
     </div>
