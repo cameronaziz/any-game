@@ -23,8 +23,7 @@ const teamObj = {
   slug: '',
   venue: '',
   fileName: '',
-  seatingChart: {},
-  seatingChartUrl: 'https://firebasestorage.googleapis.com/v0/b/anygame-f7326.appspot.com/o/seatingCharts%2Fmissing.png?alt=media&token=a35c4150-6c32-4600-b6ed-b63ba15ebd8a'
+  seatingChart: {}
 };
 
 class Teams extends Component {
@@ -76,9 +75,6 @@ class Teams extends Component {
   setTeam(team) {
     let title = 'Edit ' + team.name;
     let teamSet = Object.assign({}, teamObj, team);
-    if(team.venue != team.fileName) {
-      team.fileName = 'No Seating Chart';
-    }
     this.setState({
       team: teamSet,
       modalTitle: title
