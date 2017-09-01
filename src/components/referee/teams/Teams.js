@@ -76,9 +76,6 @@ class Teams extends Component {
   setTeam(team) {
     let title = 'Edit ' + team.name;
     let teamSet = Object.assign({}, teamObj, team);
-    if(team.venue != team.fileName) {
-      team.fileName = 'No Seating Chart';
-    }
     this.setState({
       team: teamSet,
       modalTitle: title
