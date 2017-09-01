@@ -1,5 +1,7 @@
 import React from 'react';
 
+import TeamSeatingChart from './TeamSeatingChart';
+
 function TeamModalForm(props) {
   return (
     <div className="col-md-12">
@@ -69,14 +71,10 @@ function TeamModalForm(props) {
           </div>
           <br />
           <div className="row">
-            <div className="col-md-12">
-              <label className="btn btn-outline-primary">Seating Chart
-                <input type="file"
-                       onChange={props.uploadFile}
-                       hidden />
-              </label>
-              &nbsp;&nbsp;
-              <label>{props.item.fileName}</label>
+            <div className="col-md-6">
+              <TeamSeatingChart team={props.item} uploadFile={props.uploadFile}/>
+            </div>
+            <div className="col-md-6">
             </div>
           </div>
         </div>
