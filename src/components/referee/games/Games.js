@@ -32,9 +32,12 @@ class Games extends Component {
     this.updateFormState = this.updateFormState.bind(this);
     this.removeGame = this.removeGame.bind(this);
     this.reloadGames = this.reloadGames.bind(this);
-    this.props.gameActions.loadGames(false);
   }
 
+  componentWillMount(){
+    this.props.gameActions.loadGames(false);
+  }
+  
   updateFormState(event) {
     const field = event.target.name;
     let game = this.state.game;
