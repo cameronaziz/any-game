@@ -23,7 +23,8 @@ const teamObj = {
   slug: '',
   venue: '',
   fileName: '',
-  seatingChart: {}
+  seatingChart: {},
+  seatingChartUrl: 'https://firebasestorage.googleapis.com/v0/b/anygame-f7326.appspot.com/o/seatingCharts%2Fmissing.png?alt=media&token=a35c4150-6c32-4600-b6ed-b63ba15ebd8a'
 };
 
 class Teams extends Component {

@@ -60,10 +60,10 @@ export function saveTeam(team) {
       postKey = firebase.db.ref('teams/').push().key;
     }
   });
-  //todo: check if no chart
-  team.fileName = team.venue;
-  saveSeatingChart(team, postKey);
-
+  if(team.seatingChart.name != undefined) {
+    team.fileName = team.venue;
+    saveSeatingChart(team, postKey);
+  }
   delete team.seatingChart;
   return function(dispatch) {
     firebase.db.ref('teams/' + postKey).update(team, function(error) {
