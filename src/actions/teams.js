@@ -1,7 +1,7 @@
 import * as actionTypes from './actionTypes';
 import * as firebase from '../lib/firebase';
 
-let ref = firebase.db.ref('teams');
+let ref = firebase.db.ref('seating');
 let storageRef = firebase.storage.ref('seatingCharts');
 
 //Utility Functions
@@ -39,6 +39,10 @@ export function loadTeams() {
       sortTeamsBySportAndDispatch(snapshot, dispatch);
     });
   };
+}
+
+export function loadTeam() {
+
 }
 
 export function loadTeamsBySport(sport) {
