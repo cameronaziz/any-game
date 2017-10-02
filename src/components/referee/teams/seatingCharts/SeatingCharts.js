@@ -32,7 +32,8 @@ class SeatingChart extends Component {
     this.state = {
       team: teamObj,
       modalTitle: 'Seating Chart',
-      sectionOver: 'All'
+      sectionOver: 'All',
+      selectedSections: [102]
     };
     this.updateFormState = this.updateFormState.bind(this);
     this.setTeam = this.setTeam.bind(this);
@@ -85,8 +86,17 @@ class SeatingChart extends Component {
   }
 
   onMouseOverSection(section) {
+    let currentSelections = this.state.selectedSections;
+    section = parseInt(section);
+    let sectionIndex = currentSelections.findIndex(k => k==section);
+    console.log(sectionIndex)
+    if(sectionIndex){
+      currentSelections = currentSelections.splice(sectionIndex, 1);
+    } else {
+      currentSelections = currentSelections.push(section);
+    }
     this.setState({
-      sectionOver: section
+      selectedSections: currentSelections
     });
   }
 
@@ -106,10 +116,7 @@ class SeatingChart extends Component {
         <div className="row">
           <div className="col-md-12">
             <div className="col-md-6" style={SeatingChartStyle.seatingChartImageContainer}>
-              <div>
-                <img className="img-fluid mapper" id="seatingChart" width="100%" src={this.state.team.seatingChartUrl} useMap="#Map" />
-                {this.mapping()}
-              </div>
+              {this.mapping()}
             </div>
             <div className="col-md-4 offset-md-1 align-top" style={SeatingChartStyle.sectionBuilder}>
               {this.sectionList()}

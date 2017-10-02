@@ -1,16 +1,11 @@
 import React, {Component} from 'react';
 
-
+import SeatingChartStyle from './SeatingChartStyle';
 
 class Map extends Component {
 
   constructor(props) {
     super(props);
-    let img = document.getElementById('seatingChart');
-    this.state = {
-      xFactor: img.clientWidth/this.props.size.width,
-      yFactor: img.clientHeight/this.props.size.height
-    };
     this.returnArea = this.returnArea.bind(this);
     this.sectionHighlighted = this.sectionHighlighted.bind(this);
   }
@@ -20,28 +15,19 @@ class Map extends Component {
   }
 
   returnArea(section){
-    let coords = '';
-    let area = section.area;
-    for(let i = 0; i < area.length; i++) {
-      let x = area[i].x * this.state.xFactor;
-      coords = coords.concat(x);
-      coords = coords.concat(', ');
-
-      let y = area[i].y * this.state.yFactor;
-      coords = coords.concat(y);
-      coords = coords.concat(', ');
-    }
-    coords = coords.substring(0, coords.length - 2);
     return(
-      <area alt="" key={section.name} style={{display: 'block', border: '5px'}} className="noborder icolor00ff00" title={section.name} href={section.name} shape="poly" coords={coords} onMouseOver={this.sectionHighlighted}/>
+      <a xmlns="http://www.w3.org/2000/svg" href="#">
+        <polygon key={section} points="967,1167 1070,1167 1070,1309 967,1309" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)"/>
+      </a>
     );
   }
 
   render(){
     return (
-      <map name="Map" id="Map">
+      <svg>
+        <img className="img-fluid mapper" id="seatingChart" width="100%" src={this.props.image} />
         {this.props.sections.map(this.returnArea)}
-      </map>
+      </svg>
     );
   }
 }
