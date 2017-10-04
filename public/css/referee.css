@@ -104,3 +104,13 @@ a.section {
 #seatingChartImage a span {
   display:none;
 }
+
+polygon.sectionUnselected {
+  fill: "#cce6ff";
+  stroke: "#4d4dff"
+}
+
+polygon.sectionUnselected:hover {
+  fill: "#1aa3ff";
+  stroke: "#4d4dff"
+}

@@ -33,7 +33,7 @@ class SeatingChart extends Component {
       team: teamObj,
       modalTitle: 'Seating Chart',
       sectionOver: 'All',
-      selectedSections: [102]
+      selectedSections: 'All'
     };
     this.updateFormState = this.updateFormState.bind(this);
     this.setTeam = this.setTeam.bind(this);
@@ -64,7 +64,7 @@ class SeatingChart extends Component {
   sectionList(){
     if(this.state.team.fileName != 'no seatingChart') {
       if(this.props.seatingChart.sections) {
-        return <SectionList team={this.state.team} sections={this.props.seatingChart.sections} selectedsection={this.state.sectionOver} saveSection={this.saveSection}/>;
+        return <SectionList team={this.state.team} sections={this.props.seatingChart.sections} selectedsection={this.state.selectedSections} saveSection={this.saveSection}/>;
       }
     }
   }
@@ -76,7 +76,7 @@ class SeatingChart extends Component {
   mapping(){
     if(this.props.seatingChart.sections){
       return (
-        <Map image={this.state.team.seatingChartUrl} sections={this.props.seatingChart.sections} size={this.props.seatingChart.size} highlight={this.onMouseOverSection} />
+        <Map image={this.state.team.seatingChartUrl} sections={this.props.seatingChart.sections} size={this.props.seatingChart.size} onMouseClick={this.onMouseOverSection} />
       );
     } else {
       return (
@@ -89,7 +89,6 @@ class SeatingChart extends Component {
     let currentSelections = this.state.selectedSections;
     section = parseInt(section);
     let sectionIndex = currentSelections.findIndex(k => k==section);
-    console.log(sectionIndex)
     if(sectionIndex){
       currentSelections = currentSelections.splice(sectionIndex, 1);
     } else {

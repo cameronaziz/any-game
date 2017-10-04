@@ -33,7 +33,6 @@
     "react-sticky": "^6.0.1",
     "redux": "3.5.2",
     "redux-thunk": "2.0.1",
-    "ticketmaster": "^2.0.4",
     "toastr": "2.1.2"
   },
   "devDependencies": {

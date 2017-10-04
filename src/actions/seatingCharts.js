@@ -15,7 +15,7 @@ export function getSeatingChartConfiguration(team) {
 }
 
 export function saveSeatingChartConfiguration(){
-  
+
 }
 
 //To Reducers

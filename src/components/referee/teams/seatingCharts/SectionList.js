@@ -20,7 +20,6 @@ class SectionList extends Component {
   }
 
   render() {
-    let height = document.getElementById('seatingChart').clientHeight;
     return (
       <div>
         <h3>Sections</h3>
@@ -39,8 +38,8 @@ class SectionList extends Component {
               </div>
             </div>
           </div>
+          {this.props.sections.map(this.previewSection)}
         </div>
-        {this.props.sections.map(this.previewSection)}
       </div>
     );
   }
