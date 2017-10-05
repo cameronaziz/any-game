@@ -7,6 +7,9 @@ import * as seatingChartActions from '../../../../actions/seatingCharts';
 import SeatingChartStyle from './SeatingChartStyle';
 import SectionItem from './SectionItem';
 
+import SectionForm from './SectionForm';
+
+
 class SectionList extends Component {
   constructor(props) {
     super(props);
@@ -34,7 +37,7 @@ class SectionList extends Component {
             </div>
             <div id="collapseOne" className="collapse" role="tabpanel" aria-labelledby="headingOne">
               <div className="card-block">
-                Form to Add Section
+                
               </div>
             </div>
           </div>

@@ -3,6 +3,7 @@ import * as actionTypes from './actionTypes';
 
 const ref = firebase.db.ref('seatingCharts');
 
+
 //Actions
 export function getSeatingChartConfiguration(team) {
   let teamName = team.name;
@@ -14,8 +15,23 @@ export function getSeatingChartConfiguration(team) {
   };
 }
 
-export function saveSeatingChartConfiguration(){
-
+export function saveSeatingChartSection(key, sectionData){
+  return function(dispatch) {
+    ref.child(key).once('value').then(function(snapshot) {
+      let data = snapshot.val();
+      let sections = data.sections;
+      let index = snapshot.val().sections.map( (el) => el.name ).indexOf(sectionData.name);
+      if(index !== -1) {
+        sections[index] = sectionData;
+      } else {
+        sections.push(sectionData);
+      }
+      data.sections = sections;
+      ref.child(key).update(data, function(error) {
+        dispatch(loadSeatingChart(data));
+      });
+    });
+  };
 }
 
 //To Reducers

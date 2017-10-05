@@ -37,7 +37,7 @@ class SeatingChart extends Component {
     };
     this.updateFormState = this.updateFormState.bind(this);
     this.setTeam = this.setTeam.bind(this);
-    this.onMouseOverSection = this.onMouseOverSection.bind(this);
+    this.clickSection = this.clickSection.bind(this);
     this.saveSection = this.saveSection.bind(this);
   }
 
@@ -70,13 +70,13 @@ class SeatingChart extends Component {
   }
 
   saveSection(sectionData){
-    this.props.seatingChartActions.saveSeatingChartConfiguration(this.state.team.key, sectionData);
+    this.props.seatingChartActions.saveSeatingChartSection(this.state.team.key, sectionData);
   }
 
   mapping(){
     if(this.props.seatingChart.sections){
       return (
-        <Map image={this.state.team.seatingChartUrl} sections={this.props.seatingChart.sections} size={this.props.seatingChart.size} onMouseClick={this.onMouseOverSection} />
+        <Map image={this.state.team.seatingChartUrl} sections={this.props.seatingChart.sections} onMouseClick={this.clickSection} />
       );
     } else {
       return (
@@ -85,18 +85,8 @@ class SeatingChart extends Component {
     }
   }
 
-  onMouseOverSection(section) {
-    let currentSelections = this.state.selectedSections;
-    section = parseInt(section);
-    let sectionIndex = currentSelections.findIndex(k => k==section);
-    if(sectionIndex){
-      currentSelections = currentSelections.splice(sectionIndex, 1);
-    } else {
-      currentSelections = currentSelections.push(section);
-    }
-    this.setState({
-      selectedSections: currentSelections
-    });
+  clickSection(){
+    console.log('section clicked')
   }
 
   render() {

@@ -2,46 +2,14 @@ import React, {Component} from 'react';
 
 import SectionForm from './SectionForm';
 
-//todo: pass all props as props...
-
 class SectionItem extends Component {
-
   constructor(props) {
     super(props);
-    let sectionData = this.props.item;
-    sectionData.coords = this.stringifyArea(this.props.item.area);
     this.state = {
-      section: sectionData
+      section: this.props.item
     };
-    this.stringifyArea(this.props.item.area);
     this.updateFormState = this.updateFormState.bind(this);
     this.saveSection = this.saveSection.bind(this);
-    this.stringifyArea = this.stringifyArea.bind(this);
-    this.arrayifyCoords = this.arrayifyCoords.bind(this);
-  }
-
-  stringifyArea(area){
-    let coords = '';
-    for(let i = 0; i < area.length; i++) {
-      coords = coords.concat(area[i].x);
-      coords = coords.concat(', ');
-      coords = coords.concat(area[i].y);
-      coords = coords.concat(', ');
-    }
-    return coords.substring(0, coords.length - 2);
-  }
-
-  arrayifyCoords(coords){
-    let area = {};
-    let areaSplit = coords.split(', ');
-    for(let i = 0; i < areaSplit.length; i++) {
-      let element = i/2;
-      area[element] = [];
-      area[element].x = areaSplit[i];
-      i++;
-      area[element].y = areaSplit[i];
-    }
-    return area;
   }
 
   updateFormState(event) {
@@ -51,11 +19,8 @@ class SectionItem extends Component {
     this.setState({section: section});
   }
 
-  saveSection(){
-    let sectionData = this.state.section;
-    sectionData.area = this.arrayifyCoords(sectionData.coords);
-    delete sectionData.coords;
-    this.props.saveSection(sectionData);
+  saveSection(event){
+    this.props.saveSection(this.state.section);
   }
 
   render(){
@@ -73,7 +38,7 @@ class SectionItem extends Component {
         </div>
         <div id={collapse} className="collapse" role="tabpanel" aria-labelledby={heading}>
           <div className="card-block">
-            <SectionForm section={this.state.section} onChange={this.updateFormState} saveButton={this.saveSection} />
+            <SectionForm section={this.props.item} onChange={this.updateFormState} saveButton={this.saveSection} />
           </div>
         </div>
       </div>

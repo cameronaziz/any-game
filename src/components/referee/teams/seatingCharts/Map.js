@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 
+import Section from './Section';
+
 import SeatingChartStyle from './SeatingChartStyle';
 import MapStyle from './MapStyle';
 
@@ -7,22 +9,17 @@ class Map extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      selectedStatus: "sectionSelection"
-    };
-    this.returnArea = this.returnArea.bind(this);
-    this.sectionHighlighted = this.sectionHighlighted.bind(this);
+    this.renderSection = this.renderSection.bind(this);
   }
 
-  sectionHighlighted(event){
-    this.props.highlight(event.target.title);
-  }
-
-  returnArea(section){
-    return(
-      <a href="#101">
-        <polygon style={MapStyle.unselected} points="966.91 1167.293 1070.213 1167.293 1070.7 1309.578 966.91 1309.091"/>
-      </a>
+  renderSection(item, index){
+    const handleClick = () => this.props.setItem(item);
+    const active = true;
+    return (
+      <Section section={item}
+               active={active}
+               key={index}
+               handleClick={handleClick} />
     );
   }
 
@@ -30,15 +27,8 @@ class Map extends Component {
     return (
       <div>
         <svg version="1.1" id="svg3699" width="100%" viewBox="0 0 2048 2048" xmlns="http://www.w3.org/2000/svg">
-          <a href="#101">
-            <polygon onClick={this.props.onMouseClick} style={MapStyle.unselected} points="966.91 1167.293 1070.213 1167.293 1070.7 1309.578 966.91 1309.091"/>
-          </a>
-          <a href="#102">
-            <polygon style={MapStyle.selected} points="829.01 1167.78 966.91 1167.293 966.91 1308.604 945.47 1308.604 945.47 1328.095 829.01 1327.12"/>
-          </a>
-          <a href="#103">
-            <polygon style={MapStyle.unselected} points="765.048 1168.295 829.181 1167.805 829.018 1327.404 793.769 1324.793 760.315 1319.245 739.917 1314.186 740.08 1302.599 728.004 1300.315"/>
-          </a>
+          <image xlinkHref="/images/seating-charts/staples-center/staples-center.png"  x="0" y="0" />
+          {this.props.sections.map(this.renderSection)}
           <a href="#104">
             <polygon style={MapStyle.unselected} points="723.591 1168.029 765.621 1168.509 730.796 1288.833 687.806 1266.738 671.955 1257.611 656.584 1246.083 639.292 1232.153 660.187 1201.652 695.732 1214.621"/>
           </a>
@@ -80,8 +70,6 @@ class Map extends Component {
           </a>
         </svg>
       </div>
-
-
     );
   }
 }
