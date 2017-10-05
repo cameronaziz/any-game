@@ -1,3 +1,5 @@
+# Any Game Tickets
+
 When buying tickets to a sports game, there are three characteristics of a ticket: the game (i.e. teams playing and the date), the seat location and how much ticket costs. Of those three characteristics, two relate, the price and the seat, while the third is independent.
 
 I believe that the third, the date, is the least important characteristic of a sports ticket for many game attendees. Sure, there is a large proportion of game attendees that care about the date of the game drastically more, but like airline tickets with flexible  days, many game attendees care more about what seat and how much they will pay far above the date of the game.
