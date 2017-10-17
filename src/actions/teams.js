@@ -11,9 +11,7 @@ function sortTeamsBySportAndDispatch(snapshot, dispatch){
     let key = child.key;
     let team = child.val();
     team.key = key;
-    //getSeatingChart(team, child.key).then(function(team) {
-      teams.push(team);
-    //});
+    teams.push(team);
   });
   dispatch(loadTeamsSuccess(teams));
 }
@@ -39,10 +37,6 @@ export function loadTeams() {
       sortTeamsBySportAndDispatch(snapshot, dispatch);
     });
   };
-}
-
-export function loadTeam() {
-
 }
 
 export function loadTeamsBySport(sport) {
