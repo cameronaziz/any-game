@@ -14,6 +14,7 @@ class RefereeSidebar extends Component {
         </ul>
         <ul className="nav nav-pills flex-column">
           {navLink('/referee/teams', 'Teams')}
+          {navLink('/referee/teams/seating-charts', 'Seating Charts')}
         </ul>
         <ul className="nav nav-pills flex-column">
           {navLink('/referee/load-games', 'Load Games')}

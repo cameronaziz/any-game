@@ -7,6 +7,7 @@ import users from './users';
 import venues from './venues';
 import games from './games';
 import tickets from './tickets';
+import seatingChart from './seatingCharts';
 
 const rootReducer = combineReducers({
   loading,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   users,
   venues,
   games,
-  tickets
+  tickets,
+  seatingChart
 });
 
 export default rootReducer;

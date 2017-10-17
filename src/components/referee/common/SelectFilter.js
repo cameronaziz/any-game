@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-function SelectTeam(props) {
+function SelectFilter(props) {
   return (
-    <select name="sport"
+    <select name={props.name}
             className="form-control"
             onChange={props.getData} >
       <option value="all">Pick Team</option>
-      {props.teams.map((option) => {
+      {props.items.map((option) => {
         if(option.slug) {
           return <option key={option.name} value={option.slug}>{option.name}</option>;
         } else {
@@ -19,4 +19,4 @@ function SelectTeam(props) {
   );
 }
 
-export default SelectTeam;
+export default SelectFilter;

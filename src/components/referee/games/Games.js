@@ -37,7 +37,7 @@ class Games extends Component {
   componentWillMount(){
     this.props.gameActions.loadGames(false);
   }
-  
+
   updateFormState(event) {
     const field = event.target.name;
     let game = this.state.game;
@@ -111,7 +111,7 @@ class Games extends Component {
         </div>
         <div className="row">
           <div className="col-md-3">
-            <SelectTeam getGames={this.getGames}
+            <SelectTeam getData={this.getGames}
                         teams={this.props.teams} />
           </div>
           <Modal item={this.state.game}
