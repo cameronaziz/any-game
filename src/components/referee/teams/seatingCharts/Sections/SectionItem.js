@@ -15,9 +15,9 @@ class SectionItem extends Component {
   }
 
   componentWillMount() {
-    if(this.props.section.name != '') {
+    if(this.props.section.name.toString() != '') {
       this.setState({
-        sectionName: this.props.section.name
+        sectionName: this.props.section.name.toString()
       });
     }
   }
@@ -30,7 +30,7 @@ class SectionItem extends Component {
   }
 
   saveSection(){
-    this.props.saveSection(this.state.section);
+    this.props.saveSection(this.state.section, this.props.index);
     let section = Object.assign({}, this.props.section);
     this.setState({
       section: section

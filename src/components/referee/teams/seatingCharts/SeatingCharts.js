@@ -59,40 +59,41 @@ class SeatingChart extends Component {
     this.props.seatingChartActions.saveZone(this.state.team.key, zoneData);
   }
 
+  selectSection(sectionName){
+    sectionName
+  }
+
   saveSection(sectionData, index){
-    this.props.seatingChartActions.saveSection(this.state.team.key, sectionData, index);
+    this.props.seatingChartActions.saveSection(this.state.team.key, sectionData);
   }
 
   bulkSaveSections(sectionArray){
-    console.log(sectionArray);
-    this.props.seatingChartActions.bulkSaveSections(this.state.team.key, sectionArray);
+    this.props.seatingChartActions.bulkSaveSections(this.state.team.key, eval(sectionArray));
   }
 
   renderConsole(){
-    if(this.props.seatingChart.teamName) {
-      return(
-        <div>
-          <div className="row">
-            <div className="col-md-6" style={SeatingChartStyle.mappingContainer}>
-              <Map seatingChart={this.props.seatingChart}
-                   image={this.state.team.seatingChartUrl} />
+    if(this.props.seatingChart) {
+      if(this.props.seatingChart.teamName) {
+        return(
+          <div>
+            <div className="row">
+              <div className="col-md-6" style={SeatingChartStyle.mappingContainer}>
+                <Map seatingChart={this.props.seatingChart}
+                     image={this.state.team.seatingChartUrl} />
+                <Zones teamName={this.props.seatingChart.teamName}
+                       zones={this.props.seatingChart.zones}
+                       saveZone={this.saveZone} />
+              </div>
+              <div className="col-md-4 offset-md-1 align-top" style={SeatingChartStyle.sectionBuilder}>
+                <Sections seatingChart={this.props.seatingChart}
+                          saveSection={this.saveSection}
+                          bulkSaveSections={this.bulkSaveSections} />
+              </div>
             </div>
-            <div className="col-md-4 offset-md-1 align-top" style={SeatingChartStyle.sectionBuilder}>
-              <Sections seatingChart={this.props.seatingChart}
-                        saveSection={this.saveSection}
-                        bulkSaveSections={this.bulkSaveSections} />
-            </div>
+            <div style={SeatingChartStyle.consoleFooter}/>
           </div>
-          <div className="row">
-            <div className="col-md-6 align-top">
-              <Zones teamName={this.props.seatingChart.teamName}
-                     zones={this.props.seatingChart.zones}
-                     saveZone={this.saveZone} />
-            </div>
-          </div>
-          <div style={SeatingChartStyle.consoleFooter}/>
-        </div>
-      );
+        );
+      }
     }
   }
 

@@ -3,6 +3,35 @@ import * as actionTypes from './actionTypes';
 
 const ref = firebase.db.ref('seatingCharts');
 
+//Utility
+function writeSection(key, sectionData) {
+  return new Promise(function (resolve, reject) {
+    let postKey = ref.child(key + '/sections').push().key;
+    ref.child(key + '/sections/' + postKey).update(sectionData, function(error) {
+      if(!error) {
+        resolve(sectionData);
+      } else {
+        reject(sectionData);
+      }
+    });
+  });
+}
+
+function loopSections(key, sectionData) {
+  return new Promise(function (resolve, reject) {
+    let i = 0;
+    sectionData.map(function(section) {
+      i++;
+      writeSection(key, section);
+    });
+    if (i >= sectionData.length) {
+      resolve();
+    } else {
+      reject();
+    }
+  });
+}
+
 //Actions
 export function getSeatingChartConfiguration(key) {
   return function(dispatch) {
@@ -19,7 +48,7 @@ export function saveSection(key, sectionData) {
     if(exists) {
       postKey = Object.keys(snapshot.val())[0];
     } else {
-      postKey = ref.child(key + '/zones').push().key;
+      postKey = ref.child(key + '/sections').push().key;
     }
   });
   return function(dispatch) {
@@ -55,9 +84,8 @@ export function saveZone(key, zoneData) {
 }
 
 export function bulkSaveSections(key, sectionData){
-  for (let i = 1; i < saveSection.length; i++) {
-    //saveSection(key, sectionData[i]);
-  }
+  ref.child(key + '/sections').remove();
+  loopSections(key, sectionData).then(getSeatingChartConfiguration(key));
 }
 
 //To Reducers

@@ -18,7 +18,8 @@ class SectionList extends Component {
   previewSection(item, index){
     return (
       <div key={item.name}>
-        <SectionItem saveSection={this.props.saveSection}
+        <SectionItem index={index}
+                     saveSection={this.props.saveSection}
                      section={item}
                      zones={this.props.seatingChart.zones}
                      selectSection={this.props.selectSection} />
