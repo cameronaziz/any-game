@@ -9,10 +9,11 @@ import List from '../../common/List';
 import Modal from '../../common/Modal';
 import SelectFilter from '../../common/SelectFilter';
 
-import Map from './Map';
+import Map from './Map/Map';
 import SeatingChartStyle from './SeatingChartStyle';
 
-import SectionList from './SectionList';
+import Sections from './Sections/Sections';
+import Zones from './Zones/Zones';
 
 const teamObj = {
   name: '',
@@ -23,7 +24,7 @@ const teamObj = {
   venue: '',
   fileName: 'no seatingChart',
   seatingChart: {},
-  seatingChartUrl: 'https://firebasestorage.googleapis.com/v0/b/anygame-f7326.appspot.com/o/seatingCharts%2Fmissing.png?alt=media&token=a35c4150-6c32-4600-b6ed-b63ba15ebd8a'
+  seatingChartUrl: ''
 };
 
 class SeatingChart extends Component {
@@ -31,72 +32,68 @@ class SeatingChart extends Component {
     super(props);
     this.state = {
       team: teamObj,
+      seatingChart: {},
       modalTitle: 'Seating Chart',
-      sectionOver: 'All',
-      selectedSections: 'All'
+      selectedSections: []
     };
-    this.updateFormState = this.updateFormState.bind(this);
     this.setTeam = this.setTeam.bind(this);
-    this.onMouseOverSection = this.onMouseOverSection.bind(this);
     this.saveSection = this.saveSection.bind(this);
+    this.bulkSaveSections = this.bulkSaveSections.bind(this);
+    this.renderConsole = this.renderConsole.bind(this);
+    this.saveZone = this.saveZone.bind(this);
   }
 
   componentWillMount() {
     this.props.teamActions.loadTeams();
   }
 
-  updateFormState(event) {
-    const field = event.target.name;
-    let team = this.state.team;
-    team[field] = event.target.value;
-    this.setState({team: team});
-  }
-
   setTeam(event) {
     let team = this.props.teams.find((team) => { return team.slug == event.target.value;});
-    team = Object.assign({}, teamObj, team);
-    this.props.seatingChartActions.getSeatingChartConfiguration(team);
+    this.props.seatingChartActions.getSeatingChartConfiguration(team.key);
     this.setState({
       team: team
     });
   }
 
-  sectionList(){
-    if(this.state.team.fileName != 'no seatingChart') {
-      if(this.props.seatingChart.sections) {
-        return <SectionList team={this.state.team} sections={this.props.seatingChart.sections} selectedsection={this.state.selectedSections} saveSection={this.saveSection}/>;
-      }
-    }
+  saveZone(zoneData){
+    this.props.seatingChartActions.saveZone(this.state.team.key, zoneData);
   }
 
-  saveSection(sectionData){
-    this.props.seatingChartActions.saveSeatingChartConfiguration(this.state.team.key, sectionData);
+  saveSection(sectionData, index){
+    this.props.seatingChartActions.saveSection(this.state.team.key, sectionData, index);
   }
 
-  mapping(){
-    if(this.props.seatingChart.sections){
-      return (
-        <Map image={this.state.team.seatingChartUrl} sections={this.props.seatingChart.sections} size={this.props.seatingChart.size} onMouseClick={this.onMouseOverSection} />
+  bulkSaveSections(sectionArray){
+    console.log(sectionArray);
+    this.props.seatingChartActions.bulkSaveSections(this.state.team.key, sectionArray);
+  }
+
+  renderConsole(){
+    if(this.props.seatingChart.teamName) {
+      return(
+        <div>
+          <div className="row">
+            <div className="col-md-6" style={SeatingChartStyle.mappingContainer}>
+              <Map seatingChart={this.props.seatingChart}
+                   image={this.state.team.seatingChartUrl} />
+            </div>
+            <div className="col-md-4 offset-md-1 align-top" style={SeatingChartStyle.sectionBuilder}>
+              <Sections seatingChart={this.props.seatingChart}
+                        saveSection={this.saveSection}
+                        bulkSaveSections={this.bulkSaveSections} />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-6 align-top">
+              <Zones teamName={this.props.seatingChart.teamName}
+                     zones={this.props.seatingChart.zones}
+                     saveZone={this.saveZone} />
+            </div>
+          </div>
+          <div style={SeatingChartStyle.consoleFooter}/>
+        </div>
       );
-    } else {
-      return (
-        <div> </div>
-      );
     }
-  }
-
-  onMouseOverSection(section) {
-    let currentSelections = this.state.selectedSections;
-    section = parseInt(section);
-    let sectionIndex = currentSelections.findIndex(k => k==section);
-    if(sectionIndex){
-      currentSelections = currentSelections.splice(sectionIndex, 1);
-    } else {
-      currentSelections = currentSelections.push(section);
-    }
-    this.setState({
-      selectedSections: currentSelections
-    });
   }
 
   render() {
@@ -112,16 +109,7 @@ class SeatingChart extends Component {
           </div>
         </div>
         <br />
-        <div className="row">
-          <div className="col-md-12">
-            <div className="col-md-6" style={SeatingChartStyle.seatingChartImageContainer}>
-              {this.mapping()}
-            </div>
-            <div className="col-md-4 offset-md-1 align-top" style={SeatingChartStyle.sectionBuilder}>
-              {this.sectionList()}
-            </div>
-          </div>
-        </div>
+        {this.renderConsole()}
       </div>
     );
   }

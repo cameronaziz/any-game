@@ -2,9 +2,7 @@ export default {
   seatingChartContainer: {
     border: "solid"
   },
-  seatingChartImageContainer: {
-    border: "solid",
-    borderColor: '#00f',
+  mappingContainer: {
     display: "inline-block"
   },
   sectionBuilder: {
@@ -17,5 +15,8 @@ export default {
     stroke: 'white',
     strokeOpacity: 1,
     strokeWidth: 0.5
+  },
+  consoleFooter: {
+    paddingBottom:40
   }
 };

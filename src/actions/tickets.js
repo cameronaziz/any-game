@@ -1,7 +1,6 @@
 import * as firebase from '../lib/firebase';
 import * as actionTypes from './actionTypes';
 
-import ticketmaster from 'ticketmaster';
 
 const ref = firebase.db.ref('tickets');
 
@@ -15,12 +14,6 @@ export function loadTickets(team){
   };
 }
 
-export function getTicketmasterTickets(settings){
-  ticketmaster(settings.key).discovery.v2.event.all()
-.then(function(result) {
-  console.log(result);
-});
-}
 
 //To Reducers
 export function loadTicketsSuccess(tickets){

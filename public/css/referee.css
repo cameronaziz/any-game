@@ -105,12 +105,12 @@ a.section {
   display:none;
 }
 
-polygon.sectionUnselected {
+.sectionUnselected {
   fill: "#cce6ff";
   stroke: "#4d4dff"
 }
 
-polygon.sectionUnselected:hover {
+.sectionSelected {
   fill: "#1aa3ff";
   stroke: "#4d4dff"
 }
