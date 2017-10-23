@@ -13,10 +13,9 @@ class Map extends Component {
   }
 
   renderSvg(){
-    if(this.props.image){
+    if(this.props.seatingChart){
       return (
-        <MapSvg image={this.props.image}
-                seatingChart={this.props.seatingChart} />
+        <MapSvg seatingChart={this.props.seatingChart} />
       );
     }
   }

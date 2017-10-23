@@ -1,6 +1,8 @@
 import * as firebase from '../lib/firebase';
 import * as actionTypes from './actionTypes';
 
+import * as seatingChartSections from './seatingChartSections';
+
 const ref = firebase.db.ref('seatingCharts');
 
 //Utility
@@ -34,6 +36,7 @@ function loopSections(key, sectionData) {
 
 //Actions
 export function getSeatingChartConfiguration(key) {
+  //seatingChartSections.getSections(key);
   return function(dispatch) {
     ref.child(key).on('value', function(snapshot) {
       dispatch(loadSeatingChart(snapshot.val()));
@@ -51,6 +54,7 @@ export function saveSection(key, sectionData) {
       postKey = ref.child(key + '/sections').push().key;
     }
   });
+  seatingChartSections.saveSection(key, sectionData);
   return function(dispatch) {
     ref.child(key + '/sections/' + postKey).update(sectionData, function(error) {
       if(!error) {

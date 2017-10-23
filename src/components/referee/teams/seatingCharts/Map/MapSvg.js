@@ -34,7 +34,7 @@ class MapSvg extends Component {
     return (
       <div style={MapStyle.seatingChartImageContainer}>
         <svg version="1.1" id="svg3699" width="100%" viewBox="0 0 2048 2048" xmlns="http://www.w3.org/2000/svg">
-          <image xlinkHref={this.props.image}  x="0" y="0" />
+          <image xlinkHref={this.props.seatingChart.url}  x="0" y="0" />
           {this.sectionListMap()}
         </svg>
       </div>

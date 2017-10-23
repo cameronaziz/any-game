@@ -10,10 +10,8 @@ import Modal from '../../common/Modal';
 import SelectFilter from '../../common/SelectFilter';
 
 import Map from './Map/Map';
+import SeatingChartConsole from './SeatingChartConsole';
 import SeatingChartStyle from './SeatingChartStyle';
-
-import Sections from './Sections/Sections';
-import Zones from './Zones/Zones';
 
 const teamObj = {
   name: '',
@@ -21,8 +19,8 @@ const teamObj = {
   city: '',
   sport: '',
   slug: '',
-  venue: '',
-  fileName: 'no seatingChart',
+  key: '',
+  fileName: '',
   seatingChart: {},
   seatingChartUrl: ''
 };
@@ -37,14 +35,13 @@ class SeatingChart extends Component {
       selectedSections: []
     };
     this.setTeam = this.setTeam.bind(this);
-    this.saveSection = this.saveSection.bind(this);
-    this.bulkSaveSections = this.bulkSaveSections.bind(this);
     this.renderConsole = this.renderConsole.bind(this);
-    this.saveZone = this.saveZone.bind(this);
   }
 
   componentWillMount() {
     this.props.teamActions.loadTeams();
+
+    this.props.seatingChartActions.getSeatingChartConfiguration('-KoU93bkph-iW1-3yo6B');
   }
 
   setTeam(event) {
@@ -55,45 +52,14 @@ class SeatingChart extends Component {
     });
   }
 
-  saveZone(zoneData){
-    this.props.seatingChartActions.saveZone(this.state.team.key, zoneData);
-  }
-
-  selectSection(sectionName){
-    sectionName
-  }
-
-  saveSection(sectionData, index){
-    this.props.seatingChartActions.saveSection(this.state.team.key, sectionData);
-  }
-
-  bulkSaveSections(sectionArray){
-    this.props.seatingChartActions.bulkSaveSections(this.state.team.key, eval(sectionArray));
-  }
-
   renderConsole(){
-    if(this.props.seatingChart) {
-      if(this.props.seatingChart.teamName) {
-        return(
-          <div>
-            <div className="row">
-              <div className="col-md-6" style={SeatingChartStyle.mappingContainer}>
-                <Map seatingChart={this.props.seatingChart}
-                     image={this.state.team.seatingChartUrl} />
-                <Zones teamName={this.props.seatingChart.teamName}
-                       zones={this.props.seatingChart.zones}
-                       saveZone={this.saveZone} />
-              </div>
-              <div className="col-md-4 offset-md-1 align-top" style={SeatingChartStyle.sectionBuilder}>
-                <Sections seatingChart={this.props.seatingChart}
-                          saveSection={this.saveSection}
-                          bulkSaveSections={this.bulkSaveSections} />
-              </div>
-            </div>
-            <div style={SeatingChartStyle.consoleFooter}/>
-          </div>
-        );
-      }
+    if(this.state.team.fileName != "no seatingChart") {
+      return(
+        <div>
+          <SeatingChartConsole team={this.state.team} />
+        </div>
+
+      );
     }
   }
 
