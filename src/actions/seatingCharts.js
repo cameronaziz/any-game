@@ -35,15 +35,24 @@ function loopSections(key, sectionData) {
 }
 
 //Actions
+<<<<<<< HEAD
 export function getSeatingChartConfiguration(key) {
   //seatingChartSections.getSections(key);
   return function(dispatch) {
     ref.child(key).on('value', function(snapshot) {
+=======
+export function getSeatingChartConfiguration(team) {
+  let teamName = team.name;
+  let venueName = team.venue;
+  return function(dispatch) {
+    ref.child(team.key).once('value').then(function(snapshot) {
+>>>>>>> refs/remotes/origin/master
       dispatch(loadSeatingChart(snapshot.val()));
     });
   };
 }
 
+<<<<<<< HEAD
 export function saveSection(key, sectionData) {
   let postKey;
   ref.child(key + '/sections').orderByChild('name').equalTo(sectionData.name).once('value', function(snapshot) {
@@ -97,5 +106,16 @@ export function loadSeatingChart(seatingChart) {
   return {
     type: actionTypes.LOAD_SEATING_CHART,
     seatingChart
+=======
+export function saveSeatingChartConfiguration(){
+
+}
+
+//To Reducers
+export function loadSeatingChart(seatingChartConfiguration) {
+  return {
+    type: actionTypes.LOAD_SEATING_CHART_CONFIGURATION,
+    seatingChartConfiguration
+>>>>>>> refs/remotes/origin/master
   };
 }

@@ -39,6 +39,10 @@ export function loadTeams() {
   };
 }
 
+export function loadTeam() {
+
+}
+
 export function loadTeamsBySport(sport) {
   return function(dispatch) {
     firebase.db.ref('teams').orderByChild('sport').equalTo(sport).on('value', function (snapshot) {

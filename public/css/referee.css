@@ -105,12 +105,20 @@ a.section {
   display:none;
 }
 
+<<<<<<< Updated upstream
 .sectionUnselected {
+=======
+polygon.sectionUnselected {
+>>>>>>> Stashed changes
   fill: "#cce6ff";
   stroke: "#4d4dff"
 }
 
+<<<<<<< Updated upstream
 .sectionSelected {
+=======
+polygon.sectionUnselected:hover {
+>>>>>>> Stashed changes
   fill: "#1aa3ff";
   stroke: "#4d4dff"
 }
