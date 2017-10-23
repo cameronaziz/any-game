@@ -9,23 +9,10 @@ import List from '../../common/List';
 import Modal from '../../common/Modal';
 import SelectFilter from '../../common/SelectFilter';
 
-<<<<<<< HEAD
 import Map from './Map/Map';
 import SeatingChartConsole from './SeatingChartConsole';
 import SeatingChartStyle from './SeatingChartStyle';
 
-<<<<<<< Updated upstream
-=======
-import Sections from './Sections/Sections';
-import Zones from './Zones/Zones';
-=======
-import Map from './Map';
-import SeatingChartStyle from './SeatingChartStyle';
-
-import SectionList from './SectionList';
->>>>>>> refs/remotes/origin/master
-
->>>>>>> Stashed changes
 const teamObj = {
   name: '',
   location: '',
@@ -35,11 +22,7 @@ const teamObj = {
   key: '',
   fileName: '',
   seatingChart: {},
-<<<<<<< HEAD
   seatingChartUrl: ''
-=======
-  seatingChartUrl: 'https://firebasestorage.googleapis.com/v0/b/anygame-f7326.appspot.com/o/seatingCharts%2Fmissing.png?alt=media&token=a35c4150-6c32-4600-b6ed-b63ba15ebd8a'
->>>>>>> refs/remotes/origin/master
 };
 
 class SeatingChart extends Component {
@@ -47,27 +30,12 @@ class SeatingChart extends Component {
     super(props);
     this.state = {
       team: teamObj,
-<<<<<<< HEAD
       seatingChart: {},
       modalTitle: 'Seating Chart',
       selectedSections: []
     };
     this.setTeam = this.setTeam.bind(this);
     this.renderConsole = this.renderConsole.bind(this);
-<<<<<<< Updated upstream
-=======
-    this.saveZone = this.saveZone.bind(this);
-=======
-      modalTitle: 'Seating Chart',
-      sectionOver: 'All',
-      selectedSections: 'All'
-    };
-    this.updateFormState = this.updateFormState.bind(this);
-    this.setTeam = this.setTeam.bind(this);
-    this.onMouseOverSection = this.onMouseOverSection.bind(this);
-    this.saveSection = this.saveSection.bind(this);
->>>>>>> refs/remotes/origin/master
->>>>>>> Stashed changes
   }
 
   componentWillMount() {
@@ -76,48 +44,14 @@ class SeatingChart extends Component {
     this.props.seatingChartActions.getSeatingChartConfiguration('-KoU93bkph-iW1-3yo6B');
   }
 
-<<<<<<< HEAD
   setTeam(event) {
     let team = this.props.teams.find((team) => { return team.slug == event.target.value;});
     this.props.seatingChartActions.getSeatingChartConfiguration(team.key);
-=======
-  updateFormState(event) {
-    const field = event.target.name;
-    let team = this.state.team;
-    team[field] = event.target.value;
-    this.setState({team: team});
-  }
-
-  setTeam(event) {
-    let team = this.props.teams.find((team) => { return team.slug == event.target.value;});
-    team = Object.assign({}, teamObj, team);
-    this.props.seatingChartActions.getSeatingChartConfiguration(team);
->>>>>>> refs/remotes/origin/master
     this.setState({
       team: team
     });
   }
 
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-  saveZone(zoneData){
-    this.props.seatingChartActions.saveZone(this.state.team.key, zoneData);
-  }
-
-  selectSection(sectionName){
-    sectionName
-  }
-
-  saveSection(sectionData, index){
-    this.props.seatingChartActions.saveSection(this.state.team.key, sectionData);
-  }
-
-  bulkSaveSections(sectionArray){
-    this.props.seatingChartActions.bulkSaveSections(this.state.team.key, eval(sectionArray));
-  }
-
->>>>>>> Stashed changes
   renderConsole(){
     if(this.state.team.fileName != "no seatingChart") {
       return(
@@ -127,44 +61,6 @@ class SeatingChart extends Component {
 
       );
     }
-=======
-  sectionList(){
-    if(this.state.team.fileName != 'no seatingChart') {
-      if(this.props.seatingChart.sections) {
-        return <SectionList team={this.state.team} sections={this.props.seatingChart.sections} selectedsection={this.state.selectedSections} saveSection={this.saveSection}/>;
-      }
-    }
-  }
-
-  saveSection(sectionData){
-    this.props.seatingChartActions.saveSeatingChartConfiguration(this.state.team.key, sectionData);
-  }
-
-  mapping(){
-    if(this.props.seatingChart.sections){
-      return (
-        <Map image={this.state.team.seatingChartUrl} sections={this.props.seatingChart.sections} size={this.props.seatingChart.size} onMouseClick={this.onMouseOverSection} />
-      );
-    } else {
-      return (
-        <div> </div>
-      );
-    }
-  }
-
-  onMouseOverSection(section) {
-    let currentSelections = this.state.selectedSections;
-    section = parseInt(section);
-    let sectionIndex = currentSelections.findIndex(k => k==section);
-    if(sectionIndex){
-      currentSelections = currentSelections.splice(sectionIndex, 1);
-    } else {
-      currentSelections = currentSelections.push(section);
-    }
-    this.setState({
-      selectedSections: currentSelections
-    });
->>>>>>> refs/remotes/origin/master
   }
 
   render() {
@@ -180,20 +76,7 @@ class SeatingChart extends Component {
           </div>
         </div>
         <br />
-<<<<<<< HEAD
         {this.renderConsole()}
-=======
-        <div className="row">
-          <div className="col-md-12">
-            <div className="col-md-6" style={SeatingChartStyle.seatingChartImageContainer}>
-              {this.mapping()}
-            </div>
-            <div className="col-md-4 offset-md-1 align-top" style={SeatingChartStyle.sectionBuilder}>
-              {this.sectionList()}
-            </div>
-          </div>
-        </div>
->>>>>>> refs/remotes/origin/master
       </div>
     );
   }
