@@ -23,3 +23,24 @@ export function nextDay(dateString) {
   let nextDayString = date.toISOString();
   return nextDayString;
 }
+
+export function today(){
+  let today = new Date();
+  let dd = today.getDate();
+  let mm = today.getMonth()+1;
+  let yyyy = today.getFullYear();
+
+  if(dd<10){
+    dd='0'+dd;
+  }
+
+  if(mm<10){
+    mm='0'+mm;
+  }
+
+  return mm+'/'+dd+'/'+yyyy;
+}
+
+export function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}

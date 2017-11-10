@@ -3,24 +3,35 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 
-import FrontHeader from './Headers/FrontHeader';
-import TeamSelection from './TeamSelection';
-
+import FrontHeader from './FrontHeader';
+import FrontRouter from '../../routers/FrontRouter';
+import NoDataConnection from './NoDataConnection';
 
 class Front extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      timeout: false
+    };
+    this.renderRouter = this.renderRouter.bind(this);
   }
 
-  componentWillMount() {
-    //this.props.gameActions.loadGames();
+  renderRouter(){
+    if(this.props.teams) {
+      if(Object.keys(this.props.teams).length > 0) {
+        return(<FrontRouter />);
+      }
+      if(Object.keys(this.props.teams).length == 0) {
+        return(<NoDataConnection />);
+      }
+    }
   }
 
   render() {
     return (
       <div>
         <FrontHeader />
-        <TeamSelection />
+        {this.renderRouter()}
       </div>
     );
   }
@@ -28,13 +39,12 @@ class Front extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-
+    teams: state.teams
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-
   };
 }
 

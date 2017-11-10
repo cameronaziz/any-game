@@ -17,7 +17,7 @@ function GameCard(props) {
         <h4 className="card-title">{props.game.shortTitle}</h4>
         <p className="card-text">
           {props.game.id} <br />
-          {formatDate(props.game.datetimeLocal)}
+          {props.game.datetimeLocal}
         </p>
         <a href="#" className="btn btn-primary" onClick={props.handleClick} data-toggle="modal" data-target="#modal">{props.buttonText}</a>
       </div>

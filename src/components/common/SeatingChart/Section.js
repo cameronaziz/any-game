@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 
-import MapStyle from './MapStyle';
 
 class Section extends Component {
 
@@ -49,7 +48,7 @@ class Section extends Component {
   render(){
     return (
       <a onClick={this.onClick} onMouseOut={this.onMouseOut} onMouseOver={this.onMouseOver}>
-        <polygon style={MapStyle.polygon} fill={this.state.fill} stroke={this.state.stroke} points={this.props.section.points}/>
+        <polygon fill={this.state.fill} stroke={this.state.stroke} points={this.props.section.points}/>
       </a>
     );
   }

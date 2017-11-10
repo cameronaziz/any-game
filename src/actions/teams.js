@@ -31,10 +31,18 @@ function saveSeatingChart(team, postKey){
 }
 
 //Actions
-export function loadTeams() {
+export function loadTeamsArray() {
   return function(dispatch) {
     firebase.db.ref('teams').orderByChild('name').on('value', function (snapshot) {
       sortTeamsBySportAndDispatch(snapshot, dispatch);
+    });
+  };
+}
+
+export function loadTeams() {
+  return function(dispatch) {
+    firebase.db.ref('teams').orderByChild('name').on('value', function (snapshot) {
+      dispatch(loadTeamsSuccess(snapshot.val()));
     });
   };
 }

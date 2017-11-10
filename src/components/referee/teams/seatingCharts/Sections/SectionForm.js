@@ -15,6 +15,42 @@ function SectionForm(props) {
                 className="form-control"
                 onChange={props.onChange}
                 value={props.section.points} />
+        <div className="row">
+          <div className="col-md-6">
+            <label>Start Row</label>
+            <input type="text"
+                   name="startRow"
+                   className="form-control"
+                   onChange={props.onChange}
+                   value={props.section.startRow} />
+          </div>
+          <div className="col-md-6">
+            <label>End Row</label>
+            <input type="text"
+                   name="endRow"
+                   className="form-control"
+                   onChange={props.onChange}
+                   value={props.section.endRow} />
+         </div>
+        </div>
+        <div className="row">
+          <div className="col-md-6">
+            <label>Start Seat</label>
+            <input type="text"
+                   name="startSeat"
+                   className="form-control"
+                   onChange={props.onChange}
+                   value={props.section.startSeat} />
+          </div>
+          <div className="col-md-6">
+            <label>End Seat</label>
+            <input type="text"
+                   name="endSeat"
+                   className="form-control"
+                   onChange={props.onChange}
+                   value={props.section.endSeat} />
+         </div>
+        </div>
         <label>Zone</label>
         <select name="zone"
                 className="form-control"

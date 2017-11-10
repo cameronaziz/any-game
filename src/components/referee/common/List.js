@@ -12,7 +12,7 @@ class List extends Component {
   previewListing(item, index){
     const handleClick = () => this.props.setItem(item);
     return (
-      <ListPreview item={item}
+      <ListPreview item={item[1]}
                    key={index}
                    handleClick={handleClick} />
     );
@@ -22,21 +22,11 @@ class List extends Component {
     return (
       <div className="col-md-4">
         <ul className="list-group">
-          {this.props.list.map(this.previewListing)}
+          {Object.entries(this.props.list).map(this.previewListing)}
         </ul>
       </div>
     );
   }
 }
-
-List.propTypes = {
-  list: PropTypes.array.isRequired,
-  setItem: PropTypes.func.isRequired,
-  preview: PropTypes.string
-};
-
-List.defaultProps = {
-  preview: 'ListPreview'
-};
 
 export default List;

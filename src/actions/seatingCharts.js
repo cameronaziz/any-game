@@ -1,5 +1,6 @@
 import * as firebase from '../lib/firebase';
 import * as actionTypes from './actionTypes';
+import * as loadingActions from './loading';
 
 import * as seatingChartSections from './seatingChartSections';
 
@@ -35,36 +36,25 @@ function loopSections(key, sectionData) {
 }
 
 //Actions
-export function getSeatingChartConfiguration(key) {
-  //seatingChartSections.getSections(key);
+export function getSeatingChartConfiguration(key, searchBy) {
   return function(dispatch) {
+    dispatch(loadingActions.isLoading('refereeConsole'));
     ref.child(key).on('value', function(snapshot) {
+      dispatch(loadSeatingChart(snapshot.val()));
+      dispatch(loadingActions.notLoading('refereeConsole'));
+    });
+  };
+}
+
+export function getSeatingChartConfigurationBySlug(slug) {  //seatingChartSections.getSections(key);
+  return function(dispatch) {
+    ref.orderByChild('slug').on('value', function(snapshot) {
       dispatch(loadSeatingChart(snapshot.val()));
     });
   };
 }
 
-export function saveSection(key, sectionData) {
-  let postKey;
-  ref.child(key + '/sections').orderByChild('name').equalTo(sectionData.name).once('value', function(snapshot) {
-    let exists = (snapshot.val() !== null);
-    if(exists) {
-      postKey = Object.keys(snapshot.val())[0];
-    } else {
-      postKey = ref.child(key + '/sections').push().key;
-    }
-  });
-  seatingChartSections.saveSection(key, sectionData);
-  return function(dispatch) {
-    ref.child(key + '/sections/' + postKey).update(sectionData, function(error) {
-      if(!error) {
-        ref.child(key).on('value', function(snapshot) {
-          dispatch(loadSeatingChart(snapshot.val()));
-        });
-      }
-    });
-  };
-}
+
 
 export function saveZone(key, zoneData) {
   let postKey;
@@ -87,9 +77,22 @@ export function saveZone(key, zoneData) {
   };
 }
 
-export function bulkSaveSections(key, sectionData){
-  ref.child(key + '/sections').remove();
-  loopSections(key, sectionData).then(getSeatingChartConfiguration(key));
+export function bulkSaveSections(key, sectionRawData){
+  let deleteRef = firebase.db.ref('seatingCharts/' + key + '/sections');
+  deleteRef.remove();
+
+  let sectionData = eval(sectionRawData);
+  for (let i = 0; i < sectionData.length; i++) {
+    let postKey;
+    postKey = ref.child(key + '/sections').push().key;
+    sectionData[i].name = 'Section ' + sectionData[i].name;
+    ref.child(key + '/sections/' + postKey).update(sectionData[i]);
+  }
+  return function(dispatch) {
+    ref.child(key).on('value', function(snapshot) {
+      dispatch(loadSeatingChart(snapshot.val()));
+    });
+  };
 }
 
 //To Reducers

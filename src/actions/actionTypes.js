@@ -24,6 +24,10 @@ export const CREATE_VENUE_SUCCESS = 'CREATE_VENUE_SUCCESS';
 //Seating Charts
 export const LOAD_SEATING_CHART = 'LOAD_SEATING_CHART';
 
+//Seeating Charts Sectoins
+export const SEATING_CHART_SECTIONS_ADD = 'SEATING_CHART_SECTIONS_ADD';
+export const SEATING_CHART_SECTIONS = 'SEATING_CHART_SECTIONS';
+
 //Loading
 export const LOADING_STATES = 'LOADING_STATES';
 

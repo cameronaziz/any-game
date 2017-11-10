@@ -11,8 +11,8 @@ const GlobalRouter = () => {
       <BrowserRouter>
         <div>
           <Switch>
-            <Route exact path="/" component={Front} />
             <Route path="/referee" component={RefereeConsole}/>
+            <Route path="/" component={Front} />
           </Switch>
         </div>
       </BrowserRouter>

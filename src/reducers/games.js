@@ -1,10 +1,10 @@
 import * as actionTypes from '../actions/actionTypes';
 
-export default function games(state = [], action) {
+export default function games(state = {}, action) {
   switch(action.type) {
 
     case actionTypes.LOAD_GAMES_SUCCESS:
-      return {gamesArray: action.games, isFetching: false};
+      return action.games;
 
     case actionTypes.ADD_GAMES_SUCCESS: {
       let games = state.gamesArray.concat(action.games);

@@ -7,7 +7,7 @@ import * as seatingChartActions from '../../../../actions/seatingCharts';
 
 import List from '../../common/List';
 import Modal from '../../common/Modal';
-import SelectFilter from '../../common/SelectFilter';
+import SelectItem from '../../common/SelectItem';
 
 import Map from './Map/Map';
 import SeatingChartConsole from './SeatingChartConsole';
@@ -19,7 +19,7 @@ const teamObj = {
   city: '',
   sport: '',
   slug: '',
-  key: '',
+  key: '-KoU93bkph-iW1-3yo6B',
   fileName: '',
   seatingChart: {},
   seatingChartUrl: ''
@@ -36,11 +36,11 @@ class SeatingChart extends Component {
     };
     this.setTeam = this.setTeam.bind(this);
     this.renderConsole = this.renderConsole.bind(this);
+    this.renderDropDown = this.renderDropDown.bind(this);
   }
 
   componentWillMount() {
     this.props.teamActions.loadTeams();
-
     this.props.seatingChartActions.getSeatingChartConfiguration('-KoU93bkph-iW1-3yo6B');
   }
 
@@ -63,16 +63,24 @@ class SeatingChart extends Component {
     }
   }
 
+  renderDropDown(){
+    if(Object.keys(this.props.teams).length > 0) {
+      return(
+        <SelectItem name="team"
+                    value={this.state.team}
+                    onChange={this.setTeam}
+                    items={this.props.teams} />
+      );
+    }
+  }
+
+
   render() {
     return (
       <div className="container-fluid">
-        <h1>Seating Chart Admin</h1>
         <div className="row">
           <div className="col-md-3">
-            <SelectFilter name="team"
-                          value={this.state.team}
-                          getData={this.setTeam}
-                          items={this.props.teams} />
+            {this.renderDropDown()}
           </div>
         </div>
         <br />
