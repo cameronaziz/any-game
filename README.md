@@ -11,3 +11,15 @@ When you go on StubHub to purchase a ticket, the first thing you select is the t
 Through Any Game Tickets, we list the tickets for any game for a given team. For example, on our home page, a user can select Lakers. Then, they will see a seating chart of the Staples Center to see all the sections rather than seeing a list of games. When the user highlights over a section, the cheapest price for a ticket, for any Lakers game in that section, will appear. This then allows users to purchase tickets for the best price for any game. A ticket for any game.
 
 www.anygametickets.com
+
+
+# Installing
+
+
+1. Install Node Modules
+```
+npm install
+```
+
+2. Install Firebase Config
+You will need to receive the firebase config file from your manager. This file needs to be placed in `src/lib/firebaseConfig.js`.
