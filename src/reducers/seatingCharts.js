@@ -6,6 +6,9 @@ export default function seatingChart(state = {}, action) {
     case actionTypes.LOAD_SEATING_CHART:
       return action.seatingChart;
 
+    case actionTypes.LOAD_SEATING_CHART_CONFIGURATION:
+      return action.seatingChartConfiguration;
+
     default:
       return state;
   }

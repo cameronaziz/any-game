@@ -9,18 +9,24 @@ export function loadUsers(){
   };
 }
 
-export function createUser(email, password, user){
+export function createUser(user) {
   return function(dispatch) {
-    firebase.auth.createUserWithEmailAndPassword(email, password).catch((error) => {
+    firebase.auth.createUserWithEmailAndPassword(user.email, user.password).catch((error) => {
       dispatch(handleError(error.message));
     });
-    firebase.db.ref('users/').push({
-      settings: {
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: email
-      }
+  };
+}
+
+export function loginUser(user) {
+  return function(dispatch) {
+    firebase.auth.signInWithEmailAndPassword(user.email, user.password).catch(function(error) {
+      dispatch(handleError(error.message));
     });
+
+    firebase.auth.onAuthStateChanged(function(user) {
+      console.log(user);
+    });
+
   };
 }
 

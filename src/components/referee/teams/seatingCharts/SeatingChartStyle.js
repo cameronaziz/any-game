@@ -2,7 +2,9 @@ export default {
   seatingChartContainer: {
     border: "solid"
   },
-  mappingContainer: {
+  seatingChartImageContainer: {
+    border: "solid",
+    borderColor: '#00f',
     display: "inline-block"
   },
   sectionBuilder: {

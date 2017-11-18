@@ -48,7 +48,7 @@ class Section extends Component {
   render(){
     return (
       <a onClick={this.onClick} onMouseOut={this.onMouseOut} onMouseOver={this.onMouseOver}>
-        <polygon fill={this.state.fill} stroke={this.state.stroke} points={this.props.section.points}/>
+        <polygon fillOpacity={0.4} fill={this.state.fill} stroke={this.state.stroke} points={this.props.section.points}/>
       </a>
     );
   }

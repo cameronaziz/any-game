@@ -39,9 +39,11 @@ class SectionList extends Component {
               </div>
             </div>
           </div>
+
         </div>
         {this.props.sections.map(this.previewSection)}
-      </div>
+          {this.props.sections.map(this.previewSection)}
+        </div>
     );
   }
 }

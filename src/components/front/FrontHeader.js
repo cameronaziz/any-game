@@ -12,6 +12,8 @@ function FrontHeader(props) {
                 <li><a href="/teams" title="">Our Teams</a></li>
                 <li><a href="#" title="">About Us</a></li>
                 <li><a href="/contact-us" title="">Contact Us</a></li>
+                <li><a className="loginButton" href="/login" title="">Login</a></li>
+                <li><a href="/register" title="">Register</a></li>
              </ul>
           </div>
        </div>

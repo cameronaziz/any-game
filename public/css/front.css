@@ -1,4 +1,15 @@
 
+.loginButton {
+    background-color: #F2762E;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 10px;
+
+}
 
 
 

@@ -19,7 +19,7 @@ class Front extends Component {
   renderRouter(){
     if(this.props.teams) {
       if(Object.keys(this.props.teams).length > 0) {
-        return(<FrontRouter />);
+        return(<FrontRouter teams={this.props.teams}/>);
       }
       if(Object.keys(this.props.teams).length == 0) {
         return(<NoDataConnection />);

@@ -38,7 +38,7 @@ class SeatingChart extends Component {
     return (
       <div>
         <svg version="1.1" id="svg3699" width="100%" viewBox="0 0 2048 2048" xmlns="http://www.w3.org/2000/svg">
-          <image xlinkHref={this.props.seatingChart.url}  x="0" y="0" />
+          <image xlinkHref={Object.values(this.props.seatingChart)[0].url}  x="0" y="0" />
           {this.sectionListMap()}
         </svg>
       </div>

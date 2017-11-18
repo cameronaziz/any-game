@@ -3,16 +3,20 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 
 import LandingPage from '../components/front/LandingPage';
 import TicketConsole from '../components/front/console/Console';
-import Teams from '../components/front/Teams';
+import Teams from '../components/front/teams/Teams';
 import ContactUs from '../components/front/ContactUs';
+import Register from '../components/front/Register';
+import Login from '../components/front/Login';
 
 const FrontRouter = (props) => {
   return (
     <div className="container-fluid">
       <div className="col-md-10 offset-md-1">
         <Switch>
-          <Route path="/teams" component={Teams} />
+          <Route path="/teams" component={() => (<Teams teams={props.teams} />)} />
           <Route path="/contact-us" component={ContactUs} />
+          <Route path="/register" component={Register} />
+          <Route path="/login" component={Login} />
           <Route path="/tickets/:name" component={TicketConsole} />
           <Route path="/" exact component={LandingPage} />
         </Switch>
@@ -20,6 +24,5 @@ const FrontRouter = (props) => {
     </div>
   );
 };
-
 
 export default FrontRouter;

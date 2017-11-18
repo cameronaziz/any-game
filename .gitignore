@@ -36,3 +36,4 @@ dist
 # Mac files
 .DS_Store
 src/lib/firebaseConfig.js
+src/python/output

@@ -23,9 +23,6 @@ export function saveSection(sectionData) {
   } else {
     postKey = sectionData[0];
   }
-  console.log(sectionData)
-  console.log(sectionData[0])
-  console.log(sectionData[1])
 
   return function(dispatch) {
     ref.child(postKey).update(sectionData[1], function(error) {
