@@ -26,18 +26,15 @@ class RefereeConsole extends Component {
       return (
         <RefereeLoading />
       );
-    }
-    return (
-      <div>
-        <RefereeHeader />
-        <div className="container-fluid">
-          <div className="row">
-            <RefereeSidebar path={this.props.location.pathname} />
-            <RefereeRouter settings={this.props.settings.settingsArray} />
-          </div>
+    } else {
+      return (
+        <div>
+          <RefereeHeader />
+          <RefereeSidebar path={this.props.location.pathname} />
+          <RefereeRouter settings={this.props.settings.settingsArray} />
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
 

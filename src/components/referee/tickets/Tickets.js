@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import * as ticketActions from '../../../actions/tickets';
 import * as teamActions from '../../../actions/teams';
 import * as sportActions from '../../../actions/sports';
+import * as gameActions from '../../../actions/games';
 
 import Modal from '../common/Modal';
 import RefereeLoading from '../RefereeLoading';
@@ -13,7 +14,6 @@ import TicketModalForm from './TicketModalForm';
 
 let ticketObj = {
   gameId: '',
-  sport: '',
   name: ''
 };
 
@@ -24,14 +24,25 @@ class Tickets extends Component {
       ticket: ticketObj,
       modalTitle: 'Add a new Ticket',
       error: false,
-      errorMessage: ''
+      errorMessage: '',
+      fieldStatus: {
+        team: {
+          select: 'Select a Sport first',
+          disabled: true
+        },
+        game: {
+          select: 'Select a Sport and Team first',
+          disabled: true
+        }
+      }
     };
-    this.props.teamActions.loadTeams();
     this.updateFormState = this.updateFormState.bind(this);
     this.setTicket = this.setTicket.bind(this);
     this.createTicket = this.createTicket.bind(this);
     this.removeTicket = this.removeTicket.bind(this);
     this.clearTicket = this.clearTicket.bind(this);
+    this.onSportChange = this.onSportChange.bind(this);
+    this.onTeamChange = this.onTeamChange.bind(this);
   }
 
   componentWillMount() {
@@ -41,9 +52,46 @@ class Tickets extends Component {
 
   updateFormState(event) {
     const field = event.target.name;
-    let ticket = this.state.ticekt;
+    let ticket = this.state.ticket;
     ticket[field] = event.target.value;
     this.setState({ticket: ticket});
+  }
+
+  onSportChange(event) {
+    let ticket = this.state.ticket;
+    ticket['sport'] = event.target.value;
+    this.setState({
+      ticket: ticket,
+      fieldStatus: {
+        team: {
+          select: 'Select a Team',
+          disbaled: false
+        },
+        game: {
+          select: 'Select a Team first',
+          disabled: true
+        }
+      }
+    });
+    this.props.teamActions.loadTeamsBySport(this.state.ticket.sport);
+  }
+
+  onTeamChange(event) {
+    let ticket = this.state.ticket;
+    ticket['team'] = event.target.value;
+    this.setState({
+      ticket: ticket,
+      fieldStatus: {
+        team: {
+          disabled: false
+        },
+        game: {
+          select: 'Select a Game',
+          disabled: false
+        }
+      }
+    });
+    this.props.gameActions.loadGamesByTeam(this.state.ticket.team);
   }
 
   setTicket() {
@@ -69,16 +117,78 @@ class Tickets extends Component {
         <button className="btn btn-outline-primary" data-toggle="modal" data-target="#modal" onClick={this.clearTeam}>
           Add Ticket
         </button>
-        <Modal item={this.state.ticket}
-               modalTitle={this.state.modalTitle}
-               onChange={this.updateFormState}
-               deleteButton={this.removeTeam}
-               saveButton={this.createTeam}
-               modalForm={TicketModalForm}
+        <div>
+          <div className="modal fade" tabIndex="-1" id="modal" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+            <div className="modal-dialog modal-lg" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="modalLabel">New Ticket</h5>
+                  <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body">
+                  <div className="col-md-12">
+                    <form>
+                      <div className="form-group">
+                        <div className="row">
+                          <div className="col-md-6">
+                            <label>Sport</label>
+                            <select name="sport"
+                                    className="form-control"
+                                    onChange={this.onSportChange}
+                                    value={this.state.sport} >
+                              <option value="">Select a Sport</option>
+                              {this.props.sports.map((option) => {
+                                return <option key={option.name} value={option.name}>{option.name}</option>;
+                              })}
+                            </select>
+                          </div>
+                          <div className="col-md-6">
+                            <label>Team</label>
+                            <select name="team"
+                                    className="form-control"
+                                    onChange={this.onTeamChange}
+                                    value={this.state.team}
+                                    disabled={this.state.fieldStatus.team.disabled}>
+                              <option value="">{this.state.fieldStatus.team.select}</option>
+                              {this.props.teams.map((option) => {
+                                return <option key={option.name} value={option.name}>{option.name}</option>;
+                              })}
+                            </select>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-md-6">
+                            <label>Game</label>
+                            <select name="team"
+                                    className="form-control"
+                                    onChange={this.updateFormState}
+                                    value={this.state.game}
+                                    disabled={this.state.fieldStatus.game.disabled}>
+                              <option value="">{this.state.fieldStatus.game.select}</option>
+                              {this.props.teams.map((option) => {
+                                return <option key={option.name} value={option.name}>{option.name}</option>;
+                              })}
+                            </select>
+                          </div>
 
-               sports={this.props.sports}
-               venues={this.props.venues}
-               />
+                        </div>
+                        <br />
+                      </div>
+                    </form>
+                  </div>
+
+                </div>
+                <div className="modal-footer">
+
+                  <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={this.createTicket}>Save</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="col-md-3">
           {this.state.error ? <div className="alert alert-warning" role="alert">{this.state.errorMessage}</div> : <div></div>}
           <select name="sport"
@@ -136,6 +246,7 @@ class Tickets extends Component {
 function mapStateToProps(state, ownProps) {
   return {
     tickets: state.tickets,
+    games: state.games,
     teams: state.teams,
     sports: state.sports
   };
@@ -144,6 +255,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
   return {
     sportActions: bindActionCreators(sportActions, dispatch),
+    gameActions: bindActionCreators(gameActions, dispatch),
     teamActions: bindActionCreators(teamActions, dispatch),
     ticketActions: bindActionCreators(ticketActions, dispatch)
   };

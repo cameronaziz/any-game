@@ -69,8 +69,8 @@ class LoadGames extends Component {
         <h1>Load Games Admin</h1>
         <div className="col-md-3">
           {this.state.error ? <div className="alert alert-warning" role="alert">{this.state.errorMessage}</div> : <div></div>}
-          <SelectTeam getGames={this.getGames}
-                      teams={this.props.teams} />
+          <SelectTeam getData={this.getGames}
+                      teams={Object.values(this.props.teams)} />
           <br />
         </div>
         {this.gamesList()}

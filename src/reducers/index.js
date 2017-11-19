@@ -8,6 +8,8 @@ import venues from './venues';
 import games from './games';
 import tickets from './tickets';
 import seatingChart from './seatingCharts';
+import seatingChartSections from './seatingChartSections';
+import seatingChartSelections from './seatingChartSelections';
 
 const rootReducer = combineReducers({
   loading,
@@ -18,7 +20,9 @@ const rootReducer = combineReducers({
   venues,
   games,
   tickets,
-  seatingChart
+  seatingChart,
+  seatingChartSections,
+  seatingChartSelections
 });
 
 export default rootReducer;

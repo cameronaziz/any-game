@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 function SelectTeam(props) {
   return (
-    <select name="sport"
+    <select name="team"
             className="form-control"
             onChange={props.getData} >
       <option value="all">Pick Team</option>

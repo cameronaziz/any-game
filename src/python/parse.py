@@ -4,6 +4,7 @@
 from HTMLParser import HTMLParser
 import json
 import Tkinter, tkFileDialog
+import os,os.path
 
 root = Tkinter.Tk()
 root.withdraw()
@@ -24,14 +25,16 @@ parser = HTMLParser()
 parser.feed(seatingChartSVG)
 
 short_name = file_name.rsplit('/', 1)[1]
-
+curfilePath = os.path.abspath(__file__)
+curDir = os.path.abspath(os.path.join(curfilePath, os.pardir))
 json_data = json.dumps(data)
-saved_file = short_name + ".txt"
+saved_file = short_name.rsplit('.')[0] + ".txt"
 
-file = open(saved_file,"w")
+file = open(curDir + "/output/" + saved_file,"w")
 file.write(json_data)
 file.close
 
-print(short_name + " has been parsed and " + saved_file + " has been created.")
-
-
+print('\n')
+print('\nParse is complete.')
+print(short_name + " has been parsed.\n\nThe following file has been created:\n" + curDir + "/output/" + saved_file + " has been created.")
+print('\n')

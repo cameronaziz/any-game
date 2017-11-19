@@ -136,7 +136,7 @@ export function loadGamesFromServer(settings, slug){
     axios.get(requestData.url, requestData.settings).then((response) => {
       let data = response.data.events;
       ref.on('value', function(snapshot) {
-        let storedGames = Object.values(snapshot.val());
+        let storedGames = snapshot.val();
         data.map((game) => {
           game = cleanUpGame(game);
           game = removeTrash(game);
@@ -178,6 +178,23 @@ export function clearLoaded(){
   return function(dispatch) {
     let arr = [];
     dispatch(loadGamesSuccess(arr));
+  };
+}
+
+export function loadGamesByTeam(team){
+  return function(dispatch) {
+    console.log(team + ' games have been loaded.')
+    dispatch(loadGamesSuccess(true));
+  };
+}
+
+export function getGamesByTeamKey(teamKey) {
+  return function(dispatch) {
+    dispatch(loadingActions.isLoading('games'));
+    ref.orderByChild('homeTeamKey').equalTo(teamKey).on('value', function(snapshot) {
+      dispatch(loadGamesSuccess(snapshot.val()));
+      dispatch(loadingActions.notLoading('games'));
+    });
   };
 }
 
@@ -226,11 +243,10 @@ export function saveGame(game){
 }
 
 //To Reducers
-export function loadGamesSuccess(games, source) {
+export function loadGamesSuccess(games) {
   return {
     type: actionTypes.LOAD_GAMES_SUCCESS,
-    games,
-    source
+    games
   };
 }
 

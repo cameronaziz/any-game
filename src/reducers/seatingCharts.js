@@ -11,6 +11,9 @@ export default function seatingChart(state = {}, action) {
       return action.seatingChartConfiguration;
 >>>>>>> Stashed changes
 
+    case actionTypes.LOAD_SEATING_CHART_CONFIGURATION:
+      return action.seatingChartConfiguration;
+
     default:
       return state;
   }

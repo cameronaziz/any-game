@@ -122,3 +122,19 @@ polygon.sectionUnselected:hover {
   fill: "#1aa3ff";
   stroke: "#4d4dff"
 }
+
+.outer {
+
+}
+
+.staic {
+  overflow:hidden;
+  position: fixed;
+
+}
+
+.scrollable {
+  overflow-y: scroll;
+
+
+}

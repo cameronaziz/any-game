@@ -11,9 +11,13 @@ import SelectTeam from '../common/SelectTeam';
 import Modal from '../common/Modal';
 import GameModalForm from './GameModalForm';
 
+import {today} from '../../../lib/utilities';
+
 const gameObj = {
-  shortTitle: '',
-  name: ''
+  name: '',
+  homeTeam: '',
+  awayTeam: '',
+  gameDateLocal: today()
 };
 
 class Games extends Component {
@@ -30,12 +34,12 @@ class Games extends Component {
     this.setGame = this.setGame.bind(this);
     this.createGame = this.createGame.bind(this);
     this.updateFormState = this.updateFormState.bind(this);
-    this.removeGame = this.removeGame.bind(this);
     this.reloadGames = this.reloadGames.bind(this);
   }
 
   componentWillMount(){
     this.props.gameActions.loadGames(false);
+    this.props.teamActions.loadTeams();
   }
 
   updateFormState(event) {
@@ -69,75 +73,42 @@ class Games extends Component {
     this.props.gameActions.loadGames(event.target.checked);
   }
 
-  gamesList(){
-    let loadingState  = this.props.loading;
-    if(loadingState) {
-      return <RefereeLoading heightOffset="20" />;
-    } else if(this.props.games.length != 0 && this.props.games.gamesArray.length > 0) {
-      return (<GamesList list={this.props.games.gamesArray}
-                         setItem={this.setGame}
-                         moreGames={this.moreGames}
-                         isLocal />
-      );
-    } else if(this.props.games.team != undefined && this.props.games.gamesArray.length == 0) {
-      return (
-        <div className="col-md-4">
-          <div className="alert alert-warning" role="alert">No games found.</div>
-        </div>
-      );
-    } else {
-      return (
-        <div className="col-md-4">
-          <div className="alert alert-info" role="alert">Please select a team.</div>
-        </div>
-      );
-    }
+  createGame(event){
+    console.log(this.props.teams)
+    console.log(this.state.game)
   }
 
-  createGame(game){
-    this.props.gameActions.saveGame(game);
-  }
 
-  removeGame() {
 
-  }
-
-  render() {
-    return (
+  render(){
+    return(
       <div>
         <h1>Games Admin</h1>
-        <div className="col-md-3">
-          {this.state.error ? <div className="alert alert-warning" role="alert">{this.state.errorMessage}</div> : <div></div>}
-        </div>
-        <div className="row">
-          <div className="col-md-3">
-            <SelectTeam getData={this.getGames}
-                        teams={this.props.teams} />
-          </div>
-          <Modal item={this.state.game}
-                 modalTitle={this.state.modalTitle}
-                 onChange={this.updateFormState}
-                 deleteButton={this.removeGame}
-                 saveButton={this.createGame}
-                 modalForm={GameModalForm} />
+        <button className="btn btn-outline-primary" data-toggle="modal" data-target="#modal">
+          New Game
+        </button>
+        <Modal item={this.state.game}
+               modalTitle={this.state.modalTitle}
+               onChange={this.updateFormState}
+               deleteButton={this.removeTeam}
+               saveButton={this.createGame}
+               modalForm={GameModalForm}
 
-          <div className="col-md-3">
-            <label className="custom-control custom-checkbox">
-              <input type="checkbox" className="custom-control-input" onChange={this.reloadGames} />
-              <span className="custom-control-indicator"></span>
-              <span className="custom-control-description">View only future games</span>
-            </label>
-          </div>
-        </div>
-        <br />
-        {this.gamesList()}
+               uploadFile={this.uploadFile}
+               sports={this.props.sports}
+               teams={this.props.teams}
+               />
+
       </div>
     );
   }
+
+
 }
 
 function mapStateToProps(state, ownProps) {
   return {
+    loading: state.loading,
     games: state.games,
     settings: state.settings,
     teams: state.teams

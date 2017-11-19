@@ -12,15 +12,17 @@ class Sections extends Component {
   }
 
   renderSectionList(){
-    if(this.props.seatingChart.teamName){
+    if(this.props.sections){
       return (
         <div>
           <br />
           <h3>Sections</h3>
           <div className="col-md-12">
-            <SectionList saveSection={this.props.saveSection}
-                         seatingChart={this.props.seatingChart}
-                         selectSelect={this.props.selectSection} />
+            <SectionList seatingChart={this.props.seatingChart}
+                         saveSection={this.props.saveSection}
+                         sections={this.props.sections}
+                         selectSelect={this.props.selectSection}
+                         clickSection={this.props.clickSection}/>
             <br />
             <BulkUploadForm bulkSaveSections={this.props.bulkSaveSections} />
           </div>
