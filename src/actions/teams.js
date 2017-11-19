@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
 import * as firebase from '../lib/firebase';
+import * as loadingActions from './loading';
 
 let ref = firebase.db.ref('seating');
 let storageRef = firebase.storage.ref('seatingCharts');
@@ -33,16 +34,20 @@ function saveSeatingChart(team, postKey){
 //Actions
 export function loadTeamsArray() {
   return function(dispatch) {
+    dispatch(loadingActions.isLoading('teams'));
     firebase.db.ref('teams').orderByChild('name').on('value', function (snapshot) {
       sortTeamsBySportAndDispatch(snapshot, dispatch);
+      dispatch(loadingActions.notLoading('teams'));
     });
   };
 }
 
 export function loadTeams() {
   return function(dispatch) {
+    dispatch(loadingActions.isLoading('teams'));
     firebase.db.ref('teams').orderByChild('name').on('value', function (snapshot) {
       dispatch(loadTeamsSuccess(snapshot.val()));
+      dispatch(loadingActions.notLoading('teams'));
     });
   };
 }

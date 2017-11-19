@@ -7,6 +7,7 @@ import * as gameActions from '../../../actions/games';
 import * as ticketActions from '../../../actions/tickets';
 import * as seatingChartActions from '../../../actions/seatingCharts';
 import * as seatingChartSectionsActions from '../../../actions/seatingChartSections';
+import * as seatingChartSelectionsActions from '../../../actions/seatingChartSelections';
 
 import SeatingChart from '../../common/SeatingChart/SeatingChart';
 import TicketList from '../../common/Tickets/TicketList';
@@ -39,17 +40,8 @@ class Console extends Component {
   }
 
   handleClick(data) {
-    let selectedSections = this.state.selectedSections;
-    let index = selectedSections.indexOf(data[0]);
-    if( index === -1) {
-      selectedSections.push(data[0]);
-    } else {
-      selectedSections.splice(index, 1);
-    }
-    this.setState({
-      selectedSections: selectedSections
-    });
-    this.props.ticketActions.getTicketsByArrayOfKeys(this.props.tickets, this.state.selectedSections);
+    this.props.seatingChartSelectionsActions.clickSection(data[0]);
+    this.props.ticketActions.getTicketsByArrayOfSections(["-KxLfpbTZv8EzsxUh3Y8", "-KxLfpdfIj3gCf_PbYr-"])
   }
 
   render() {
@@ -59,7 +51,7 @@ class Console extends Component {
         <div className="row">
           <div className="col-md-6">
             <SeatingChart handleClick={this.handleClick}
-                          selectedSections={this.state.selectedSections}
+                          selectedSections={this.props.seatingChartSelections}
                           seatingChart={this.props.seatingChart}
                           sections={this.props.seatingChartSections}
                           team={this.props.team} />
@@ -84,7 +76,8 @@ function mapStateToProps(state, ownProps) {
     seatingChartSections: state.seatingChartSections,
     tickets: state.tickets,
     settings: state.settings,
-    games: state.games
+    games: state.games,
+    seatingChartSelections: state.seatingChartSelections
   };
 }
 
@@ -94,7 +87,8 @@ function mapDispatchToProps(dispatch) {
     seatingChartActions: bindActionCreators(seatingChartActions, dispatch),
     seatingChartSectionsActions: bindActionCreators(seatingChartSectionsActions, dispatch),
     ticketActions: bindActionCreators(ticketActions, dispatch),
-    gameActions: bindActionCreators(gameActions, dispatch)
+    gameActions: bindActionCreators(gameActions, dispatch),
+    seatingChartSelectionsActions: bindActionCreators(seatingChartSelectionsActions, dispatch)
   };
 }
 

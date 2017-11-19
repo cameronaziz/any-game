@@ -17,9 +17,9 @@ class Front extends Component {
   }
 
   renderRouter(){
-    if(this.props.teams) {
+    if(!this.props.loading.teams) {
       if(Object.keys(this.props.teams).length > 0) {
-        return(<FrontRouter teams={this.props.teams}/>);
+        return(<FrontRouter teams={this.props.teams} />);
       }
       if(Object.keys(this.props.teams).length == 0) {
         return(<NoDataConnection />);
@@ -39,7 +39,8 @@ class Front extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    teams: state.teams
+    teams: state.teams,
+    loading: state.loading
   };
 }
 

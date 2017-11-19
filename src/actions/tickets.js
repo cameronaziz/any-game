@@ -21,6 +21,25 @@ export function getTicketsByKey(key, child){
   };
 }
 
+export function getTicketsByArrayOfSections(sections) {
+
+  const sectionPromises = sections.map(section => {
+    ref.orderByChild('section').equalTo(section).on('value', s => s);
+  });
+
+  Promise.all(sectionPromises)
+    .then(tickets => {
+      console.log(tickets)
+      return function(dispatch) {
+        dispatch(loadTicketsSuccess(tickets));
+      };
+    })
+    .catch(err => {
+      // handle error
+    });
+
+
+}
 
 //To Reducers
 export function loadTicketsSuccess(tickets){
