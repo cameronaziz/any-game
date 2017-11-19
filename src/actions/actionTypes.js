@@ -22,11 +22,8 @@ export const LOAD_VENUES_SUCCESS = 'LOAD_VENUES_SUCCESS';
 export const CREATE_VENUE_SUCCESS = 'CREATE_VENUE_SUCCESS';
 
 //Seating Charts
-<<<<<<< Updated upstream
 export const LOAD_SEATING_CHART = 'LOAD_SEATING_CHART';
-=======
 export const LOAD_SEATING_CHART_CONFIGURATION = 'LOAD_SEATING_CHART_CONFIGURATION';
->>>>>>> Stashed changes
 
 //Loading
 export const LOADING_STATES = 'LOADING_STATES';

@@ -1,5 +1,6 @@
 import * as firebase from '../lib/firebase';
 import * as actionTypes from './actionTypes';
+import * as loadingActions from './loading';
 
 import * as seatingChartSections from './seatingChartSections';
 
@@ -35,45 +36,25 @@ function loopSections(key, sectionData) {
 }
 
 //Actions
-<<<<<<< HEAD
-export function getSeatingChartConfiguration(key) {
-  //seatingChartSections.getSections(key);
+export function getSeatingChartConfiguration(key, searchBy) {
   return function(dispatch) {
+    dispatch(loadingActions.isLoading('refereeConsole'));
     ref.child(key).on('value', function(snapshot) {
-=======
-export function getSeatingChartConfiguration(team) {
-  let teamName = team.name;
-  let venueName = team.venue;
+      dispatch(loadSeatingChart(snapshot.val()));
+      dispatch(loadingActions.notLoading('refereeConsole'));
+    });
+  };
+}
+
+export function getSeatingChartConfigurationBySlug(slug) {  //seatingChartSections.getSections(key);
   return function(dispatch) {
-    ref.child(team.key).once('value').then(function(snapshot) {
->>>>>>> refs/remotes/origin/master
+    ref.orderByChild('slug').on('value', function(snapshot) {
       dispatch(loadSeatingChart(snapshot.val()));
     });
   };
 }
 
-<<<<<<< HEAD
-export function saveSection(key, sectionData) {
-  let postKey;
-  ref.child(key + '/sections').orderByChild('name').equalTo(sectionData.name).once('value', function(snapshot) {
-    let exists = (snapshot.val() !== null);
-    if(exists) {
-      postKey = Object.keys(snapshot.val())[0];
-    } else {
-      postKey = ref.child(key + '/sections').push().key;
-    }
-  });
-  seatingChartSections.saveSection(key, sectionData);
-  return function(dispatch) {
-    ref.child(key + '/sections/' + postKey).update(sectionData, function(error) {
-      if(!error) {
-        ref.child(key).on('value', function(snapshot) {
-          dispatch(loadSeatingChart(snapshot.val()));
-        });
-      }
-    });
-  };
-}
+
 
 export function saveZone(key, zoneData) {
   let postKey;
@@ -96,9 +77,22 @@ export function saveZone(key, zoneData) {
   };
 }
 
-export function bulkSaveSections(key, sectionData){
-  ref.child(key + '/sections').remove();
-  loopSections(key, sectionData).then(getSeatingChartConfiguration(key));
+export function bulkSaveSections(key, sectionRawData){
+  let deleteRef = firebase.db.ref('seatingCharts/' + key + '/sections');
+  deleteRef.remove();
+
+  let sectionData = eval(sectionRawData);
+  for (let i = 0; i < sectionData.length; i++) {
+    let postKey;
+    postKey = ref.child(key + '/sections').push().key;
+    sectionData[i].name = 'Section ' + sectionData[i].name;
+    ref.child(key + '/sections/' + postKey).update(sectionData[i]);
+  }
+  return function(dispatch) {
+    ref.child(key).on('value', function(snapshot) {
+      dispatch(loadSeatingChart(snapshot.val()));
+    });
+  };
 }
 
 //To Reducers
@@ -106,16 +100,5 @@ export function loadSeatingChart(seatingChart) {
   return {
     type: actionTypes.LOAD_SEATING_CHART,
     seatingChart
-=======
-export function saveSeatingChartConfiguration(){
-
-}
-
-//To Reducers
-export function loadSeatingChart(seatingChartConfiguration) {
-  return {
-    type: actionTypes.LOAD_SEATING_CHART_CONFIGURATION,
-    seatingChartConfiguration
->>>>>>> refs/remotes/origin/master
   };
 }

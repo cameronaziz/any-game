@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 
 
 import FrontHeader from './FrontHeader';
+import FrontFooter from './FrontFooter';
 import FrontRouter from '../../routers/FrontRouter';
 import NoDataConnection from './NoDataConnection';
 
