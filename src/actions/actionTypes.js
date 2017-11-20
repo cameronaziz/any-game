@@ -41,3 +41,6 @@ export const USER_ERROR = 'USER_ERROR';
 //Settings
 export const SETTINGS = 'SETTINGS';
 export const REQUEST_SETTINGS = 'REQUEST_SETTINGS';
+
+//Customer Comments
+export const FORM_SUBMISSIONS = 'FORM_SUBMISSIONS';
