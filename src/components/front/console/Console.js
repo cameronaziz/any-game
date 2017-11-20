@@ -11,6 +11,11 @@ import * as seatingChartSelectionsActions from '../../../actions/seatingChartSel
 
 import SeatingChart from '../../common/SeatingChart/SeatingChart';
 import TicketList from '../../common/Tickets/TicketList';
+import AddTicket from './AddTicket';
+
+let ticketObj = {
+  venue: ''
+}
 
 class Console extends Component {
   constructor(props) {
@@ -41,7 +46,7 @@ class Console extends Component {
 
   handleClick(data) {
     this.props.seatingChartSelectionsActions.clickSection(data[0]);
-    this.props.ticketActions.getTicketsByArrayOfSections(["-KxLfpbTZv8EzsxUh3Y8", "-KxLfpdfIj3gCf_PbYr-"])
+    //this.props.ticketActions.getTicketsByArrayOfSections(["-KxLfpbTZv8EzsxUh3Y8", "-KxLfpdfIj3gCf_PbYr-"]);
   }
 
   render() {
@@ -57,10 +62,16 @@ class Console extends Component {
                           team={this.props.team} />
           </div>
           <div className="col-md-5 offset-md-1">
-            <div className="tickets">
-              <TicketList tickets={this.props.tickets}
-                          sections={this.props.seatingChartSections}
-                          games={this.props.games}/>
+            <div className="console-right">
+              <div className="add-ticket">
+                <button className="btn btn-secondary">Add Ticket</button>
+              </div>
+              
+              <div className="tickets">
+                <TicketList tickets={this.props.tickets}
+                            sections={this.props.seatingChartSections}
+                            games={this.props.games}/>
+              </div>
             </div>
           </div>
         </div>

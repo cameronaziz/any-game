@@ -49,6 +49,13 @@ export function loadTicketsSuccess(tickets){
   };
 }
 
+export function filterTicketsByArray(array) {
+  return {
+    type: actionTypes.FILTER_TICKETS_BY_SECTION_ARRAY,
+    array
+  };
+}
+
 export function requestTickets(){
   return {
     type: actionTypes.REQUEST_GAMES
