@@ -6,7 +6,18 @@ const ref = firebase.db.ref('customerComments');
 export function submitCustomerComments(formData) {
   return function(dispatch){
     ref.push(formData, function(error) {
-      console.log(error)
+      if(error) {
+        dispatch(formSubmission(error))
+      }else{
+        dispatch(formSubmission('Success!'))
+      }
     })
+  }
+}
+
+export function formSubmission(message){
+  return {
+    type: actionTypes.FORM_SUBMISSIONS,
+    message
   }
 }

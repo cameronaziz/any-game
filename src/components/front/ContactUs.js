@@ -32,20 +32,20 @@ class ContactUs extends Component {
 
   onFormSubmit(){
     //Commenting out the action
-    //this.props.customerCommentsActions.submitCustomerComments(this.state.form);
+    this.props.customerCommentsActions.submitCustomerComments(this.state.form);
     this.setState({
       form: formObj,
       message: 'Thank you for submitting!'
     });
-    console.log(formObj)
   }
 
 
   render() {
+    console.log(this.props.customerComments)
     return (
       <div className="col-md-6 offset-md-3">
         <h1 className="text-center">Contact Us</h1>
-        <h6 className="text-white text-center">{this.state.message}</h6>
+        <h6 className="text-white text-center">{this.props.customerComments}</h6>
         <form>
           <div className="form-group">
             <label>Name</label>
@@ -77,6 +77,7 @@ class ContactUs extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
+    customerComments: state.customerComments
   };
 }
 
