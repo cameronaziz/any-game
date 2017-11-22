@@ -3,7 +3,7 @@ import settings from './settings';
 import loading from './loading';
 import teams from './teams';
 import sports from './sports';
-import users from './users';
+import user from './users';
 import venues from './venues';
 import games from './games';
 import tickets from './tickets';
@@ -16,7 +16,7 @@ const rootReducer = combineReducers({
   settings,
   teams,
   sports,
-  users,
+  user,
   venues,
   games,
   tickets,

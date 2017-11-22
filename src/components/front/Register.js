@@ -39,6 +39,12 @@ class Register extends Component {
                <form>
                    <div className="form-group">
                      <div className="col-md-4 offset-md-4">
+                       <label>Full Name</label>
+                       <input name="name"
+                              type="text"
+                              className="form-control"
+                              onChange={this.onChange}
+                              value={this.state.name} />
                        <label>Email</label>
                        <input name="email"
                               type="text"

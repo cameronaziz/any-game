@@ -11,23 +11,55 @@ export function loadUsers(){
 
 export function createUser(user) {
   return function(dispatch) {
-    firebase.auth.createUserWithEmailAndPassword(user.email, user.password).catch((error) => {
+    firebase.auth.createUserWithEmailAndPassword(user.email, user.password).then((savedUser) => {
+      let storedUser = {
+        name: user.name,
+        email: user.email,
+        id: savedUser.uid
+      };
+      firebase.db.ref('users').push(storedUser);
+      dispatch(loadedUser(storedUser));
+    }).catch((error) => {
       dispatch(handleError(error.message));
     });
+
   };
 }
 
 export function loginUser(user) {
   return function(dispatch) {
-    firebase.auth.signInWithEmailAndPassword(user.email, user.password).catch(function(error) {
+    firebase.auth.signInWithEmailAndPassword(user.email, user.password).then((userRetrieved) => {
+      firebase.db.ref('users').orderByChild('id').equalTo(userRetrieved.uid).on('value', function(snapshot) {
+        dispatch(loadedUser(snapshot.val()));
+      });
+    }).catch(function(error) {
       dispatch(handleError(error.message));
     });
-
-    firebase.auth.onAuthStateChanged(function(user) {
-      console.log(user);
-    });
-
   };
+}
+
+export function getLoggedInUser() {
+  return function(dispatch) {
+    firebase.auth.onAuthStateChanged(function(user) {
+      if (user) {
+        firebase.db.ref('users').orderByChild('id').equalTo(user.uid).on('value', function(snapshot) {
+          dispatch(loadedUser(snapshot.val()));
+        });
+      } else {
+        console.log("not logged in")
+      }
+    });
+  }
+}
+
+export function logoutUser() {
+  firebase.auth.signOut().then(function() {
+    console.log("logged out")
+  }).catch(function(error) {
+    console.log(error)
+});
+
+
 }
 
 export function handleError(error){
@@ -41,5 +73,12 @@ export function loadUsersSuccess(users){
   return {
     type: actionTypes.ACTIVE_USERS,
     users
+  };
+}
+
+export function loadedUser(user){
+  return {
+    type: actionTypes.LOADED_USER,
+    user
   };
 }

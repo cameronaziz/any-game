@@ -1,6 +1,14 @@
 import React from 'react';
+import Login from './Login';
+import Register from './Register';
 
 function FrontHeader(props) {
+  console.log(props.user.email)
+  let isLoggedIn = false;
+  if(props.user.email) {
+    isLoggedIn = true;
+  }
+
   return(
     <div id="header-wrapper">
        <div id="header" className="container">
@@ -10,10 +18,10 @@ function FrontHeader(props) {
           <div id="menu">
              <ul>
                 <li><a href="/teams" title="">Our Teams</a></li>
-                <li><a href="#" title="">About Us</a></li>
+                <li><a href="#" onClick={props.logout} title="">About Us</a></li>
                 <li><a href="/contact-us" title="">Contact Us</a></li>
-                <li><a className="loginButton" href="/login" title="">Login</a></li>
-                <li><a href="/register" title="">Register</a></li>
+                <Login isLoggedIn={isLoggedIn} user={props.user}/>
+                <Register isLoggedIn={isLoggedIn} s/>
              </ul>
           </div>
        </div>

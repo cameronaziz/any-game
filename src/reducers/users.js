@@ -2,10 +2,8 @@ import * as actionTypes from '../actions/actionTypes';
 
 export default function users(state = [], action) {
   switch(action.type) {
-    case actionTypes.ACTIVE_USERS:
-      return action.users;
-    case actionTypes.USER_ERROR:
-      return action.error;
+    case actionTypes.LOADED_USER:
+      return Object.values(action.user)[0];
     default:
       return state;
   }

@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import * as userActions from '../../actions/users';
 
-import FrontHeader from './FrontHeader';
+
+import FrontHeader from './header/FrontHeader';
 import FrontFooter from './FrontFooter';
 import FrontRouter from '../../routers/FrontRouter';
 import NoDataConnection from './NoDataConnection';
@@ -15,6 +17,15 @@ class Front extends Component {
       timeout: false
     };
     this.renderRouter = this.renderRouter.bind(this);
+    this.logoutUser = this.logoutUser.bind(this);
+  }
+
+  componentWillMount(){
+    this.props.userActions.getLoggedInUser();
+  }
+
+  logoutUser(){
+    this.props.userActions.logoutUser();
   }
 
   renderRouter(){
@@ -31,7 +42,7 @@ class Front extends Component {
   render() {
     return (
       <div>
-        <FrontHeader />
+        <FrontHeader logout={this.logoutUser} user={this.props.user}/>
         {this.renderRouter()}
       </div>
     );
@@ -41,12 +52,14 @@ class Front extends Component {
 function mapStateToProps(state, ownProps) {
   return {
     teams: state.teams,
-    loading: state.loading
+    loading: state.loading,
+    user: state.user
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    userActions: bindActionCreators(userActions, dispatch)
   };
 }
 
