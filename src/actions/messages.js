@@ -6,15 +6,12 @@ export function addMessage(messageBody, type){
       type: type,
       messageBody: messageBody
     };
-    console.log("here")
-    console.log(message)
     dispatch(sendMessage(message));
   };
 }
 
 
 export function sendMessage(message) {
-  console.log(message)
   return {
     type: actionTypes.ADD_MESSAGE,
     message
