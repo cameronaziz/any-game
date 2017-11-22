@@ -26,6 +26,7 @@ class Front extends Component {
 
   logoutUser(){
     this.props.userActions.logoutUser();
+    this.props.history.push('/');
   }
 
   renderRouter(){

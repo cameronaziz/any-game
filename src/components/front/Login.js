@@ -26,6 +26,7 @@ class Login extends Component {
 
   saveButton(){
     this.props.userActions.loginUser(this.state.user);
+    this.props.history.push('/');
   }
 
 

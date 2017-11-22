@@ -34,6 +34,9 @@ export const SELECT_SECTION = 'SELECT_SECTION';
 //Loading
 export const LOADING_STATES = 'LOADING_STATES';
 
+//Messages
+export const ADD_MESSAGE = 'ADD_MESSAGE';
+
 //Users
 export const ACTIVE_USERS = 'ACTIVE_USERS';
 export const USER_ERROR = 'USER_ERROR';

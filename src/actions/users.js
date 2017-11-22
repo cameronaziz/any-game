@@ -1,6 +1,8 @@
 import * as actionTypes from './actionTypes';
 import * as firebase from '../lib/firebase';
 
+import * as messageActions from './messages';
+
 export function loadUsers(){
   return function(dispatch) {
     firebase.db.ref('users').on('value', function (snapshot) {
@@ -18,9 +20,12 @@ export function createUser(user) {
         id: savedUser.uid
       };
       firebase.db.ref('users').push(storedUser);
+      console.log("good")
+
       dispatch(loadedUser(storedUser));
     }).catch((error) => {
-      dispatch(handleError(error.message));
+      messageActions.addMessage(error.message, "login");
+
     });
 
   };
