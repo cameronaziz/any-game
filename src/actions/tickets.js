@@ -1,6 +1,8 @@
 import * as firebase from '../lib/firebase';
 import * as actionTypes from './actionTypes';
 
+import { convertToArray } from '../lib/utilities';
+import * as teams from './teams';
 
 const ref = firebase.db.ref('tickets');
 
@@ -8,37 +10,55 @@ const ref = firebase.db.ref('tickets');
 export function getTicketsByTeamKey(team){
   return function(dispatch) {
     ref.orderByChild('teamKey').equalTo(team).on('value', function(snapshot) {
-      dispatch(loadTicketsSuccess(snapshot.val()));
+      let tickets = snapshot.val();
+      for (let key in tickets) {
+        let ticket = tickets[key];
+        ticket.isHidden = false;
+      }
+      dispatch(loadTicketsSuccess(tickets));
     });
   };
 }
 
-export function getTicketsByKey(key, child){
+export function getTicketsBySlug(slug){
   return function(dispatch) {
-    ref.orderByChild(child).equalTo(key).on('value', function(snapshot) {
-      dispatch(loadTicketsSuccess(snapshot.val()));
+    teams.returnTeamBySlug(slug).then((team) => {
+      ref.orderByChild('teamKey').equalTo(Object.keys(team)[0]).on('value', function(snapshot) {
+        let tickets = snapshot.val();
+        for (let key in tickets) {
+          let ticket = tickets[key];
+          ticket.isHidden = false;
+        }
+        dispatch(loadTicketsSuccess(tickets));
+      });
     });
+
   };
 }
 
-export function getTicketsByArrayOfSections(sections) {
 
-  const sectionPromises = sections.map(section => {
-    ref.orderByChild('section').equalTo(section).on('value', s => s);
-  });
+export function filterTicketsBySections(selectedSections, sectionClicked) {
+  if(selectedSections.indexOf(sectionClicked) == -1) {
+    return function(dispatch) {
+      dispatch(filterAddTickets(sectionClicked));
+    };
+  } else {
+    return function(dispatch) {
+      dispatch(filterRemoveTickets(sectionClicked));
+    };
+  }
+}
 
-  Promise.all(sectionPromises)
-    .then(tickets => {
-      console.log(tickets)
-      return function(dispatch) {
-        dispatch(loadTicketsSuccess(tickets));
-      };
-    })
-    .catch(err => {
-      // handle error
-    });
+export function newFilterTicketsBySection(sectionClicked) {
+  return function(dispatch) {
+    dispatch(newFilter(sectionClicked));
+  };
+}
 
-
+export function clearFilterBySection(){
+  return function(dispatch) {
+    dispatch(clearFilter());
+  };
 }
 
 //To Reducers
@@ -49,15 +69,29 @@ export function loadTicketsSuccess(tickets){
   };
 }
 
-export function filterTicketsByArray(array) {
+export function newFilter(section){
   return {
-    type: actionTypes.FILTER_TICKETS_BY_SECTION_ARRAY,
-    array
+    type: actionTypes.NEW_FILTER_TICKETS_FROM_SECTION,
+    section
   };
 }
 
-export function requestTickets(){
+export function filterRemoveTickets(section){
   return {
-    type: actionTypes.REQUEST_GAMES
+    type: actionTypes.HIDE_TICKETS_FROM_SECTION,
+    section
+  };
+}
+
+export function filterAddTickets(section){
+  return {
+    type: actionTypes.SHOW_TICKETS_FROM_SECTION,
+    section
+  };
+}
+
+export function clearFilter() {
+  return {
+    type: actionTypes.CLEAR_FILTER
   };
 }

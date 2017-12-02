@@ -1,5 +1,6 @@
 import * as firebase from '../lib/firebase';
 import * as actionTypes from './actionTypes';
+import * as loadingActions from './loading';
 
 const ref = firebase.db.ref('seatingChartSections');
 
@@ -39,8 +40,10 @@ export function saveSection(sectionData) {
 
 export function getSections(key) {
   return function(dispatch) {
+    dispatch(loadingActions.isLoading('sections'));
     ref.orderByChild('seatingChartKey').equalTo(key).on('value', function(snapshot) {
       dispatch(loadSeatingChartSections(snapshot.val()));
+      dispatch(loadingActions.notLoading('sections'));
     }, function (errorObject) {
       console.log("The read failed: " + errorObject.code);
     });

@@ -20,7 +20,7 @@ export function createUser(user) {
         id: savedUser.uid
       };
       firebase.db.ref('users').push(storedUser);
-      console.log("good")
+      console.log("good");
 
       dispatch(loadedUser(storedUser));
     }).catch((error) => {
@@ -51,17 +51,17 @@ export function getLoggedInUser() {
           dispatch(loadedUser(snapshot.val()));
         });
       } else {
-        console.log("not logged in")
+        console.log("not logged in");
       }
     });
-  }
+  };
 }
 
 export function logoutUser() {
   firebase.auth.signOut().then(function() {
-    console.log("logged out")
+    console.log("logged out");
   }).catch(function(error) {
-    console.log(error)
+    console.log(error);
 });
 
 

@@ -31,6 +31,15 @@ function saveSeatingChart(team, postKey){
   });
 }
 
+//Neighbors
+export function returnTeamBySlug(slug) {
+  return new Promise(function (resolve, reject) {
+    firebase.db.ref('teams').orderByChild('slug').equalTo(slug).on('value', function (snapshot) {
+      resolve(snapshot.val());
+    });
+  });
+}
+
 //Actions
 export function loadTeamsArray() {
   return function(dispatch) {
@@ -52,8 +61,14 @@ export function loadTeams() {
   };
 }
 
-export function loadTeam() {
-
+export function getTeamBySlug(slug) {
+  return function(dispatch) {
+    dispatch(loadingActions.isLoading('teams'));
+    firebase.db.ref('teams').orderByChild('slug').equalTo(slug).on('value', function (snapshot) {
+      dispatch(loadTeamsSuccess(snapshot.val()));
+      dispatch(loadingActions.notLoading('teams'));
+    });
+  };
 }
 
 export function loadTeamsBySport(sport) {

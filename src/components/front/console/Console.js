@@ -3,78 +3,59 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as teamActions from '../../../actions/teams';
-import * as gameActions from '../../../actions/games';
 import * as ticketActions from '../../../actions/tickets';
 import * as seatingChartActions from '../../../actions/seatingCharts';
-import * as seatingChartSectionsActions from '../../../actions/seatingChartSections';
 import * as seatingChartSelectionsActions from '../../../actions/seatingChartSelections';
 
-import SeatingChart from '../../common/SeatingChart/SeatingChart';
-import TicketList from '../../common/Tickets/TicketList';
-import AddTicket from './AddTicket';
-
-let ticketObj = {
-  venue: ''
-}
+import SeatingChart from './SeatingChart/SeatingChart';
+import TicketPanel from './TicketPanel/TicketPanel';
 
 class Console extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      selectedSections: []
-    };
     this.handleClick = this.handleClick.bind(this);
-  }
-
-  componentWillMount() {
-    this.props.teamActions.loadTeams();
+    this.clearSearch = this.clearSearch.bind(this);
   }
 
   componentDidMount() {
     let slug = this.props.location.pathname.split('/')[2];
-    let currentTeam = {};
-    Object.entries(this.props.teams).forEach(function(team) {
-      if(team[1].slug == slug) {
-        currentTeam = team;
-      }
-    });
-    this.props.seatingChartActions.getSeatingChartConfigurationBySlug(currentTeam[1].slug);
-    this.props.seatingChartSectionsActions.getSections(currentTeam[0]);
-    this.props.ticketActions.getTicketsByTeamKey(currentTeam[0]);
-    this.props.gameActions.getGamesByTeamKey(currentTeam[0]);
+    this.props.teamActions.getTeamBySlug(slug);
+    this.props.seatingChartActions.getSeatingChartConfigurationBySlug(slug);
+    this.props.ticketActions.getTicketsBySlug(slug);
   }
 
   handleClick(data) {
+    if(this.props.seatingChartSelections.length == 0) {
+      this.props.ticketActions.newFilterTicketsBySection(data[0]);
+    } else {
+      this.props.ticketActions.filterTicketsBySections(this.props.seatingChartSelections, data[0]);
+    }
     this.props.seatingChartSelectionsActions.clickSection(data[0]);
-    //this.props.ticketActions.getTicketsByArrayOfSections(["-KxLfpbTZv8EzsxUh3Y8", "-KxLfpdfIj3gCf_PbYr-"]);
+  }
+
+  clearSearch() {
+    this.props.ticketActions.clearFilterBySection();
+    this.props.seatingChartSelectionsActions.clearSelections();
   }
 
   render() {
+    let teamKey = Object.keys(this.props.teams)[0];
     return (
       <div>
-        <h1 id="teamName">Los Angeles Lakers</h1>
+        <h1 id="teamName"></h1>
         <div className="row">
           <div className="col-md-6">
             <SeatingChart handleClick={this.handleClick}
                           selectedSections={this.props.seatingChartSelections}
-                          seatingChart={this.props.seatingChart}
-                          sections={this.props.seatingChartSections}
-                          team={this.props.team} />
+                          team={this.props.teams.teamKey} />
           </div>
           <div className="col-md-5 offset-md-1">
-            <div className="console-right">
-              <div className="add-ticket">
-                <button className="btn btn-secondary">Add Ticket</button>
-              </div>
-              
-              <div className="tickets">
-                <TicketList tickets={this.props.tickets}
-                            sections={this.props.seatingChartSections}
-                            games={this.props.games}/>
-              </div>
-            </div>
+            <TicketPanel saveButton={this.clearSearch}
+                         clearSearch={this.clearSearch} />
+
           </div>
         </div>
+
       </div>
     );
   }
@@ -88,17 +69,16 @@ function mapStateToProps(state, ownProps) {
     tickets: state.tickets,
     settings: state.settings,
     games: state.games,
-    seatingChartSelections: state.seatingChartSelections
+    seatingChartSelections: state.seatingChartSelections,
+    loading: state.loading
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     teamActions: bindActionCreators(teamActions, dispatch),
-    seatingChartActions: bindActionCreators(seatingChartActions, dispatch),
-    seatingChartSectionsActions: bindActionCreators(seatingChartSectionsActions, dispatch),
     ticketActions: bindActionCreators(ticketActions, dispatch),
-    gameActions: bindActionCreators(gameActions, dispatch),
+    seatingChartActions: bindActionCreators(seatingChartActions, dispatch),
     seatingChartSelectionsActions: bindActionCreators(seatingChartSelectionsActions, dispatch)
   };
 }

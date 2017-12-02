@@ -24,6 +24,10 @@ app.get(['/referee/*', '/referee'], function(req, res) {
   res.sendFile(path.join( __dirname, '../src/referee.html'));
 });
 
+app.get(['/sandbox/*', '/sandbox'], function(req, res) {
+  res.sendFile(path.join( __dirname, '../src/sandbox.html'));
+});
+
 app.get('*', function(req, res) {
   res.sendFile(path.join( __dirname, '../src/index.html'));
 });

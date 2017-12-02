@@ -12,7 +12,7 @@ function SelectItem(props) {
             {items.map((option) => {
               return <option key={option[0]} value={option[0]}>{option[1].name}</option>;
             })}
-   </select>
+    </select>
   );
 }
 

@@ -3,6 +3,7 @@ import * as actionTypes from './actionTypes';
 import * as loadingActions from './loading';
 
 import * as seatingChartSections from './seatingChartSections';
+import * as teams from './teams';
 
 const ref = firebase.db.ref('seatingCharts');
 
@@ -38,18 +39,23 @@ function loopSections(key, sectionData) {
 //Actions
 export function getSeatingChartConfiguration(key, searchBy) {
   return function(dispatch) {
-    dispatch(loadingActions.isLoading('refereeConsole'));
+    dispatch(loadingActions.isLoading('seatingChart'));
     ref.child(key).on('value', function(snapshot) {
       dispatch(loadSeatingChart(snapshot.val()));
-      dispatch(loadingActions.notLoading('refereeConsole'));
+      dispatch(loadingActions.notLoading('seatingChart'));
     });
   };
 }
 
-export function getSeatingChartConfigurationBySlug(slug) {  //seatingChartSections.getSections(key);
+export function getSeatingChartConfigurationBySlug(slug) {
   return function(dispatch) {
-    ref.orderByChild('slug').on('value', function(snapshot) {
-      dispatch(loadSeatingChart(snapshot.val()));
+    dispatch(loadingActions.isLoading('seatingChart'));
+    teams.returnTeamBySlug(slug).then((team) => {
+      dispatch(seatingChartSections.getSections(Object.keys(team)[0]));
+      ref.orderByChild('teamKey').equalTo(Object.keys(team)[0]).on('value', function(snapshot) {
+        dispatch(loadSeatingChart(snapshot.val()));
+        dispatch(loadingActions.notLoading('seatingChart'));
+      });
     });
   };
 }

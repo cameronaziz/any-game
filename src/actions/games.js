@@ -183,7 +183,6 @@ export function clearLoaded(){
 
 export function loadGamesByTeam(team){
   return function(dispatch) {
-    console.log(team + ' games have been loaded.')
     dispatch(loadGamesSuccess(true));
   };
 }

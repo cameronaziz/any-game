@@ -23,12 +23,14 @@ class TicketList extends Component {
   previewTicket(ticket){
     let ticketSection = this.getChildObject(this.props.sections, ticket[1].sectionKey);
     let game = this.getChildObject(this.props.games, ticket[1].gameKey);
-    return (
-      <TicketPreview key={ticket[0]}
-                     ticket={ticket}
-                     section={ticketSection}
-                     game={game} />
-    );
+    if(!ticket[1].isHidden) {
+      return (
+        <TicketPreview key={ticket[0]}
+                       ticket={ticket}
+                       section={ticketSection}
+                       game={game} />
+      );
+    }
   }
 
   render() {

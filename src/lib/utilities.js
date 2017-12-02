@@ -44,3 +44,28 @@ export function today(){
 export function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+
+export function addOrRemove(array, item){
+  let finalArray = [];
+  if(array.indexOf(item) == -1) {
+    finalArray = [ ...array, item];
+  } else {
+    finalArray = array.filter(char => char !== item);
+  }
+  return finalArray;
+}
+
+export function convertToArray(object){
+  return Object.keys(object).map(function (key) { return object[key]; });
+}
+
+export function nestedObjectAssign(object) {
+  let newObject = {};
+  for (let key in object) {
+    let nestedObject = object[key];
+    let newNestedObject = Object.assign({}, nestedObject);
+    newObject[key] = newNestedObject;
+  }
+  return newObject;
+}

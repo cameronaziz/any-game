@@ -74,8 +74,8 @@ class Games extends Component {
   }
 
   createGame(event){
-    console.log(this.props.teams)
-    console.log(this.state.game)
+    console.log(this.props.teams);
+    console.log(this.state.game);
   }
 
 

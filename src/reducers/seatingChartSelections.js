@@ -12,6 +12,9 @@ export default function seatingChartSelections(state = [], action) {
       }
       return selectedSections;
 
+    case actionTypes.CLEAR_SELECTIONS:
+      return [];
+
     default:
       return state;
 
