@@ -13,7 +13,7 @@ const FrontRouter = (props) => {
     <div className="container-fluid">
       <div className="col-md-10 offset-md-1">
         <Switch>
-          <Route path="/teams" component={teams} />
+          <Route path="/teams" component={Teams} />
           <Route path="/contact-us" component={ContactUs} />
           <Route path="/register" component={Register} />
           <Route path="/login" component={Login} />
