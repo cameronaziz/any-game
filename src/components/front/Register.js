@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as userActions from '../../actions/users';
+import Error from '../common/Error';
 
 class Register extends Component {
   constructor(props) {
@@ -26,8 +27,10 @@ class Register extends Component {
 
   saveButton(){
     this.props.userActions.createUser(this.state.user);
+    if(!this.props.messages.hasOwnProperty('register')) {
+      this.props.history.push('/');
+    }
   }
-
 
   render() {
     return (
@@ -36,6 +39,7 @@ class Register extends Component {
             <div id="banner" className="container">
                <h1>Create an <strong>Any Game Tickets</strong> account</h1>
                <br />
+               <Error name="register" />
                <form>
                    <div className="form-group">
                      <div className="col-md-4 offset-md-4">
@@ -60,9 +64,7 @@ class Register extends Component {
                      </div>
                  </div>
                  <button type="button" className="btn btn-warning" data-dismiss="modal" onClick={this.saveButton}>Create</button>
-
                </form>
-
             </div>
          </div>
       </div>
@@ -72,6 +74,7 @@ class Register extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
+    messages: state.messages
   };
 }
 

@@ -26,7 +26,9 @@ class Login extends Component {
 
   saveButton(){
     this.props.userActions.loginUser(this.state.user);
-    this.props.history.push('/');
+    if(!this.props.messages.hasOwnProperty('login')) {
+      this.props.history.push('/');
+    }
   }
 
 
@@ -37,6 +39,7 @@ class Login extends Component {
             <div id="banner" className="container">
                <h1>Login to <strong>Any Game Tickets</strong></h1>
                <br />
+               <Error name="login" />
                <form>
                    <div className="form-group">
                      <div className="col-md-4 offset-md-4">
@@ -55,9 +58,7 @@ class Login extends Component {
                      </div>
                  </div>
                  <button type="button" className="btn btn-warning" data-dismiss="modal" onClick={this.saveButton}>Login</button>
-
                </form>
-
             </div>
          </div>
       </div>

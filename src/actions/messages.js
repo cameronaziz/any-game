@@ -1,11 +1,12 @@
 import * as actionTypes from './actionTypes';
 
-export function addMessage(messageBody, type){
-  return function (dispatch) {
+export function addMessage(messageBody, type = 'global'){
+  return function(dispatch) {
     let message = {
       type: type,
       messageBody: messageBody
     };
+    console.log(message);
     dispatch(sendMessage(message));
   };
 }

@@ -5,9 +5,9 @@ export default function seatingChart(state = {}, action) {
   switch(action.type){
 
     case actionTypes.ADD_MESSAGE:
-      let mutatedState = Object.assign({}, state);
-      mutatedState[action.message.type] = action.messageBody;
-      return mutatedState;
+      let newState = Object.assign({}, state);
+      newState[action.message.type] = action.message.messageBody;
+      return newState;
 
     default:
       return state;
