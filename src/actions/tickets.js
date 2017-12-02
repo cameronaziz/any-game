@@ -9,7 +9,7 @@ const ref = firebase.db.ref('tickets');
 //Actions
 export function getTicketsByTeamKey(team){
   return function(dispatch) {
-    ref.orderByChild('teamKey').equalTo(team).on('value', function(snapshot) {
+    firebase.db.ref('tickets/' + team).on('value', function(snapshot) {
       let tickets = snapshot.val();
       for (let key in tickets) {
         let ticket = tickets[key];
@@ -23,7 +23,7 @@ export function getTicketsByTeamKey(team){
 export function getTicketsBySlug(slug){
   return function(dispatch) {
     teams.returnTeamBySlug(slug).then((team) => {
-      ref.orderByChild('teamKey').equalTo(Object.keys(team)[0]).on('value', function(snapshot) {
+      firebase.db.ref('tickets/' + Object.keys(team)[0]).orderByChild('price').limitToFirst(10).on('value', function(snapshot) {
         let tickets = snapshot.val();
         for (let key in tickets) {
           let ticket = tickets[key];

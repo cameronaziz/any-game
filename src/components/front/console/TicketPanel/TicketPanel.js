@@ -23,7 +23,7 @@ class TicketPanel extends Component {
   render() {
     return (
       <div className="console-right">
-
+        {/* <TicketModal /> */}
         <div className="row">
           <div className="add-ticket">
             <button type="button" className="btn btn-secondary" data-toggle="modal" data-target="#modal" >Add Ticket</button>

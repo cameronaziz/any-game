@@ -20,7 +20,7 @@ class TicketModal extends Component {
   }
 
   componentWillMount(){
-    //this.props.sportActions.loadSports();
+    this.props.sportActions.loadSports();
   }
 
   handleChange(event){

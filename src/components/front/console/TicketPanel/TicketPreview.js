@@ -16,7 +16,7 @@ function TicketPreview(props) {
           <a data-toggle="collapse" data-parent="#accordion" href={collapseHref} aria-expanded="true" aria-controls={collapse}>
             Section {props.ticket[1].sectionName}
             <div className="float-right">
-              {props.ticket[1].price}
+              ${props.ticket[1].price.toFixed(2)}
             </div>
           </a>
         </h5>
