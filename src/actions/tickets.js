@@ -29,9 +29,6 @@ export function getTicketsBySlug(slug){
           let ticket = tickets[key];
           ticket.isHidden = false;
         }
-        homes.sort(function(a, b) {
-          return parseFloat(a.price) - parseFloat(b.price);
-        });
         dispatch(loadTicketsSuccess(tickets));
       });
     });

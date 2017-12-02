@@ -16,7 +16,6 @@ class Front extends Component {
     this.state = {
       timeout: false
     };
-    this.renderRouter = this.renderRouter.bind(this);
     this.logoutUser = this.logoutUser.bind(this);
   }
 
@@ -29,22 +28,11 @@ class Front extends Component {
     this.props.history.push('/');
   }
 
-  renderRouter(){
-    if(!this.props.loading.teams) {
-      if(Object.keys(this.props.teams).length > 0) {
-        return(<FrontRouter teams={this.props.teams} />);
-      }
-      if(Object.keys(this.props.teams).length == 0) {
-        return(<NoDataConnection />);
-      }
-    }
-  }
-
   render() {
     return (
       <div>
         <FrontHeader logout={this.logoutUser} user={this.props.user}/>
-        {this.renderRouter()}
+        <FrontRouter />
       </div>
     );
   }

@@ -6,7 +6,6 @@ export function addMessage(messageBody, type = 'global'){
       type: type,
       messageBody: messageBody
     };
-    console.log(message);
     dispatch(sendMessage(message));
   };
 }

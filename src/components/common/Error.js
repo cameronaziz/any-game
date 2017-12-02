@@ -1,14 +1,18 @@
 import React from 'react';
 
 
-function Error(name){
-  if(this.props.messages.hasOwnProperty(name)) {
+function Error(props){
+  if(props.messages.hasOwnProperty(props.name)) {
     return(
       <div className="col-md-8 offset-md-2">
         <div className="alert alert-danger" role="alert">
-          {this.props.messages[name]}
+          {props.messages[props.name]}
         </div>
       </div>
+    );
+  } else {
+    return(
+      <div></div>
     );
   }
 }

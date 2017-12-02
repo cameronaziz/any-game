@@ -17,7 +17,7 @@ import * as teamActions from './actions/teams';
 const store = configureStore();
 // To preload data: store.dispatch(action());
 //store.dispatch(settingsActions.loadSettings());
-store.dispatch(teamActions.loadTeams());
+//store.dispatch(teamActions.loadTeams());
 
 
 render (

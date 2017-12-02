@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as userActions from '../../actions/users';
+import Error from '../common/Error';
 
 class Login extends Component {
   constructor(props) {
@@ -26,20 +27,20 @@ class Login extends Component {
 
   saveButton(){
     this.props.userActions.loginUser(this.state.user);
-    if(!this.props.messages.hasOwnProperty('login')) {
-      this.props.history.push('/');
-    }
   }
 
-
   render() {
+    if(Object.keys(this.props.user).length > 0) {
+      this.props.history.push('/');
+    }
     return (
       <div id="header-featured">
          <div id="banner-wrapper">
             <div id="banner" className="container">
                <h1>Login to <strong>Any Game Tickets</strong></h1>
                <br />
-               <Error name="login" />
+               <Error messages={this.props.messages}
+                      name="login" />
                <form>
                    <div className="form-group">
                      <div className="col-md-4 offset-md-4">
@@ -57,7 +58,7 @@ class Login extends Component {
                               value={this.state.password}/>
                      </div>
                  </div>
-                 <button type="button" className="btn btn-warning" data-dismiss="modal" onClick={this.saveButton}>Login</button>
+                 <button disabled={this.props.loading.user} type="button" className="btn btn-warning" data-dismiss="modal" onClick={this.saveButton}>Login</button>
                </form>
             </div>
          </div>
@@ -68,6 +69,9 @@ class Login extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
+    loading: state.loading,
+    messages: state.messages,
+    user: state.user
   };
 }
 

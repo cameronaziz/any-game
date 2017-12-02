@@ -30,12 +30,15 @@ export function createUser(user) {
 
 export function loginUser(user) {
   return function(dispatch) {
+    loading.isLoading('user');
     firebase.auth.signInWithEmailAndPassword(user.email, user.password).then((userRetrieved) => {
       firebase.db.ref('users').orderByChild('id').equalTo(userRetrieved.uid).on('value', function(snapshot) {
         dispatch(loadedUser(snapshot.val()));
+        loading.notLoading('user');
       });
     }).catch(function(error) {
-      dispatch(handleError(error.message));
+      dispatch(messages.addMessage(error.message, 'login'));
+      loading.notLoading('user');
     });
   };
 }

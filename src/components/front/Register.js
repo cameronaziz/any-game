@@ -27,19 +27,20 @@ class Register extends Component {
 
   saveButton(){
     this.props.userActions.createUser(this.state.user);
-    if(!this.props.messages.hasOwnProperty('register')) {
-      this.props.history.push('/');
-    }
   }
 
   render() {
+    if(Object.keys(this.props.user).length > 0) {
+      this.props.history.push('/');
+    }
     return (
       <div id="header-featured">
          <div id="banner-wrapper">
             <div id="banner" className="container">
                <h1>Create an <strong>Any Game Tickets</strong> account</h1>
                <br />
-               <Error name="register" />
+               <Error messages={this.props.messages}
+                      name="register" />
                <form>
                    <div className="form-group">
                      <div className="col-md-4 offset-md-4">
@@ -74,7 +75,8 @@ class Register extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    messages: state.messages
+    messages: state.messages,
+    user: state.user
   };
 }
 
