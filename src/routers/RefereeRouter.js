@@ -10,6 +10,7 @@ import Games from '../components/referee/games/Games';
 import LoadTickets from '../components/referee/tickets/LoadTickets';
 import Tickets from '../components/referee/tickets/Tickets';
 import Venues from '../components/referee/venues/Venues';
+import LandingPage from '../components/referee/LandingPage';
 
 
 const RefereeRouter = (props) => {
@@ -24,6 +25,7 @@ const RefereeRouter = (props) => {
         <Route path="/referee/load-tickets" component={LoadTickets} settings={props.settings} />
         <Route path="/referee/tickets" component={Tickets} />
         <Route path="/referee/venues" component={Venues} />
+        <Route exact path="/referee" component={LandingPage} />
       </main>
   );
 };
