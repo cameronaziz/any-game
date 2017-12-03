@@ -74,8 +74,6 @@ function TeamModalForm(props) {
             <div className="col-md-6">
               <TeamSeatingChart team={props.item} uploadFile={props.uploadFile}/>
             </div>
-            <div className="col-md-6">
-            </div>
           </div>
         </div>
       </form>

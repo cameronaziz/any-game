@@ -5,7 +5,7 @@ export default {
   devtool: 'inline-source-map',
   entry: [
     'eventsource-polyfill', // necessary for hot reloading with IE
-    'webpack-hot-middleware/client?reload=true', //note that it reloads the page if hot module reloading fails.
+    //'webpack-hot-middleware/client?reload=true', //note that it reloads the page if hot module reloading fails.
     path.resolve(__dirname, 'src/index')
   ],
   target: 'web',
@@ -25,11 +25,11 @@ export default {
     rules: [
       {test: /\.js$/, include: path.join(__dirname, 'src'), use: [{ loader: 'babel-loader'}]},
       {test: /(\.json)$/, use: [{loader: 'json-loader'}]},
-      {test: /\.css$/, use: [{loader: 'style'}, {loader: 'css'}]},
-      {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, use: [{loader: 'file'}]},
+      {test: /\.css$/, use: [{loader: 'style-loader'}, {loader: 'css'}]},
+      {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, use: [{loader: 'file-loader'}]},
       {test: /\.(woff|woff2)$/, use: [{loader: 'url?prefix=font/&limit=5000'}]},
-      {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, use: [{loader: 'url?limit=10000&mimetype=application/octet-stream'}]},
-      {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, use: [{loader: 'url?limit=10000&mimetype=image/svg+xml'}]}
+      {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, use: [{loader: 'url-loader?limit=10000&mimetype=application/octet-stream'}]},
+      {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, use: [{loader: 'url-loader?limit=10000&mimetype=image/svg+xml'}]}
     ]
   }
 };

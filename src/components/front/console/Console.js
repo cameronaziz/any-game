@@ -40,9 +40,10 @@ class Console extends Component {
 
   render() {
     let teamKey = Object.keys(this.props.teams)[0];
+    let teamName = this.props.teams[teamKey].location + " " + this.props.teams[teamKey].name;
     return (
       <div>
-        <h1 id="teamName"></h1>
+        <h1 id="teamName">{teamName}</h1>
         <div className="row">
           <div className="col-md-6">
             <SeatingChart handleClick={this.handleClick}
@@ -55,7 +56,6 @@ class Console extends Component {
 
           </div>
         </div>
-
       </div>
     );
   }

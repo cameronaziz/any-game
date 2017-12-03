@@ -190,7 +190,7 @@ class Tickets extends Component {
           </div>
         </div>
         <div className="col-md-3">
-          {this.state.error ? <div className="alert alert-warning" role="alert">{this.state.errorMessage}</div> : <div></div>}
+          {this.state.error ? <div className="alert alert-warning" role="alert">{this.state.errorMessage}</div> : <div/>}
           <select name="sport"
                   className="form-control"
                   onChange={this.getTickets} >

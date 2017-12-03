@@ -25,7 +25,7 @@ class LoadTickets extends Component {
       <div>
         <h1>Load Ticket Admin</h1>
         <div className="col-md-3">
-          {this.state.error ? <div className="alert alert-warning" role="alert">{this.state.errorMessage}</div> : <div></div>}
+          {this.state.error ? <div className="alert alert-warning" role="alert">{this.state.errorMessage}</div> : <div/>}
           <button type="button" className="btn btn-primary" onClick={this.getTickets}>Load Tickets</button>
           <br />
         </div>

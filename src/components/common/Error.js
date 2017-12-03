@@ -12,7 +12,7 @@ function Error(props){
     );
   } else {
     return(
-      <div></div>
+      <div />
     );
   }
 }

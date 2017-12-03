@@ -37,9 +37,7 @@ function GameModalForm(props) {
               <Datetime name="datetime"  />
 
             </div>
-            <div className="col-md-6">
-
-            </div>
+          
           </div>
         </div>
       </form>
