@@ -3,7 +3,7 @@ import webpack from 'webpack';
 import path from 'path';
 import config from '../webpack.config.dev';
 import open from 'open';
-
+//import csurf from 'csurf';
 
 /* eslint-disable no-console */
 
@@ -19,6 +19,7 @@ app.use(require('webpack-dev-middleware')(compiler, {
 }));
 
 app.use(require('webpack-hot-middleware')(compiler));
+//app.use(csurf({cookie: true}));
 
 app.get(['/referee/*', '/referee'], function(req, res) {
   res.sendFile(path.join( __dirname, '../src/referee.html'));

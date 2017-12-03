@@ -66,6 +66,8 @@ class Login extends Component {
     );
   }
 }
+//                 {{csrfToken}}
+
 
 function mapStateToProps(state, ownProps) {
   return {
