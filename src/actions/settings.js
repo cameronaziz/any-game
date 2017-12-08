@@ -16,10 +16,24 @@ export function loadSettings() {
   };
 }
 
+export function redirect(location = null) {
+  return function(dispatch) {
+    dispatch(setRedirect(location));
+  };
+}
+
+
 //To Reducers
 function loadSettingsSuccess(settings) {
   return {
     type: actionTypes.SETTINGS,
     settings
+  };
+}
+
+function setRedirect(location) {
+  return {
+    type: actionTypes.SET_REDIRECT,
+    location
   };
 }

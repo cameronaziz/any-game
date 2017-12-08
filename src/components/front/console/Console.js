@@ -15,6 +15,7 @@ class Console extends Component {
     super(props);
     this.handleClick = this.handleClick.bind(this);
     this.clearSearch = this.clearSearch.bind(this);
+    this.cartReminder = this.cartReminder.bind(this);
   }
 
   componentDidMount() {
@@ -39,12 +40,26 @@ class Console extends Component {
     this.props.seatingChartSelectionsActions.clearSelections();
   }
 
+  cartReminder() {
+    if(typeof this.props.cart.selectedTicket != "undefined") {
+      return (
+        <div className="col-md-6 offset-md-3">
+          <div className="alert alert-warning" role="alert">
+            You have tickets in your cart. <strong>Buy Now</strong>
+          </div>
+        </div>
+      );
+    }
+    return <div/>;
+  }
+
   render() {
     let teamKey = Object.keys(this.props.teams)[0];
     //let teamName = this.props.teams[teamKey].location + " " + this.props.teams[teamKey].name;
     let teamName = 'Test';
     return (
       <div>
+        {this.cartReminder()}
         <h1 id="teamName">{teamName}</h1>
         <div className="row">
           <div className="col-md-6">
@@ -54,7 +69,8 @@ class Console extends Component {
           </div>
           <div className="col-md-5 offset-md-1">
             <TicketPanel saveButton={this.clearSearch}
-                         clearSearch={this.clearSearch} />
+                         clearSearch={this.clearSearch}
+                         history={this.props.history} />
 
           </div>
         </div>
@@ -72,7 +88,8 @@ function mapStateToProps(state, ownProps) {
     settings: state.settings,
     games: state.games,
     seatingChartSelections: state.seatingChartSelections,
-    loading: state.loading
+    loading: state.loading,
+    cart: state.cart
   };
 }
 

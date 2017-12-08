@@ -12,6 +12,7 @@ import seatingChart from './seatingCharts';
 import seatingChartSections from './seatingChartSections';
 import seatingChartSelections from './seatingChartSelections';
 import messages from './messages';
+import cart from './cart';
 
 const rootReducer = combineReducers({
   loading,
@@ -26,7 +27,8 @@ const rootReducer = combineReducers({
   seatingChart,
   seatingChartSections,
   seatingChartSelections,
-  messages
+  messages,
+  cart
 });
 
 export default rootReducer;

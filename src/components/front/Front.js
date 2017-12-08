@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Cookies from 'universal-cookie';
 
 import * as userActions from '../../actions/users';
-
+import * as ticketListingsActions from '../../actions/ticketListings';
 
 import FrontHeader from './header/FrontHeader';
 import FrontFooter from './FrontFooter';
 import FrontRouter from '../../routers/FrontRouter';
 import NoDataConnection from './NoDataConnection';
+
+const cookies = new Cookies();
 
 class Front extends Component {
   constructor(props) {
@@ -20,6 +23,10 @@ class Front extends Component {
   }
 
   componentWillMount(){
+    const selectedTeam = cookies.get('selectedTeam');
+    const selectedTicket = cookies.get('selectedTicket');
+    this.props.ticketListingsActions.getTicketListingsByTeamKeyAndTicketKey(selectedTeam, selectedTicket);
+
     this.props.userActions.getLoggedInUser();
   }
 
@@ -48,7 +55,8 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    userActions: bindActionCreators(userActions, dispatch)
+    userActions: bindActionCreators(userActions, dispatch),
+    ticketListingsActions: bindActionCreators(ticketListingsActions, dispatch)
   };
 }
 

@@ -1,6 +1,11 @@
 import * as actionTypes from '../actions/actionTypes';
 
-export default function loading(state = {refereeConsole: true}, action) {
+const initialState = {
+  refereeConsole: true,
+  ticketListings: true
+};
+
+export default function loading(state = initialState, action) {
   switch(action.type) {
 
     case actionTypes.LOADING_STATES: {

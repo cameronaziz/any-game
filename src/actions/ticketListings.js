@@ -3,7 +3,7 @@ import * as actionTypes from './actionTypes';
 import * as loadingActions from './loading';
 import { returnTeamBySlug } from './teams';
 
-import { nestedObjectsToArray, sort } from '../lib/utilities';
+import { nestedObjectsToArray, sort, findByKey } from '../lib/utilities';
 
 export function getTicketListingsBySlug(slug){
   return function(dispatch) {
@@ -23,6 +23,18 @@ export function getTicketListingsByTeamKey(teamKey) {
     dispatch(loadingActions.isLoading('ticketListings'));
     firebase.db.ref('teamTicketListings/' + teamKey).orderByChild('isSold').equalTo(false).on('value', function(snapshot) {
       dispatch(loadTicketListings(sort(nestedObjectsToArray(snapshot.val()))));
+      dispatch(loadingActions.notLoading('ticketListings'));
+    });
+  };
+}
+
+export function getTicketListingsByTeamKeyAndTicketKey(teamKey, ticketKey) {
+  return function(dispatch) {
+    dispatch(loadingActions.isLoading('ticketListings'));
+    firebase.db.ref('teamTicketListings/' + teamKey).orderByChild('isSold').equalTo(false).on('value', function(snapshot) {
+      let tickets = nestedObjectsToArray(snapshot.val());
+      let ticket = findByKey(tickets, ticketKey);
+      dispatch(loadTicketListing(ticket));
       dispatch(loadingActions.notLoading('ticketListings'));
     });
   };
@@ -52,11 +64,32 @@ export function clearTicketListingsFilter() {
   };
 }
 
+export function selectTicketListing(ticketListingKey) {
+  return function(dispatch) {
+    dispatch(selectSingleTicketListing(ticketListingKey));
+  };
+}
+
 
 function loadTicketListings(ticketListings) {
   return {
     type: actionTypes.LOAD_TICKET_LISTINGS,
     ticketListings
+  };
+}
+
+
+function loadTicketListing(ticket) {
+  return {
+    type: actionTypes.ADD_TICKET_LISTING_TO_CART,
+    ticket
+  };
+}
+
+function selectSingleTicketListing(ticketListingKey) {
+  return {
+    type: actionTypes.SELECT_TICKET_LISTING,
+    ticketListingKey
   };
 }
 

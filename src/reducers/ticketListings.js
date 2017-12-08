@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
-//import { nestedObjectAssign } from '../lib/utilities';
+import { findByKey } from '../lib/utilities';
 
 export default function ticketListings(state = [], action) {
 
@@ -51,7 +51,11 @@ export default function ticketListings(state = [], action) {
       });
       return newState;
 
+    case actionTypes.SELECT_TICKET_LISTING:
+      return [findByKey(newState, action.ticketListingKey)];
 
+    case actionTypes.GET_TICKET_LISTING:
+        return [action.ticket];
 
     default:
       return state;

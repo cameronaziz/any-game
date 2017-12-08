@@ -90,3 +90,11 @@ export function sort(unSorted, sortValue = 'price') {
     return a[sortValue] - b[sortValue];
   });
 }
+
+export function findByKey(array, key) {
+  for (let i = 0; i < array.length; i++) {
+    if (array[i]._key === key) {
+      return array[i];
+    }
+  }
+}

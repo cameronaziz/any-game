@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
+import * as ticketListingsActions from '../../../../actions/ticketListings';
+import * as settingsActions from '../../../../actions/settings';
 
 import TicketPreview from './TicketPreview';
 import NoTickets from './NoTickets';
@@ -15,6 +18,7 @@ class TicketList extends Component {
     if(!ticketListing.isHidden) {
       return (
         <TicketPreview key={ticketListing._key}
+                       buyButtonClick={this.props.buyButtonClick}
                        ticket={ticketListing} />
       );
     }
@@ -38,9 +42,15 @@ class TicketList extends Component {
 }
 function mapStateToProps(state, ownProps) {
   return {
-    ticketListings: state.ticketListings
+    ticketListings: state.ticketListings,
+    user: state.user
   };
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    ticketListingsActions: bindActionCreators(ticketListingsActions, dispatch)
+  };
+}
 
-export default connect(mapStateToProps)(TicketList);
+export default connect(mapStateToProps, mapDispatchToProps)(TicketList);

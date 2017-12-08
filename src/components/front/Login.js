@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Cookies from 'universal-cookie';
 
 import * as userActions from '../../actions/users';
 import Error from '../common/Error';
@@ -15,7 +16,14 @@ class Login extends Component {
       }
     };
     this.onChange = this.onChange.bind(this);
-    this.saveButton = this.saveButton.bind(this);
+    this.loginClick = this.loginClick.bind(this);
+    this.keyPress = this.keyPress.bind(this);
+  }
+
+  keyPress(event) {
+    if (event.key === 'Enter') {
+      this.loginClick();
+    }
   }
 
   onChange(event){
@@ -25,11 +33,16 @@ class Login extends Component {
     this.setState({user: user});
   }
 
-  saveButton(){
+  loginClick(){
     this.props.userActions.loginUser(this.state.user);
   }
 
   render() {
+    const cookies = new Cookies();
+    if(cookies.get('selectedTicket')) {
+      this.props.history.push('/purchase');
+    }
+
     if(Object.keys(this.props.user).length > 0) {
       this.props.history.push('/');
     }
@@ -48,17 +61,19 @@ class Login extends Component {
                        <input name="email"
                               type="text"
                               className="form-control"
+                              onKeyPress={this.keyPress}
                               onChange={this.onChange}
                               value={this.state.email} />
                        <label>Password</label>
                        <input name="password"
                               type="password"
                               className="form-control"
+                              onKeyPress={this.keyPress}
                               onChange={this.onChange}
                               value={this.state.password}/>
                      </div>
                  </div>
-                 <button disabled={this.props.loading.user} type="button" className="btn btn-warning" data-dismiss="modal" onClick={this.saveButton}>Login</button>
+                 <button disabled={this.props.loading.user} type="button" className="btn btn-warning" data-dismiss="modal" onClick={this.loginClick}>Login</button>
                </form>
             </div>
          </div>
@@ -73,7 +88,8 @@ function mapStateToProps(state, ownProps) {
   return {
     loading: state.loading,
     messages: state.messages,
-    user: state.user
+    user: state.user,
+    settings: state.settings
   };
 }
 

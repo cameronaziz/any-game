@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Cookies from 'universal-cookie';
 
-import * as ticketLisingsActions from '../../../../actions/ticketListings';
+import * as ticketListingsActions from '../../../../actions/ticketListings';
+import * as settingsActions from '../../../../actions/settings';
 
 import TicketList from './TicketList';
 import TicketModal from './TicketModal';
@@ -11,6 +13,7 @@ class TicketPanel extends Component {
   constructor(props) {
     super(props);
     this.clearSearchButton = this.clearSearchButton.bind(this);
+    this.buyButtonClick = this.buyButtonClick.bind(this);
   }
 
   clearSearchButton() {
@@ -21,6 +24,16 @@ class TicketPanel extends Component {
         </div>
       );
     }
+  }
+
+  buyButtonClick(ticketKey, amount) {
+    const cookies = new Cookies();
+    cookies.set('selectedTicket', ticketKey, { path: '/' });
+    cookies.set('selectedAmount', amount, { path: '/' });
+    cookies.set('selectedTeam', Object.keys(this.props.teams)[0], { path: '/' });
+    cookies.set('redirect', 'buyTicket', { path: '/' });
+    this.props.ticketListingsActions.selectTicketListing(ticketKey);
+    this.props.history.push('/purchase');
   }
 
   render() {
@@ -35,7 +48,7 @@ class TicketPanel extends Component {
           {this.clearSearchButton()}
         </div>
         <div className="tickets">
-          <TicketList />
+          <TicketList buyButtonClick={this.buyButtonClick}/>
         </div>
       </div>
   );
@@ -44,13 +57,15 @@ class TicketPanel extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    seatingChartSelections: state.seatingChartSelections
+    seatingChartSelections: state.seatingChartSelections,
+    teams: state.teams
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    ticketLisingsActions: bindActionCreators(ticketLisingsActions, dispatch)
+    ticketListingsActions: bindActionCreators(ticketListingsActions, dispatch),
+    settingsActions: bindActionCreators(settingsActions, dispatch)
   };
 }
 
