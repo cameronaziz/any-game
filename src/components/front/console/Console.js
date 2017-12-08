@@ -44,9 +44,11 @@ class Console extends Component {
     if(typeof this.props.cart.selectedTicket != "undefined") {
       return (
         <div className="col-md-6 offset-md-3">
-          <div className="alert alert-warning" role="alert">
-            You have tickets in your cart. <strong>Buy Now</strong>
-          </div>
+          <a href="/purchase">
+            <div className="alert alert-warning text-center" role="alert">
+              You have tickets in your cart. <strong>Buy Now</strong>
+            </div>
+          </a>
         </div>
       );
     }

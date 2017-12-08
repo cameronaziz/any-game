@@ -1,27 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import accounting from 'accounting';
+
+import { formatDate } from '../../../lib/utilities';
+
+import PurchaseForm from './PurchaseForm';
 
 import * as userActions from '../../../actions/users';
 import * as ticketListingsActions from '../../../actions/ticketListings';
-
 
 class PurchasePath extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: {
-        email: ''
-      }
+      user: this.props.user
     };
     this.onChange = this.onChange.bind(this);
-  }
-
-  componentWillMount(){
-
-    // if(!selectedTicket) {
-    //   this.props.history.push('/');
-    // }
   }
 
   onChange(event){
@@ -32,7 +27,7 @@ class PurchasePath extends Component {
   }
 
   render() {
-    if(this.props.loading.ticketListings) {
+    if(this.props.loading.ticketListings || Object.keys(this.props.user).length < 1 ) {
       return (
         <div />
       );
@@ -40,27 +35,23 @@ class PurchasePath extends Component {
     return (
       <div>
         <h1>{this.props.cart.selectedTicket.gameSlug}</h1>
-        <div className="col-md-8" style={{backgroundColor: '#eee'}}>
-          <form>
-            <div className="row">
-              <div className="col-md-6">
-                <label>Email</label>
-                <input className="form-control"
-                       name="email"
-                       onChange={this.onChange}
-                       value={this.state.user.email} />
-              </div>
-              <div className="col-md-6">
-                <label>Phone</label>
-                <input className="form-control"
-                       name="phone"
-                       onChange={this.onChange}
-                       value={this.state.user.phone} />
-              </div>
-
-            </div>
-          </form>
+        <h3>{formatDate(this.props.cart.selectedTicket.gameTime)}</h3>
+        <br />
+        <div className="row">
+          <div className="col-md-8" style={{backgroundColor: '#eee'}}>
+            <PurchaseForm onChange={this.onChange}
+                          user={this.state.user} />
+          </div>
+          <div className="col-md-4">
+            <h4>Price</h4>
+            Listing Price {accounting.formatMoney(this.props.cart.selectedTicket.price)}<br/>
+            Fees {accounting.formatMoney(10)}<br />
+            Price per ticket {accounting.formatMoney(this.props.cart.selectedTicket.price + 10)}<br />
+            ---------------------------<br />
+            Total {accounting.formatMoney((this.props.cart.selectedTicket.price + 10))}
+          </div>
         </div>
+
       </div>
     );
   }

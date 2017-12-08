@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { formatDate } from '../../../../lib/utilities';
-
 import accounting from 'accounting';
+
 class TicketPreview extends Component {
   constructor(props) {
     super(props);

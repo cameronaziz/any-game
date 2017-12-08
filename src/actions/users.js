@@ -30,28 +30,30 @@ export function createUser(user) {
 
 export function loginUser(user) {
   return function(dispatch) {
-    loading.isLoading('user');
+    dispatch(loading.isLoading('user'));
     firebase.auth.signInWithEmailAndPassword(user.email, user.password).then((userRetrieved) => {
       firebase.db.ref('users').orderByChild('id').equalTo(userRetrieved.uid).on('value', function(snapshot) {
         dispatch(loadedUser(snapshot.val()));
-        loading.notLoading('user');
+        dispatch(loading.notLoading('user'));
       });
     }).catch(function(error) {
       dispatch(messages.addMessage(error.message, 'login'));
-      loading.notLoading('user');
+      dispatch(loading.notLoading('user'));
     });
   };
 }
 
 export function getLoggedInUser() {
   return function(dispatch) {
+    dispatch(loading.isLoading('user'));
     firebase.auth.onAuthStateChanged(function(user) {
       if (user) {
         firebase.db.ref('users').orderByChild('id').equalTo(user.uid).on('value', function(snapshot) {
           dispatch(loadedUser(snapshot.val()));
+          dispatch(loading.notLoading('user'));
         });
       } else {
-        console.log("not logged in");
+        dispatch(loading.notLoading('user'));
       }
     });
   };

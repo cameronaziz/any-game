@@ -28,10 +28,10 @@ export function getTicketListingsByTeamKey(teamKey) {
   };
 }
 
-export function getTicketListingsByTeamKeyAndTicketKey(teamKey, ticketKey) {
+export function loadTicketListingIntoCart(teamKey, ticketKey) {
   return function(dispatch) {
     dispatch(loadingActions.isLoading('ticketListings'));
-    firebase.db.ref('teamTicketListings/' + teamKey).orderByChild('isSold').equalTo(false).on('value', function(snapshot) {
+    firebase.db.ref('teamTicketListings/' + teamKey).on('value', function(snapshot) {
       let tickets = nestedObjectsToArray(snapshot.val());
       let ticket = findByKey(tickets, ticketKey);
       dispatch(loadTicketListing(ticket));

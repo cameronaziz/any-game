@@ -11,13 +11,13 @@ import configureStore from './store/configureStore';
 import App from './components/App';
 
 import * as settingsActions from './actions/settings';
-import * as teamActions from './actions/teams';
+import * as userActions from './actions/users';
 
 
 const store = configureStore();
 // To preload data: store.dispatch(action());
 //store.dispatch(settingsActions.loadSettings());
-//store.dispatch(teamActions.loadTeams());
+store.dispatch(userActions.getLoggedInUser());
 
 
 render (

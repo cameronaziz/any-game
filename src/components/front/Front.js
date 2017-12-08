@@ -25,9 +25,10 @@ class Front extends Component {
   componentWillMount(){
     const selectedTeam = cookies.get('selectedTeam');
     const selectedTicket = cookies.get('selectedTicket');
-    this.props.ticketListingsActions.getTicketListingsByTeamKeyAndTicketKey(selectedTeam, selectedTicket);
-
-    this.props.userActions.getLoggedInUser();
+    const selectedAmount = cookies.get('selectedAmount');
+    if(selectedTicket && selectedTeam) {
+      this.props.ticketListingsActions.loadTicketListingIntoCart(selectedTeam, selectedTicket);
+    }
   }
 
   logoutUser(){
@@ -36,6 +37,11 @@ class Front extends Component {
   }
 
   render() {
+    if(this.props.loading.user){
+      return(
+        <div />
+      );
+    }
     return (
       <div>
         <FrontHeader logout={this.logoutUser} user={this.props.user}/>
