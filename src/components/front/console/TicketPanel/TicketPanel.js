@@ -32,7 +32,7 @@ class TicketPanel extends Component {
     cookies.set('selectedAmount', amount, { path: '/' });
     cookies.set('selectedTeam', Object.keys(this.props.team)[0], { path: '/' });
     cookies.set('redirect', 'buyTicket', { path: '/' });
-    this.props.ticketListingsActions.getTicketListingsByTeamKeyAndTicketKey(Object.keys(this.props.team)[0], ticketKey);
+    this.props.ticketListingsActions.loadTicketListingIntoCart(Object.keys(this.props.team)[0], ticketKey);
     this.props.history.push('/purchase');
   }
 
