@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export function fullName(firstName, lastName) {
   return firstName.concat(lastName);
 }
@@ -13,8 +15,8 @@ export function shortenFileName(fileName) {
 }
 
 export function formatDate(dateString) {
-  let formattedDate = new Date(dateString);
-  return formattedDate.toLocaleDateString();
+  let formattedDate = moment(dateString).format("MMMM Do YYYY, h:mma");
+  return formattedDate;
 }
 
 export function nextDay(dateString) {
@@ -68,4 +70,23 @@ export function nestedObjectAssign(object) {
     newObject[key] = newNestedObject;
   }
   return newObject;
+}
+
+export function nestedObjectsToArray(object) {
+  let array = [];
+  let keys = Object.keys(object);
+  let i = 0;
+  for (let key in object) {
+    let currentObject = object[key];
+    currentObject['_key'] = keys[i];
+    array[i] = currentObject;
+    i++;
+  }
+  return array;
+}
+
+export function sort(unSorted, sortValue = 'price') {
+  return unSorted.sort(function(a, b) {
+    return a[sortValue] - b[sortValue];
+  });
 }

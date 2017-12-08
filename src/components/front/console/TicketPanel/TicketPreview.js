@@ -3,20 +3,21 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { formatDate } from '../../../../lib/utilities';
 
+import accounting from 'accounting';
 
 function TicketPreview(props) {
-  const ticket = props.ticket[0].replace(/[^0-9a-z]/gi, '');
-  const collapse = 'collapseSection' + ticket;
+  const ticketKey = props.ticket._key.replace(/[^0-9a-z]/gi, '');
+  const collapse = 'collapseSection' + ticketKey;
   const collapseHref = '#' + collapse;
-  const heading = 'heading' + ticket;
+  const heading = 'heading' + ticketKey;
   return (
     <div className="card card-outline-warning">
       <div className="card-header" role="tab" id={heading}>
         <h5 className="mb-0">
           <a data-toggle="collapse" data-parent="#accordion" href={collapseHref} aria-expanded="true" aria-controls={collapse}>
-            Section {props.ticket[1].sectionName}
+            Section {props.ticket.sectionName}
             <div className="float-right">
-              ${props.ticket[1].price.toFixed(2)}
+              {accounting.formatMoney(props.ticket.price)}
             </div>
           </a>
         </h5>
@@ -24,10 +25,10 @@ function TicketPreview(props) {
       <div id={collapse} className="collapse" role="tabpanel" aria-labelledby={heading}>
         <div className="card-block">
           <form>
-            <h4>{props.ticket[1].shortTitle}</h4>
-            <h6>{formatDate(props.ticket[1].datetimeLocal)}</h6>
-            Row: {props.ticket[1].row}<br />
-            Seat: {props.ticket[1].seat}
+            <h4>{props.ticket.gameSlug}</h4>
+            <h6>{formatDate(props.ticket.gameTime)}</h6>
+            Row: {props.ticket.row}<br />
+            Seats: {props.ticket.startSeat} - {props.ticket.endSeat}
             <br />
             <div className="float-right">
               <button type="button"

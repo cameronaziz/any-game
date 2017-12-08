@@ -3,33 +3,34 @@ import { connect } from 'react-redux';
 
 
 import TicketPreview from './TicketPreview';
+import NoTickets from './NoTickets';
 
 class TicketList extends Component {
   constructor(props) {
     super(props);
-    this.previewTicket = this.previewTicket.bind(this);
+    this.previewTicketListing = this.previewTicketListing.bind(this);
   }
-  
-  previewTicket(ticket) {
-    if(!ticket[1].isHidden) {
+
+  previewTicketListing(ticketListing) {
+    if(!ticketListing.isHidden) {
       return (
-        <TicketPreview key={ticket[0]}
-                       ticket={ticket} />
+        <TicketPreview key={ticketListing._key}
+                       ticket={ticketListing} />
       );
     }
   }
 
   render() {
-    if(Object.keys(this.props.tickets).length > 0){
+    if(Object.keys(this.props.ticketListings).length > 0){
       return (
         <div id="accordion" role="tablist" aria-multiselectable="true">
-          {Object.entries(this.props.tickets).map(this.previewTicket)}
+          {this.props.ticketListings.map(this.previewTicketListing)}
         </div>
       );
     } else {
       return(
         <div id="accordion" role="tablist" aria-multiselectable="true">
-          No Tickets
+          <NoTickets />
         </div>
       );
     }
@@ -37,7 +38,7 @@ class TicketList extends Component {
 }
 function mapStateToProps(state, ownProps) {
   return {
-    tickets: state.tickets
+    ticketListings: state.ticketListings
   };
 }
 

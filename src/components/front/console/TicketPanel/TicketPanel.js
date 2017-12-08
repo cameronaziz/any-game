@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import * as ticketLisingsActions from '../../../../actions/ticketListings';
 
 import TicketList from './TicketList';
 import TicketModal from './TicketModal';
@@ -45,4 +48,10 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-export default connect(mapStateToProps)(TicketPanel);
+function mapDispatchToProps(dispatch) {
+  return {
+    ticketLisingsActions: bindActionCreators(ticketLisingsActions, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TicketPanel);

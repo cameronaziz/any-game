@@ -6,6 +6,7 @@ import sports from './sports';
 import user from './users';
 import venues from './venues';
 import games from './games';
+import ticketListings from './ticketListings';
 import tickets from './tickets';
 import seatingChart from './seatingCharts';
 import seatingChartSections from './seatingChartSections';
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   user,
   venues,
   games,
+  ticketListings,
   tickets,
   seatingChart,
   seatingChartSections,

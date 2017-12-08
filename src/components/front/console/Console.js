@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as teamActions from '../../../actions/teams';
-import * as ticketActions from '../../../actions/tickets';
+import * as ticketListingsActions from '../../../actions/ticketListings';
 import * as seatingChartActions from '../../../actions/seatingCharts';
 import * as seatingChartSelectionsActions from '../../../actions/seatingChartSelections';
 
@@ -21,26 +21,28 @@ class Console extends Component {
     let slug = this.props.location.pathname.split('/')[2];
     this.props.teamActions.getTeamBySlug(slug);
     this.props.seatingChartActions.getSeatingChartConfigurationBySlug(slug);
-    this.props.ticketActions.getTicketsBySlug(slug);
+    this.props.ticketListingsActions.getTicketListingsBySlug(slug);
   }
 
   handleClick(data) {
     if(this.props.seatingChartSelections.length == 0) {
-      this.props.ticketActions.newFilterTicketsBySection(data[0]);
+      this.props.ticketListingsActions.newFilterTicketsBySection(data[0]);
     } else {
-      this.props.ticketActions.filterTicketsBySections(this.props.seatingChartSelections, data[0]);
+      this.props.ticketListingsActions.filterTicketsBySections(this.props.seatingChartSelections, data[0]);
     }
     this.props.seatingChartSelectionsActions.clickSection(data[0]);
   }
 
   clearSearch() {
-    this.props.ticketActions.clearFilterBySection();
+    //todo: fix
+    this.props.ticketListingsActions.clearTicketListingsFilter();
     this.props.seatingChartSelectionsActions.clearSelections();
   }
 
   render() {
     let teamKey = Object.keys(this.props.teams)[0];
-    let teamName = this.props.teams[teamKey].location + " " + this.props.teams[teamKey].name;
+    //let teamName = this.props.teams[teamKey].location + " " + this.props.teams[teamKey].name;
+    let teamName = 'Test';
     return (
       <div>
         <h1 id="teamName">{teamName}</h1>
@@ -66,7 +68,7 @@ function mapStateToProps(state, ownProps) {
     teams: state.teams,
     seatingChart: state.seatingChart,
     seatingChartSections: state.seatingChartSections,
-    tickets: state.tickets,
+    ticketListingns: state.tickets,
     settings: state.settings,
     games: state.games,
     seatingChartSelections: state.seatingChartSelections,
@@ -77,7 +79,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
   return {
     teamActions: bindActionCreators(teamActions, dispatch),
-    ticketActions: bindActionCreators(ticketActions, dispatch),
+    ticketListingsActions: bindActionCreators(ticketListingsActions, dispatch),
     seatingChartActions: bindActionCreators(seatingChartActions, dispatch),
     seatingChartSelectionsActions: bindActionCreators(seatingChartSelectionsActions, dispatch)
   };

@@ -4,10 +4,10 @@
   "description": "",
   "scripts": {
     "prestart": "babel-node tools/startMessage.js",
-    "start": "npm-run-all --parallel open:src lint:watch",
+    "start": "npm-run-all --parallel open:src",
     "start:full": "npm-run-all --parallel test:watch open:src lint:watch",
     "open:src": "babel-node tools/srcServer.js",
-    "lint": "node_modules/.bin/esw webpack.config.* src tools",
+    "lint": "esw webpack.config.* src tools",
     "lint:watch": "npm run lint -- --watch",
     "test": "mocha --reporter progress tools/testSetup.js \"src/**/*.test.js\"",
     "test:watch": "npm run test -- --watch",
@@ -16,14 +16,16 @@
   "author": "Cameron Aziz",
   "license": "UNLICENSED",
   "dependencies": {
+    "accounting": "^0.4.1",
     "axios": "^0.17.1",
     "babel-polyfill": "^6.26.0",
     "braintree": "^2.4.0",
     "csurf": "^1.9.0",
+    "eslint-watch": "^3.1.3",
     "eventsource-polyfill": "^0.9.6",
     "firebase": "^4.0.0",
     "jquery": ">=3.0.0",
-    "moment": "^2.19.1",
+    "moment": "^2.19.3",
     "paypal-rest-sdk": "^1.8.0",
     "prop-types": "^15.5.10",
     "react": "^16.2.0",
@@ -32,7 +34,8 @@
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.1",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "ticketevolution-node": "^1.1.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -48,7 +51,6 @@
     "eslint": "^4.12.1",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-react": "^7.5.1",
-    "eslint-watch": "^3.1.3",
     "expect": "^21.2.1",
     "express": "^4.16.2",
     "file-loader": "^1.1.5",
