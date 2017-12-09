@@ -44,8 +44,12 @@ export function getSections(key) {
   return function(dispatch) {
     dispatch(loadingActions.isLoading('seatingChartSections'));
     firebase.db.ref('seatingChartSections/' + key).on('value', function(snapshot) {
-      let sections = nestedObjectsToArray(snapshot.val());
-      dispatch(loadSeatingChartSections(sections));
+      if(snapshot.val()) {
+        let sections = nestedObjectsToArray(snapshot.val());
+        dispatch(loadSeatingChartSections(sections));
+      } else {
+        dispatch(loadSeatingChartSections([]));
+      }
       dispatch(loadingActions.notLoading('seatingChartSections'));
     });
   };

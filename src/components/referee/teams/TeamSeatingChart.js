@@ -3,11 +3,11 @@ import React from 'react';
 function TeamSeatingChart(props) {
   let seatingChartName;
   let seatingChartWidth;
-  if(props.team.fileName.length == 0) {
+  if(props.team.seatingChartUrl) {
     seatingChartName = '';
     seatingChartWidth = 150;
   } else {
-    seatingChartName = props.team.fileName;
+    seatingChartName = props.team.venue;
     seatingChartWidth = 300;
   }
   return(

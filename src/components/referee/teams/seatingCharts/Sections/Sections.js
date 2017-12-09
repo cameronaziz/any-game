@@ -4,6 +4,13 @@ import SeatingChartStyle from './../SeatingChartStyle';
 import SectionList from './SectionList';
 import SectionForm from './SectionForm';
 import BulkUploadForm from './BulkUploadForm';
+import SectionItem from './SectionItem';
+
+const sectionObj = {
+    name: 'Add Section',
+    points: '',
+    zone: ''
+  };
 
 class Sections extends Component {
   constructor(props) {
@@ -14,18 +21,10 @@ class Sections extends Component {
   renderSectionList(){
     if(this.props.sections.length > 0){
       return (
-        <div>
-          <br />
-          <h3>Sections</h3>
-          <div className="col-md-12">
             <SectionList saveSection={this.props.saveSection}
                          sections={this.props.sections}
                          selectSelect={this.props.selectSection}
                          clickSection={this.props.clickSection}/>
-            <br />
-            <BulkUploadForm bulkSaveSections={this.props.bulkSaveSections} />
-          </div>
-        </div>
       );
     }
   }
@@ -33,7 +32,21 @@ class Sections extends Component {
   render() {
     return (
       <div>
-        {this.renderSectionList()}
+        <br />
+        <h3>Sections</h3>
+        <div className="col-md-12">
+          <div id="accordion" role="tablist" aria-multiselectable="true">
+            <div key="newSection">
+              <SectionItem labelColor="text-success"
+                           saveSection={this.props.saveSection}
+                           clickSection={this.props.clickSection}
+                           section={sectionObj} />
+            </div>
+          </div>
+          {this.renderSectionList()}
+          <br />
+          <BulkUploadForm bulkSaveSections={this.props.bulkSaveSections} />
+        </div>
       </div>
     );
   }

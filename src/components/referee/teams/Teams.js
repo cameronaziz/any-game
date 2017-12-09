@@ -25,8 +25,6 @@ const teamObj = {
   city: '',
   slug: '',
   ticketEvolutionKey: '',
-
-  fileName: '',
   seatingChart: {},
 };
 
@@ -48,7 +46,7 @@ class Teams extends Component {
   }
 
   componentWillMount() {
-    this.props.teamActions.loadTeamsArray();
+    this.props.teamActions.loadTeams();
     this.props.sportActions.loadSports();
     this.props.venueActions.loadVenues();
   }

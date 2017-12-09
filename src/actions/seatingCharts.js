@@ -37,32 +37,34 @@ function loopSections(key, sectionData) {
 }
 
 //Actions
-export function getSeatingChart(teamKey){
+export function getSeatingChart(team){
   return function(dispatch) {
     dispatch(loadingActions.isLoading('seatingChart'));
-    ref.child(teamKey).on('value', function(snapshot) {
-      snapshot.forEach(function(childSnapshot) {
-        if(childSnapshot.val().isCurrent) {
-          dispatch(seatingChartSections.getSections(childSnapshot.key));
-          let seatingChart = Object.assign({}, childSnapshot.val());
-          seatingChart._key = childSnapshot.key;
-          dispatch(loadSeatingChart(seatingChart));
-        }
-      });
+    firebase.db.ref('seatingCharts/' + team._key + '/' + team.venueKey).on('value', function(snapshot) {
+      if(snapshot.val()) {
+        snapshot.forEach(function(childSnapshot) {
+          if(childSnapshot.val().isCurrent) {
+            dispatch(loadSeatingChart(childSnapshot.val()));
+            dispatch(seatingChartSections.getSections(childSnapshot.key));
+          }
+        });
+      } else {
+        dispatch(loadSeatingChart({}));
+      }
       dispatch(loadingActions.notLoading('seatingChart'));
     });
   };
 }
 
 function uploadSeatingChart(team, teamPostKey, seatingChartKey){
-  let fileLocation = 'seatingCharts/' + seatingChartKey + '/' + team.name + ' - ' + team.venue + ' ' + seatingChartKey + '.' + team.seatingChart.type.split('/')[1];
+  let fileLocation = 'seatingCharts/' + seatingChartKey + '/' + team.name + ' - ' + team.venue + '.' + team.seatingChart.type.split('/')[1];
   let storageRef = firebase.storage.ref(fileLocation);
   storageRef.put(team.seatingChart).then(function(snapshot) {
     let storage = firebase.storage;
     let storageRef = storage.ref();
     storageRef.child(fileLocation).getDownloadURL().then(function(url) {
       if ( url  ) {
-        firebase.db.ref('teams/' + teamPostKey).update({ seatingChartUrl: url});
+        firebase.db.ref('seatingCharts/' + teamPostKey + '/' + team.venueKey + '/' + seatingChartKey).update({ seatingChartUrl: url});
       }
     });
   });
@@ -72,7 +74,8 @@ export function saveSeatingChart(team, teamPostKey){
   let location = 'seatingCharts/' + teamPostKey + '/' + team.venueKey;
   let seatingChartData = {
     team: team.name,
-    venue: team.venue
+    venue: team.venue,
+    isCurrent: true
   };
   let seatingChartKey = firebase.db.ref(location).push().key;
   uploadSeatingChart(team, teamPostKey, seatingChartKey);
@@ -101,8 +104,6 @@ export function getSeatingChartConfigurationBySlug(slug) {
     });
   };
 }
-
-
 
 export function saveZone(key, zoneData) {
   let postKey;

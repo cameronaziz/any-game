@@ -3,6 +3,8 @@ import * as firebase from '../lib/firebase';
 import * as loadingActions from './loading';
 import * as seatingChartActions from './seatingCharts';
 
+import { snapshotToArray } from '../lib/utilities';
+
 let ref = firebase.db.ref('seating');
 let storageRef = firebase.storage.ref('seatingCharts');
 
@@ -28,21 +30,11 @@ export function returnTeamBySlug(slug) {
 }
 
 //Actions
-export function loadTeamsArray() {
-  return function(dispatch) {
-    dispatch(loadingActions.isLoading('teams'));
-    firebase.db.ref('teams').orderByChild('name').on('value', function (snapshot) {
-      sortTeamsBySportAndDispatch(snapshot, dispatch);
-      dispatch(loadingActions.notLoading('teams'));
-    });
-  };
-}
-
 export function loadTeams() {
   return function(dispatch) {
     dispatch(loadingActions.isLoading('teams'));
     firebase.db.ref('teams').orderByChild('name').on('value', function (snapshot) {
-      dispatch(loadTeamsSuccess(snapshot.val()));
+      dispatch(loadTeamsSuccess(snapshotToArray(snapshot)));
       dispatch(loadingActions.notLoading('teams'));
     });
   };

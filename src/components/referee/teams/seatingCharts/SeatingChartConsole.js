@@ -29,7 +29,7 @@ class SeatingChart extends Component {
   }
 
   componentWillMount() {
-    this.props.seatingChartActions.getSeatingChart(this.props.team.key);
+    this.props.seatingChartActions.getSeatingChart(this.props.team);
   }
 
   saveZone(zoneData){

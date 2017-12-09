@@ -85,6 +85,16 @@ export function nestedObjectsToArray(object) {
   return array;
 }
 
+export function snapshotToArray(snapshot) {
+  let array = [];
+  snapshot.forEach(function(childSnapshot) {
+    let item = childSnapshot.val();
+    item._key = childSnapshot.key;
+    array.push(item);
+  });
+  return array;
+}
+
 export function sort(unSorted, sortValue = 'price') {
   return unSorted.sort(function(a, b) {
     return a[sortValue] - b[sortValue];

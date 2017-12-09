@@ -41,18 +41,19 @@ class SeatingChart extends Component {
   }
 
   componentWillMount() {
-    this.props.teamActions.loadTeamsArray();
+    this.props.teamActions.loadTeams();
   }
 
   setTeam(event) {
-    let selectedTeam = findByKey(this.props.teams, event.target.value, 'name');
+    let selectedTeam = findByKey(this.props.teams, event.target.value);
     this.setState({
       team: selectedTeam
     });
+    this.props.seatingChartActions.getSeatingChart(selectedTeam);
   }
 
   renderConsole(){
-    if(this.state.team.seatingChartUrl) {
+    if(this.props.seatingChart.seatingChartUrl) {
       return(
         <div>
           <SeatingChartConsole team={this.state.team} />
@@ -61,7 +62,7 @@ class SeatingChart extends Component {
     }
     return (
       <div>
-        <h1>No Seating Chart Uploaded.</h1>
+        <h3>No Seating Chart Loaded.</h3>
       </div>
     );
   }
@@ -70,7 +71,6 @@ class SeatingChart extends Component {
     if(Object.keys(this.props.teams).length > 0) {
       return(
         <SelectItem name="team"
-                    value={this.state.team.name}
                     onChange={this.setTeam}
                     items={this.props.teams} />
       );

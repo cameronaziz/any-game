@@ -24,22 +24,23 @@ class RefereeConsole extends Component {
   render() {
     let loadingState  = this.props.loading.refereeConsole;
     let user = this.props.user;
-    if(!this.props.user.administrator) {
-      return (
-        <RefereeLogin />
-      );
-    }
     if(loadingState) {
       return (
         <RefereeLoading />
       );
     }
+    if(this.props.user.administrator) {
+      return (
+        <div>
+          <RefereeHeader />
+          <RefereeSidebar path={this.props.location.pathname} />
+          <RefereeRouter settings={this.props.settings.settingsArray} />
+        </div>
+
+      );
+    }
     return (
-      <div>
-        <RefereeHeader />
-        <RefereeSidebar path={this.props.location.pathname} />
-        <RefereeRouter settings={this.props.settings.settingsArray} />
-      </div>
+      <RefereeLogin />
     );
 
   }

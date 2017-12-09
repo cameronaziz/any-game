@@ -13,7 +13,6 @@ class SectionList extends Component {
   constructor(props) {
     super(props);
     this.previewSection = this.previewSection.bind(this);
-    this.sectionListMap = this.sectionListMap.bind(this);
   }
 
   previewSection(item, index){
@@ -22,30 +21,14 @@ class SectionList extends Component {
         <SectionItem index={index}
                      clickSection={this.props.clickSection}
                      saveSection={this.props.saveSection}
-                     section={item}
-                      />
+                     section={item} />
       </div>
-    );
-  }
-
-  sectionListMap() {
-    return (
-      this.props.sections.map(this.previewSection)
     );
   }
 
   render() {
     return (
-      <div id="accordion" role="tablist" aria-multiselectable="true">
-        <div key="newSection">
-          <SectionItem labelColor="text-success"
-                       saveSection={this.props.saveSection}
-                       clickSection={this.props.clickSection}
-                       section={sectionObj}
-                        />
-        </div>
-        {this.sectionListMap()}
-      </div>
+      this.props.sections.map(this.previewSection)
     );
   }
 }

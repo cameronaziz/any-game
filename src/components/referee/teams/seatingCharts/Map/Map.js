@@ -5,7 +5,7 @@ import Section from './Section';
 
 import MapStyle from './MapStyle';
 
-class MapSvg extends Component {
+class Map extends Component {
   constructor(props) {
     super(props);
     this.renderSection = this.renderSection.bind(this);
@@ -39,7 +39,7 @@ class MapSvg extends Component {
     return (
       <div>
         <svg version="1.1" id="svg3699" width="100%" viewBox="0 0 2048 2048" xmlns="http://www.w3.org/2000/svg">
-          <image xlinkHref={this.props.seatingChart.url}  x="0" y="0" />
+          <image xlinkHref={this.props.seatingChart.seatingChartUrl}  x="0" y="0" />
           {this.sectionListMap()}
         </svg>
       </div>
@@ -47,4 +47,4 @@ class MapSvg extends Component {
   }
 }
 
-export default MapSvg;
+export default Map;
