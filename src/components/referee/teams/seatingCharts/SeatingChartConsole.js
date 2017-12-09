@@ -42,7 +42,7 @@ class SeatingChart extends Component {
   }
 
   bulkSaveSections(sectionArray){
-    this.props.seatingChartActions.bulkSaveSections(this.props.team.key, eval(sectionArray));
+    this.props.seatingChartActions.bulkSaveSections(this.props.seatingChart._key, eval(sectionArray));
   }
 
   handleClick(data) {

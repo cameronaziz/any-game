@@ -44,7 +44,9 @@ export function getSeatingChart(team){
       if(snapshot.val()) {
         snapshot.forEach(function(childSnapshot) {
           if(childSnapshot.val().isCurrent) {
-            dispatch(loadSeatingChart(childSnapshot.val()));
+            let seatingChart = childSnapshot.val();
+            seatingChart._key = childSnapshot.key;
+            dispatch(loadSeatingChart(seatingChart));
             dispatch(seatingChartSections.getSections(childSnapshot.key));
           }
         });
@@ -127,18 +129,16 @@ export function saveZone(key, zoneData) {
 }
 
 export function bulkSaveSections(key, sectionRawData){
-  let deleteRef = firebase.db.ref('seatingCharts/' + key + '/sections');
+  let deleteRef = firebase.db.ref('seatingChartSections/' + key);
   deleteRef.remove();
 
   let sectionData = eval(sectionRawData);
   for (let i = 0; i < sectionData.length; i++) {
-    let postKey;
-    postKey = ref.child(key + '/sections').push().key;
     sectionData[i].name = 'Section ' + sectionData[i].name;
-    ref.child(key + '/sections/' + postKey).update(sectionData[i]);
+    firebase.db.ref('seatingChartSections/' + key).push(sectionData[i]);
   }
   return function(dispatch) {
-    ref.child(key).on('value', function(snapshot) {
+    firebase.db.ref('seatingChartSections').child(key).on('value', function(snapshot) {
       dispatch(loadSeatingChart(snapshot.val()));
     });
   };

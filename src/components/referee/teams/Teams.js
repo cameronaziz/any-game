@@ -11,7 +11,6 @@ import Modal from '../common/Modal';
 import TeamModalForm from './TeamModalForm';
 
 import { shortenFileName, findByKey } from '../../../lib/utilities';
-import teamsDevState from './TeamsDevState';
 
 import * as firebase from '../../../lib/firebase';
 
@@ -102,15 +101,10 @@ class Teams extends Component {
   }
 
   clearTeam() {
-    let dev = false;
-    if(!dev) {
-      this.setState({
-        team: teamObj,
-        modalTitle: 'Add a new Team'
-      });
-    } else {
-      this.setState(teamsDevState);
-    }
+    this.setState({
+      team: teamObj,
+      modalTitle: 'Add a new Team'
+    });
   }
 
   render() {

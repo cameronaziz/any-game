@@ -27,7 +27,7 @@ class SectionItem extends Component {
     //todo: fix!!1
     let sectionData = Object.assign({}, sectionObj, this.state.section[1]);
     let sectionObject = this.state.section;
-    sectionObject[1] = sectionData;
+    sectionObject = sectionData;
     this.setState({
       section: sectionObject
     });
@@ -36,7 +36,7 @@ class SectionItem extends Component {
   updateFormState(event) {
     const field = event.target.name;
     let section = this.state.section;
-    section[1][field] = event.target.value;
+    section[field] = event.target.value;
     this.setState({section: section});
   }
 
@@ -53,7 +53,7 @@ class SectionItem extends Component {
   }
 
   render() {
-    const sectionName = this.props.section[1].name.toString();
+    const sectionName = this.props.section.name.toString();
     const collapse = 'collapseSection' + sectionName.replace(/\s/g,'');
     const collapseHref = '#' + collapse;
     const heading = 'heading' + sectionName.replace(/\s/g,'');

@@ -29,7 +29,7 @@ curfilePath = os.path.abspath(__file__)
 curDir = os.path.abspath(os.path.join(curfilePath, os.pardir))
 json_data = json.dumps(data)
 saved_file = short_name.rsplit('.')[0] + ".txt"
-
+print(json_data)
 file = open(curDir + "/output/" + saved_file,"w")
 file.write(json_data)
 file.close
