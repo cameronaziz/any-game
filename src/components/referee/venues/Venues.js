@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as venueActions from '../../../actions/venues';
+import { findByKey } from '../../../lib/utilities';
 
 import List from '../common/List';
 import Modal from '../common/Modal';
@@ -41,12 +42,12 @@ class Venues extends Component {
     this.setState({venue: venue});
   }
 
-  setVenue(venue) {
+  setVenue(venueName) {
+    let venue = Object.assign({}, venueObj, findByKey(this.props.venues, venueName, 'name'));
     let title = 'Edit ' + venue.name;
-    let venueSet = Object.assign({}, venueObj, venue);
     this.clearVenue();
     this.setState({
-      venue: venueSet,
+      venue: venue,
       modalTitle: title
     });
   }

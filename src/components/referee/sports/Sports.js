@@ -53,6 +53,7 @@ class Sports extends Component {
   setSport(sportName) {
     let sport = Object.assign({}, sportObj, findByKey(this.props.sports, sportName, 'name'));
     let title = 'Edit ' + sport.name;
+    this.clearSport();
     this.setState({
       sport: sport,
       modalTitle: title
