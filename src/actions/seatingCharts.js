@@ -21,20 +21,22 @@ function writeSection(key, sectionData) {
   });
 }
 
-function loopSections(key, sectionData) {
+function getSeatingChartPromise(team) {
   return new Promise(function (resolve, reject) {
-    let i = 0;
-    sectionData.map(function(section) {
-      i++;
-      writeSection(key, section);
+    firebase.db.ref('seatingCharts/' + team._key + '/' + team.venueKey).on('value', function(snapshot) {
+      if(snapshot.val()) {
+        snapshot.forEach(function(childSnapshot) {
+          if(childSnapshot.val().isCurrent) {
+            let seatingChart = childSnapshot.val();
+            seatingChart._key = childSnapshot.key;
+            resolve(seatingChart);
+          }
+        });
+      }
     });
-    if (i >= sectionData.length) {
-      resolve();
-    } else {
-      reject();
-    }
   });
 }
+
 
 //Actions
 export function getSeatingChart(team){
@@ -94,14 +96,13 @@ export function getSeatingChartConfiguration(key, searchBy) {
   };
 }
 
-export function getSeatingChartConfigurationBySlug(slug) {
+export function getSeatingChartBySlug(slug) {
   return function(dispatch) {
     dispatch(loadingActions.isLoading('seatingChart'));
     teams.returnTeamBySlug(slug).then((team) => {
-      dispatch(seatingChartSections.getSections(Object.keys(team)[0]));
-      ref.orderByChild('teamKey').equalTo(Object.keys(team)[0]).on('value', function(snapshot) {
-        dispatch(loadSeatingChart(snapshot.val()));
-        dispatch(loadingActions.notLoading('seatingChart'));
+      getSeatingChartPromise(team).then((seatingChart) => {
+        dispatch(loadSeatingChart(seatingChart));
+        dispatch(seatingChartSections.getSections(seatingChart._key));
       });
     });
   };

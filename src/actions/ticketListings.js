@@ -9,8 +9,7 @@ export function getTicketListingsBySlug(slug){
   return function(dispatch) {
     dispatch(loadingActions.isLoading('ticketListings'));
     returnTeamBySlug(slug).then(function(team) {
-      let teamKey = Object.keys(team)[0];
-      firebase.db.ref('teamTicketListings/' + teamKey).orderByChild('isSold').equalTo(false).on('value', function(snapshot) {
+      firebase.db.ref('teamTicketListings/' + team._key).orderByChild('isSold').equalTo(false).on('value', function(snapshot) {
         dispatch(loadTicketListings(sort(nestedObjectsToArray(snapshot.val()))));
         dispatch(loadingActions.notLoading('ticketListings'));
       });

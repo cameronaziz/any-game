@@ -24,7 +24,10 @@ function sortTeamsBySportAndDispatch(snapshot, dispatch){
 export function returnTeamBySlug(slug) {
   return new Promise(function (resolve, reject) {
     firebase.db.ref('teams').orderByChild('slug').equalTo(slug).on('value', function (snapshot) {
-      resolve(snapshot.val());
+      let snap = snapshot.val();
+      let team = Object.values(snap)[0];
+      team._key = Object.keys(snap)[0];
+      resolve(team);
     });
   });
 }
@@ -44,7 +47,10 @@ export function getTeamBySlug(slug) {
   return function(dispatch) {
     dispatch(loadingActions.isLoading('teams'));
     firebase.db.ref('teams').orderByChild('slug').equalTo(slug).on('value', function (snapshot) {
-      dispatch(loadTeamsSuccess(snapshot.val()));
+      let snap = snapshot.val();
+      let team = Object.values(snap)[0];
+      team._key = Object.keys(snap)[0];
+      dispatch(loadTeamsSuccess(team));
       dispatch(loadingActions.notLoading('teams'));
     });
   };

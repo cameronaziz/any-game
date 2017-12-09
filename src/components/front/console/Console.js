@@ -21,7 +21,7 @@ class Console extends Component {
   componentDidMount() {
     let slug = this.props.location.pathname.split('/')[2];
     this.props.teamActions.getTeamBySlug(slug);
-    this.props.seatingChartActions.getSeatingChartConfigurationBySlug(slug);
+    this.props.seatingChartActions.getSeatingChartBySlug(slug);
     this.props.ticketListingsActions.getTicketListingsBySlug(slug);
   }
 
@@ -56,18 +56,15 @@ class Console extends Component {
   }
 
   render() {
-    let teamKey = Object.keys(this.props.teams)[0];
-    //let teamName = this.props.teams[teamKey].location + " " + this.props.teams[teamKey].name;
-    let teamName = 'Test';
     return (
       <div>
         {this.cartReminder()}
-        <h1 id="teamName">{teamName}</h1>
+        <h1 id="teamName">{this.props.team.location} {this.props.team.name}</h1>
         <div className="row">
           <div className="col-md-6">
             <SeatingChart handleClick={this.handleClick}
                           selectedSections={this.props.seatingChartSelections}
-                          team={this.props.teams.teamKey} />
+                          team={this.props.team._key} />
           </div>
           <div className="col-md-5 offset-md-1">
             <TicketPanel saveButton={this.clearSearch}
@@ -83,7 +80,7 @@ class Console extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    teams: state.teams,
+    team: state.teams,
     seatingChart: state.seatingChart,
     seatingChartSections: state.seatingChartSections,
     ticketListingns: state.tickets,
