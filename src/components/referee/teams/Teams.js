@@ -10,7 +10,7 @@ import List from '../common/List';
 import Modal from '../common/Modal';
 import TeamModalForm from './TeamModalForm';
 
-import { shortenFileName } from '../../../lib/utilities';
+import { shortenFileName, findByKey } from '../../../lib/utilities';
 import teamsDevState from './TeamsDevState';
 
 import * as firebase from '../../../lib/firebase';
@@ -44,7 +44,7 @@ class Teams extends Component {
   }
 
   componentWillMount() {
-    this.props.teamActions.loadTeams();
+    this.props.teamActions.loadTeamsArray();
     this.props.sportActions.loadSports();
     this.props.venueActions.loadVenues();
   }
@@ -73,11 +73,11 @@ class Teams extends Component {
     }
   }
 
-  setTeam(team) {
+  setTeam(teamName) {
+    let team = Object.assign({}, teamObj, findByKey(this.props.teams, teamName, 'name'));
     let title = 'Edit ' + team.name;
-    let teamSet = Object.assign({}, teamObj, team);
     this.setState({
-      team: teamSet,
+      team: team,
       modalTitle: title
     });
   }
