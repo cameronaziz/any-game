@@ -25,7 +25,7 @@ export default {
     rules: [
       {test: /\.js$/, include: path.join(__dirname, 'src'), use: [{ loader: 'babel-loader'}]},
       {test: /(\.json)$/, use: [{loader: 'json-loader'}]},
-      {test: /\.css$/, use: [{loader: 'style-loader'}, {loader: 'css'}]},
+      {test: /\.css$/, use: [{loader: 'style-loader'}, {loader: 'css-loader'}]},
       {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, use: [{loader: 'file-loader'}]},
       {test: /\.(woff|woff2)$/, use: [{loader: 'url?prefix=font/&limit=5000'}]},
       {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, use: [{loader: 'url-loader?limit=10000&mimetype=application/octet-stream'}]},

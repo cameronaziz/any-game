@@ -46,8 +46,6 @@ export function createSportSuccess(status) {
   };
 }
 
-
-
 export function loadSportsSuccess(sports) {
   return {
     type: actionTypes.LOAD_SPORTS_SUCCESS,

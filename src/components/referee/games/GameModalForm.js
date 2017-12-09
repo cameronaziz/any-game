@@ -1,5 +1,4 @@
 import React from 'react';
-import Datetime from 'react-datetime';
 import SelectTeam from '../common/SelectTeam';
 
 function GameModalForm(props) {
@@ -34,10 +33,9 @@ function GameModalForm(props) {
           <div className="row">
             <div className="col-md-6">
               <label>Game Date and Time</label>
-              <Datetime name="datetime"  />
 
             </div>
-          
+
           </div>
         </div>
       </form>

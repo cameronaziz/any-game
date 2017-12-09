@@ -1,4 +1,7 @@
 import React from 'react';
+import DayPicker from 'react-day-picker';
+import DayPickerInput from 'react-day-picker/DayPickerInput';
+import 'react-day-picker/lib/style.css';
 
 import { formatDate } from '../common/Format';
 
@@ -6,8 +9,6 @@ function SportModalForm(props) {
   return(
     <div className="col-md-12">
       <form>
-        hello
-        {JSON.stringify(props.item)}
         <div className="form-group">
           <div className="row">
             <div className="col-md-6">
@@ -40,6 +41,10 @@ function SportModalForm(props) {
          <div className="row">
            <div className="col-md-6">
              <label>Opening Day</label>
+             <DayPickerInput style={{display : 'block'}}
+                             value={props.item.openingDay}
+                             inputProps={{className: 'form-control'}}
+                             onDayChange={props.onODChange} />
            </div>
          </div>
         </div>
