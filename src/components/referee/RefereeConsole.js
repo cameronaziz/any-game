@@ -7,6 +7,7 @@ import * as settingsActions from '../../actions/settings';
 import * as teamActions from '../../actions/teams';
 
 import RefereeRouter from '../../routers/RefereeRouter';
+import RefereeLogin from  './RefereeLogin';
 import RefereeHeader from  './RefereeHeader';
 import RefereeSidebar from "./RefereeSidebar";
 import RefereeLoading from './RefereeLoading';
@@ -22,26 +23,33 @@ class RefereeConsole extends Component {
 
   render() {
     let loadingState  = this.props.loading.refereeConsole;
+    let user = this.props.user;
+    if(!this.props.user.administrator) {
+      return (
+        <RefereeLogin />
+      );
+    }
     if(loadingState) {
       return (
         <RefereeLoading />
       );
-    } else {
-      return (
-        <div>
-          <RefereeHeader />
-          <RefereeSidebar path={this.props.location.pathname} />
-          <RefereeRouter settings={this.props.settings.settingsArray} />
-        </div>
-      );
     }
+    return (
+      <div>
+        <RefereeHeader />
+        <RefereeSidebar path={this.props.location.pathname} />
+        <RefereeRouter settings={this.props.settings.settingsArray} />
+      </div>
+    );
+
   }
 }
 
 function mapStateToProps(state, ownProps) {
   return {
     settings: state.settings,
-    loading: state.loading
+    loading: state.loading,
+    user: state.user
   };
 }
 

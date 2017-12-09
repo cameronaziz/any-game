@@ -7,14 +7,18 @@ class List extends Component {
   constructor(props) {
     super(props);
     this.previewListing = this.previewListing.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(item) {
+    this.props.setItem(item.target.name);
   }
 
   previewListing(item, index){
-    const handleClick = () => this.props.setItem(item);
     return (
       <ListPreview item={item[1]}
                    key={index}
-                   handleClick={handleClick} />
+                   handleClick={this.handleClick} />
     );
   }
 

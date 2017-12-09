@@ -26,6 +26,7 @@
     "firebase": "^4.0.0",
     "jquery": ">=3.0.0",
     "moment": "^2.19.3",
+    "ng2-datepicker": "^2.1.6",
     "paypal-rest-sdk": "^1.8.0",
     "prop-types": "^15.5.10",
     "react": "^16.2.0",

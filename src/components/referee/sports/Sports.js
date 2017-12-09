@@ -3,15 +3,21 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as sportActions from '../../../actions/sports';
+import { findByKey } from '../../../lib/utilities';
 
 import List from '../common/List';
 import Modal from '../common/Modal';
 import SportModalForm from './SportModalForm';
 
+
+let now = new Date().toISOString();
+
+
 let sportObj = {
   name: '',
   slug: '',
-  leagueAcronym: ''
+  acronym: '',
+  openingDay: now
 };
 
 class Sports extends Component {
@@ -39,11 +45,11 @@ class Sports extends Component {
     this.setState({sport: sport});
   }
 
-  setSport(sport) {
+  setSport(sportName) {
+    let sport = findByKey(this.props.sports, sportName, 'name');
     let title = 'Edit ' + sport.name;
-    let sportSet = Object.assign({}, sportObj, sport);
     this.setState({
-      sport: sportSet,
+      sport: sport,
       modalTitle: title
     });
   }

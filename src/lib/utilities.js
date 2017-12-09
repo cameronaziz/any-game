@@ -91,9 +91,9 @@ export function sort(unSorted, sortValue = 'price') {
   });
 }
 
-export function findByKey(array, key) {
+export function findByKey(array, key, keyName='_key') {
   for (let i = 0; i < array.length; i++) {
-    if (array[i]._key === key) {
+    if (array[i][keyName] === key) {
       return array[i];
     }
   }
