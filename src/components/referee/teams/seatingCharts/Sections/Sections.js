@@ -12,14 +12,13 @@ class Sections extends Component {
   }
 
   renderSectionList(){
-    if(this.props.sections){
+    if(this.props.sections.length > 0){
       return (
         <div>
           <br />
           <h3>Sections</h3>
           <div className="col-md-12">
-            <SectionList seatingChart={this.props.seatingChart}
-                         saveSection={this.props.saveSection}
+            <SectionList saveSection={this.props.saveSection}
                          sections={this.props.sections}
                          selectSelect={this.props.selectSection}
                          clickSection={this.props.clickSection}/>

@@ -51,16 +51,7 @@ function SectionForm(props) {
                    value={props.section.endSeat} />
          </div>
         </div>
-        <label>Zone</label>
-        <select name="zone"
-                className="form-control"
-                onChange={props.onChange}
-                value={props.section.zone} >
-          <option value="">Select a Zone</option>
-          {props.zones.map((option) => {
-            return <option key={option.name} value={option.name}>{option.name}</option>;
-          })}
-        </select>
+        
       </div>
   );
 }

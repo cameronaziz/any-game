@@ -3,14 +3,11 @@ import React, { Component } from 'react';
 import SeatingChartStyle from './../SeatingChartStyle';
 import SectionItem from './SectionItem';
 
-const sectionObj = [
-  '',
-  {
+const sectionObj = {
     name: 'Add Section',
     points: '',
     zone: ''
-  }
-];
+  };
 
 class SectionList extends Component {
   constructor(props) {
@@ -21,23 +18,20 @@ class SectionList extends Component {
 
   previewSection(item, index){
     return (
-      <div key={item[1].name}>
-        <SectionItem index={item[0]}
+      <div key={item.name}>
+        <SectionItem index={index}
                      clickSection={this.props.clickSection}
                      saveSection={this.props.saveSection}
                      section={item}
-                     zones={this.props.seatingChart.zones} />
+                      />
       </div>
     );
   }
 
   sectionListMap() {
-    if(this.props.sections) {
-      let sections = Object.entries(this.props.sections);
-      return (
-        sections.map(this.previewSection)
-      );
-    }
+    return (
+      this.props.sections.map(this.previewSection)
+    );
   }
 
   render() {
@@ -48,7 +42,7 @@ class SectionList extends Component {
                        saveSection={this.props.saveSection}
                        clickSection={this.props.clickSection}
                        section={sectionObj}
-                       zones={this.props.seatingChart.zones} />
+                        />
         </div>
         {this.sectionListMap()}
       </div>

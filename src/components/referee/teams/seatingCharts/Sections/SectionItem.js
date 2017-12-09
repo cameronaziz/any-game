@@ -62,7 +62,7 @@ class SectionItem extends Component {
         <div className="card-header" role="tab" id={heading}>
           <h5 className="mb-0">
             <a className={this.props.labelColor} onClick={this.clickSection} data-toggle="collapse" data-parent="#accordion" href={collapseHref} aria-expanded="true" aria-controls={collapse}>
-              {this.props.section[1].name}
+              {this.props.section.name}
             </a>
           </h5>
         </div>
@@ -72,8 +72,8 @@ class SectionItem extends Component {
               <SectionForm collapse={collapse}
                            collapseHref={collapseHref}
                            onChange={this.updateFormState}
-                           section={this.state.section[1]}
-                           zones={Object.values(this.props.zones)} />
+                           section={this.state.section}
+                            />
               <button type="button"
                       className="btn btn-primary"
                       data-toggle="collapse"

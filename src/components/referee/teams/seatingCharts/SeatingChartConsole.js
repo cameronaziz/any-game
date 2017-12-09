@@ -25,27 +25,11 @@ class SeatingChart extends Component {
     this.bulkSaveSections = this.bulkSaveSections.bind(this);
     this.saveZone = this.saveZone.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    this.handleScroll = this.handleScroll.bind(this);
     this.renderLoaded = this.renderLoaded.bind(this);
   }
 
   componentWillMount() {
-    this.props.seatingChartSectionsActions.getSections('-KoU93bkph-iW1-3yo6B');
-  }
-
-  componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll);
-  }
-
-  handleScroll() {
-    if( window.pageYOffset == 150) {
-      let mapStyleState = this.state.mapStyle;
-      mapStyleState['marginTop'] =  150;
-      mapStyleState['position'] =  'fixed';
-      // this.setState({
-      //   mapStyle: mapStyleState
-      // });
-    }
+    this.props.seatingChartActions.getSeatingChart(this.props.team.key);
   }
 
   saveZone(zoneData){
@@ -75,30 +59,27 @@ class SeatingChart extends Component {
   }
 
   renderLoaded(){
-    if(!this.props.loading.refereeConsole){
+    if(!this.props.loading.seatingChart){
       return(
         <div>
-          <h2>Lakers</h2>
-          <div className="row">
-            <div className="col-md-12 outer">
-              <div className="col-md-6 affix static" style={SeatingChartStyle.mappingContainer}>
-                <Map handleClick={this.handleClick}
-                     selectedSections={this.state.selectedSections}
-                     seatingChart={this.props.seatingChart}
-                     sections={this.props.seatingChartSections}
-                     team={this.props.team} />
-              </div>
-              <div className="col-md-4 align-top scollable" style={SeatingChartStyle.sectionBuilder}>
-                <Sections sections={this.props.seatingChartSections}
-                          seatingChart={this.props.seatingChart}
-                          saveSection={this.saveSection}
-                          bulkSaveSections={this.bulkSaveSections}
-                          clickSection={this.handleClick} />
-                <Zones teamName={this.props.seatingChart.teamName}
-                       zones={this.props.seatingChart.zones}
-                       saveZone={this.saveZone} />
+          <div style={{position: 'fixed'}} className="col-md-6">
+            <h2>{this.props.team.name}</h2>
+            <div style={SeatingChartStyle.mappingContainer}>
+              <Map handleClick={this.handleClick}
+                   selectedSections={this.state.selectedSections}
+                   seatingChart={this.props.seatingChart}
+                   sections={this.props.seatingChartSections}
+                   team={this.props.team} />
+            </div>
+          </div>
+          <div>
+            <div className="col-md-4 offset-md-7" style={SeatingChartStyle.sectionBuilder}>
+              <Sections sections={this.props.seatingChartSections}
+                        saveSection={this.saveSection}
+                        bulkSaveSections={this.bulkSaveSections}
+                        clickSection={this.handleClick} />
 
-              </div>
+
             </div>
           </div>
           <div style={SeatingChartStyle.consoleFooter}/>

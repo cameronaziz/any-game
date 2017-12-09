@@ -2,6 +2,8 @@ import * as firebase from '../lib/firebase';
 import * as actionTypes from './actionTypes';
 import * as loadingActions from './loading';
 
+import { nestedObjectsToArray } from '../lib/utilities';
+
 const ref = firebase.db.ref('seatingChartSections');
 
 
@@ -40,12 +42,11 @@ export function saveSection(sectionData) {
 
 export function getSections(key) {
   return function(dispatch) {
-    dispatch(loadingActions.isLoading('sections'));
-    ref.orderByChild('seatingChartKey').equalTo(key).on('value', function(snapshot) {
-      dispatch(loadSeatingChartSections(snapshot.val()));
-      dispatch(loadingActions.notLoading('sections'));
-    }, function (errorObject) {
-      console.log("The read failed: " + errorObject.code);
+    dispatch(loadingActions.isLoading('seatingChartSections'));
+    firebase.db.ref('seatingChartSections/' + key).on('value', function(snapshot) {
+      let sections = nestedObjectsToArray(snapshot.val());
+      dispatch(loadSeatingChartSections(sections));
+      dispatch(loadingActions.notLoading('seatingChartSections'));
     });
   };
 }

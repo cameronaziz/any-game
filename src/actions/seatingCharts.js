@@ -37,6 +37,23 @@ function loopSections(key, sectionData) {
 }
 
 //Actions
+export function getSeatingChart(teamKey){
+  return function(dispatch) {
+    dispatch(loadingActions.isLoading('seatingChart'));
+    ref.child(teamKey).on('value', function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        if(childSnapshot.val().isCurrent) {
+          dispatch(seatingChartSections.getSections(childSnapshot.key));
+          let seatingChart = Object.assign({}, childSnapshot.val());
+          seatingChart._key = childSnapshot.key;
+          dispatch(loadSeatingChart(seatingChart));
+        }
+      });
+      dispatch(loadingActions.notLoading('seatingChart'));
+    });
+  };
+}
+
 export function getSeatingChartConfiguration(key, searchBy) {
   return function(dispatch) {
     dispatch(loadingActions.isLoading('seatingChart'));

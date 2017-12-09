@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import * as teamActions from '../../../../actions/teams';
 import * as seatingChartActions from '../../../../actions/seatingCharts';
+import { findByKey } from '../../../../lib/utilities';
 
 import List from '../../common/List';
 import Modal from '../../common/Modal';
@@ -19,9 +20,8 @@ const teamObj = {
   city: '',
   sport: '',
   slug: '',
-  key: '-KoU93bkph-iW1-3yo6B',
+  key: '',
   fileName: '',
-  seatingChart: {},
   seatingChartUrl: ''
 };
 
@@ -31,6 +31,7 @@ class SeatingChart extends Component {
     this.state = {
       team: teamObj,
       seatingChart: {},
+      seatingChartUrl: '',
       modalTitle: 'Seating Chart',
       selectedSections: []
     };
@@ -40,34 +41,36 @@ class SeatingChart extends Component {
   }
 
   componentWillMount() {
-    this.props.teamActions.loadTeams();
-    this.props.seatingChartActions.getSeatingChartConfiguration('-KoU93bkph-iW1-3yo6B');
+    this.props.teamActions.loadTeamsArray();
   }
 
   setTeam(event) {
-    let team = this.props.teams.find((team) => { return team.slug == event.target.value;});
-    this.props.seatingChartActions.getSeatingChartConfiguration(team.key);
+    let selectedTeam = findByKey(this.props.teams, event.target.value, 'name');
     this.setState({
-      team: team
+      team: selectedTeam
     });
   }
 
   renderConsole(){
-    if(this.state.team.fileName != "no seatingChart") {
+    if(this.state.team.seatingChartUrl) {
       return(
         <div>
           <SeatingChartConsole team={this.state.team} />
         </div>
-
       );
     }
+    return (
+      <div>
+        <h1>No Seating Chart Uploaded.</h1>
+      </div>
+    );
   }
 
   renderDropDown(){
     if(Object.keys(this.props.teams).length > 0) {
       return(
         <SelectItem name="team"
-                    value={this.state.team}
+                    value={this.state.team.name}
                     onChange={this.setTeam}
                     items={this.props.teams} />
       );
