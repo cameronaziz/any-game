@@ -1,6 +1,7 @@
 import * as actionTypes from './actionTypes';
 import * as firebase from '../lib/firebase';
 import * as loadingActions from './loading';
+import * as seatingChartActions from './seatingCharts';
 
 let ref = firebase.db.ref('seating');
 let storageRef = firebase.storage.ref('seatingCharts');
@@ -11,24 +12,10 @@ function sortTeamsBySportAndDispatch(snapshot, dispatch){
   snapshot.forEach(function(child) {
     let key = child.key;
     let team = child.val();
-    team.key = key;
+    team._key = key;
     teams.push(team);
   });
   dispatch(loadTeamsSuccess(teams));
-}
-
-function saveSeatingChart(team, postKey){
-  let storageRef = firebase.storage.ref('seatingCharts/' + postKey + '/' + team.fileName);
-  storageRef.put(team.seatingChart).then(function(snapshot) {
-    let storage = firebase.storage;
-    let storageRef = storage.ref();
-    let location = 'seatingCharts/' + postKey + '/' + team.fileName;
-    storageRef.child(location).getDownloadURL().then(function(url) {
-      if ( url  ) {
-        firebase.db.ref('teams/' + postKey).update({ seatingChartUrl: url});
-      }
-    });
-  });
 }
 
 //Neighbors
@@ -81,20 +68,13 @@ export function loadTeamsBySport(sport) {
 }
 
 export function saveTeam(team) {
-  console.log(team);
-  let postKey;
-  firebase.db.ref('teams').orderByChild('name').equalTo(team.name).once('value', function (snapshot){
-    let exists = (snapshot.val() !== null);
-    if (exists) {
-      postKey = Object.keys(snapshot.val())[0];
-    } else {
-      postKey = firebase.db.ref('teams/').push().key;
-    }
-  });
-  console.log(postKey);
+  let postKey = team._key;
+  if(!team._key) {
+    postKey = firebase.db.ref('teams/').push().key;
+  }
+  delete team._key;
   if(team.seatingChart.name != undefined) {
-    team.fileName = team.venue;
-    saveSeatingChart(team, postKey);
+    seatingChartActions.saveSeatingChart(team, postKey);
   }
   delete team.seatingChart;
   return function(dispatch) {

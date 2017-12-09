@@ -7,7 +7,13 @@ let ref = firebase.db.ref('sports');
 export function loadSports() {
   return function(dispatch) {
     firebase.db.ref('sports').on('value', function (snapshot) {
-        dispatch(loadSportsSuccess(Object.values(snapshot.val())));
+      let sports = [];
+      snapshot.forEach(function(childSnapshot) {
+        let sport = childSnapshot.val();
+        sport._key = childSnapshot.key;
+        sports.push(sport);
+      });
+      dispatch(loadSportsSuccess(sports));
     });
   };
 }

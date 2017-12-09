@@ -6,7 +6,13 @@ const ref = firebase.db.ref('venues');
 export function loadVenues() {
   return function(dispatch) {
     ref.on('value', function (snapshot) {
-      dispatch(loadLocationsSuccess(Object.values(snapshot.val())));
+      let venues = [];
+      snapshot.forEach(function(childSnapshot) {
+        let venue = childSnapshot.val();
+        venue._key = childSnapshot.key;
+        venues.push(venue);
+      });
+      dispatch(loadLocationsSuccess(venues));
     });
   };
 }

@@ -54,6 +54,31 @@ export function getSeatingChart(teamKey){
   };
 }
 
+function uploadSeatingChart(team, teamPostKey, seatingChartKey){
+  let fileLocation = 'seatingCharts/' + seatingChartKey + '/' + team.name + ' - ' + team.venue + ' ' + seatingChartKey + '.' + team.seatingChart.type.split('/')[1];
+  let storageRef = firebase.storage.ref(fileLocation);
+  storageRef.put(team.seatingChart).then(function(snapshot) {
+    let storage = firebase.storage;
+    let storageRef = storage.ref();
+    storageRef.child(fileLocation).getDownloadURL().then(function(url) {
+      if ( url  ) {
+        firebase.db.ref('teams/' + teamPostKey).update({ seatingChartUrl: url});
+      }
+    });
+  });
+}
+
+export function saveSeatingChart(team, teamPostKey){
+  let location = 'seatingCharts/' + teamPostKey + '/' + team.venueKey;
+  let seatingChartData = {
+    team: team.name,
+    venue: team.venue
+  };
+  let seatingChartKey = firebase.db.ref(location).push().key;
+  uploadSeatingChart(team, teamPostKey, seatingChartKey);
+  firebase.db.ref(location + '/' + seatingChartKey).update(seatingChartData);
+}
+
 export function getSeatingChartConfiguration(key, searchBy) {
   return function(dispatch) {
     dispatch(loadingActions.isLoading('seatingChart'));

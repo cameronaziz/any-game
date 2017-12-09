@@ -24,11 +24,11 @@ function TeamModalForm(props) {
               <label>Sport</label>
               <select name="sport"
                       className="form-control"
-                      onChange={props.onChange}
-                      value={props.item.sport} >
+                      onChange={props.onDropdownChange}
+                      value={props.item.sportKey} >
                 <option value="">Select a Sport</option>
                 {props.sports.map((option) => {
-                  return <option key={option.name} value={option.name}>{option.name}</option>;
+                  return <option key={option._key} value={option._key}>{option.name}</option>;
                 })}
               </select>
             </div>
@@ -36,11 +36,11 @@ function TeamModalForm(props) {
               <label>Venue</label>
               <select name="venue"
                       className="form-control"
-                      onChange={props.onChange}
-                      value={props.item.venue} >
+                      onChange={props.onDropdownChange}
+                      value={props.item.venueKey} >
                 <option value="">Select a Venue</option>
                 {props.venues.map((option) => {
-                  return <option key={option.name} value={option.name}>{option.name}</option>;
+                  return <option key={option._key} value={option._key}>{option.name}</option>;
                 })}
               </select>
             </div>

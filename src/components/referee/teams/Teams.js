@@ -18,15 +18,16 @@ import * as firebase from '../../../lib/firebase';
 const teamObj = {
   name: '',
   sport: '',
+  sportKey: '',
   venue: '',
+  venueKey: '',
   location: '',
   city: '',
   slug: '',
   ticketEvolutionKey: '',
-  
+
   fileName: '',
   seatingChart: {},
-  seatingChartUrl: 'https://firebasestorage.googleapis.com/v0/b/anygame-f7326.appspot.com/o/seatingCharts%2Fmissing.png?alt=media&token=a35c4150-6c32-4600-b6ed-b63ba15ebd8a'
 };
 
 class Teams extends Component {
@@ -37,6 +38,7 @@ class Teams extends Component {
       modalTitle: 'Add a new Team'
     };
     this.updateFormState = this.updateFormState.bind(this);
+    this.updateDropdown = this.updateDropdown.bind(this);
     this.filterBySport = this.filterBySport.bind(this);
     this.setTeam = this.setTeam.bind(this);
     this.createTeam = this.createTeam.bind(this);
@@ -58,11 +60,20 @@ class Teams extends Component {
     this.setState({team: team});
   }
 
+  updateDropdown(event) {
+    const field = event.target.name;
+    const fieldKey = field + 'Key';
+    let team = this.state.team;
+    team[fieldKey] = event.target.value;
+    let item = event.target.name + 's';
+    team[field] = findByKey(this.props[item], event.target.value).name;
+    this.setState({team: team});
+  }
+
   uploadFile(event) {
     event.preventDefault();
     let team = this.state.team;
     team['seatingChart'] = event.target.files[0];
-    team['fileName'] = shortenFileName(team.seatingChart.name);
     this.setState({team: team});
    }
 
@@ -126,6 +137,7 @@ class Teams extends Component {
           <Modal item={this.state.team}
                  modalTitle={this.state.modalTitle}
                  onChange={this.updateFormState}
+                 onDropdownChange={this.updateDropdown}
                  deleteButton={this.removeTeam}
                  saveButton={this.createTeam}
                  modalForm={TeamModalForm}
