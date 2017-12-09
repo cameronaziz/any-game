@@ -14,7 +14,9 @@ const venueObj = {
   address: '',
   city: '',
   state: '',
-  zip: ''
+  zip: '',
+  slug: '',
+  ticketEvolutionKey: ''
 };
 
 class Venues extends Component {

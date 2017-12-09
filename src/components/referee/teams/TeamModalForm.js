@@ -16,33 +16,9 @@ function TeamModalForm(props) {
                      onChange={props.onChange}
                      value={props.item.name} />
             </div>
-            <div className="col-md-6">
-              <label>Slug</label>
-              <input name="slug"
-                     type="text"
-                     className="form-control"
-                     onChange={props.onChange}
-                     value={props.item.slug} />
-            </div>
           </div>
-          <div className="row">
-            <div className="col-md-6">
-              <label>Location</label>
-              <input name="location"
-                     type="text"
-                     className="form-control"
-                     onChange={props.onChange}
-                     value={props.item.location} />
-            </div>
-            <div className="col-md-6">
-              <label>City</label>
-              <input name="city"
-                     type="text"
-                     className="form-control"
-                     onChange={props.onChange}
-                     value={props.item.city} />
-            </div>
-          </div>
+        </div>
+        <div className="form-group">
           <div className="row">
             <div className="col-md-6">
               <label>Sport</label>
@@ -69,6 +45,47 @@ function TeamModalForm(props) {
               </select>
             </div>
           </div>
+          <div className="row">
+            <div className="col-md-6">
+              <label>Location</label>
+              <input name="location"
+                     type="text"
+                     className="form-control"
+                     onChange={props.onChange}
+                     value={props.item.location} />
+            </div>
+            <div className="col-md-6">
+              <label>City</label>
+              <input name="city"
+                     type="text"
+                     className="form-control"
+                     onChange={props.onChange}
+                     value={props.item.city} />
+            </div>
+          </div>
+        </div>
+        <div className="form-group">
+          <div className="row">
+            <div className="col-md-3">
+              <label>Slug</label>
+              <input name="slug"
+                     type="text"
+                     className="form-control"
+                     onChange={props.onChange}
+                     value={props.item.slug} />
+            </div>
+            <div className="col-md-3">
+              <label>Ticket Evolution ID</label>
+              <input name="ticketEvolutionKey"
+                     type="text"
+                     className="form-control"
+                     onChange={props.onChange}
+                     value={props.item.ticketEvolutionKey} />
+            </div>
+          </div>
+
+        </div>
+        <div className="form-group">
           <br />
           <div className="row">
             <div className="col-md-6">

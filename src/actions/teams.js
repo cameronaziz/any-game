@@ -81,8 +81,9 @@ export function loadTeamsBySport(sport) {
 }
 
 export function saveTeam(team) {
+  console.log(team);
   let postKey;
-  ref.orderByChild('name').equalTo(team.name).once('value', function (snapshot){
+  firebase.db.ref('teams').orderByChild('name').equalTo(team.name).once('value', function (snapshot){
     let exists = (snapshot.val() !== null);
     if (exists) {
       postKey = Object.keys(snapshot.val())[0];
@@ -90,6 +91,7 @@ export function saveTeam(team) {
       postKey = firebase.db.ref('teams/').push().key;
     }
   });
+  console.log(postKey);
   if(team.seatingChart.name != undefined) {
     team.fileName = team.venue;
     saveSeatingChart(team, postKey);

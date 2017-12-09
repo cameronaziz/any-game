@@ -15,7 +15,9 @@ function VenueModalForm(props) {
                      value={props.item.name} />
             </div>
           </div>
-          <br />
+        </div>
+        <hr />
+        <div className="form-group">
           <div className="row">
             <div className="col-md-10">
               <label>Address</label>
@@ -51,7 +53,27 @@ function VenueModalForm(props) {
                      onChange={props.onChange}
                      value={props.item.zip} />
             </div>
-
+          </div>
+        </div>
+        <hr />
+        <div className="form-group">
+          <div className="row">
+            <div className="col-md-3">
+              <label>Slug</label>
+              <input type="text"
+                     name="slug"
+                     className="form-control"
+                     onChange={props.onChange}
+                     value={props.item.slug} />
+            </div>
+            <div className="col-md-3">
+              <label>Ticket Evolution ID</label>
+              <input type="text"
+                     name="ticketEvolutionKey"
+                     className="form-control"
+                     onChange={props.onChange}
+                     value={props.item.ticketEvolutionKey} />
+            </div>
           </div>
         </div>
       </form>
